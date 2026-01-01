@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-yellow: #FFD058;
+  --bg-white: #FFFFFF;
+  --bg-black: #000000;
+  --font-main: 'Poppins', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-neo-yellow text-neo-black font-sans overflow-x-hidden;
+    background-image: radial-gradient(#000000 1.5px, transparent 1.5px);
+    background-size: 30px 30px;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-black uppercase leading-tight text-neo-black;
+  }
+  
+  p {
+    @apply font-medium leading-relaxed;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-[1400px] mx-auto px-5 w-full;
+  }
+
+  .neo-card {
+    @apply bg-white border-3 border-black shadow-neo rounded-[15px] transition-transform duration-200 ease-out;
+  }
+
+  .neo-card:hover {
+    @apply -translate-x-0.5 -translate-y-0.5 shadow-neo-hover;
+  }
+
+  .neo-btn {
+    @apply inline-block px-6 py-3 bg-black text-white font-extrabold uppercase tracking-wide border-3 border-black rounded-[15px] shadow-neo cursor-pointer transition-all duration-100 ease-out no-underline;
+  }
+
+  .neo-btn:hover {
+    @apply bg-white text-black -translate-x-0.5 -translate-y-0.5 shadow-neo-hover;
+  }
+
+  .neo-btn:active {
+    @apply translate-x-[5px] translate-y-[5px] shadow-none;
+  }
+
+  .neo-input {
+    @apply w-full p-4 border-3 border-black rounded-[15px] shadow-neo-sm font-medium outline-none focus:bg-yellow-50;
+  }
+
+  .nav-link {
+    @apply font-bold uppercase relative text-black no-underline;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 w-0 h-[3px] bg-black transition-all duration-300;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-yellow);
+  border-left: 3px solid black;
+}
+::-webkit-scrollbar-thumb {
+  background: white;
+  border: 3px solid black;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FFD058;
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+
+
+
+/* Custom Cursor */
+.cursor-dot,
+.cursor-outline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: black;
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.cursor-outline.hover {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 208, 88, 0.5);
+  border-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .cursor-dot,
+  .cursor-outline {
+    display: none;
+  }
+}
