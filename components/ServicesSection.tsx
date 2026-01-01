@@ -1,69 +1,86 @@
 "use client";
-import { useState } from 'react';
-import { Zap, Send, Smile } from 'lucide-react';
+import { Layers, Rocket, Sparkles } from 'lucide-react';
 
 export default function ServicesSection() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   const services = [
     {
-      icon: <Zap size={80} strokeWidth={1.5} />,
-      title: "Subscribe",
-      desc: "Kickstart your design adventure by hopping on our monthly subscription. For just $2k, you get unlimited dibs on top-notch design work.",
-      step: "01"
+      icon: <Layers size={24} strokeWidth={2} />,
+      title: "Modular Design",
+      desc: "Every product is built with modularity at its core. Upgrade, expand, and customize without replacing the entire system.",
+      features: ["Interchangeable parts", "Future-proof", "Easy maintenance"],
+      number: "01"
     },
     {
-      icon: <Send size={80} strokeWidth={1.5} />,
-      title: "Request",
-      desc: "Alright, you're in! Now, it's time to toss your design tasks our way. Need a branding concept? A sleek landing page design? Just keep those requests coming!",
-      step: "02"
+      icon: <Rocket size={24} strokeWidth={2} />,
+      title: "Precision Engineering",
+      desc: "Micron-level accuracy meets industrial craftsmanship. Each component performs flawlessly for years.",
+      features: ["Premium materials", "Rigorous testing", "5-year warranty"],
+      number: "02"
     },
     {
-      icon: <Smile size={80} strokeWidth={1.5} />,
-      title: "Review",
-      desc: "Hold tight! In just 48 hours, you'll get your first peek at your completed design. And if it's not love at first sight, no worries! We can tweak and tune it until it's just right.",
-      step: "03"
+      icon: <Sparkles size={24} strokeWidth={2} />,
+      title: "Smart Integration",
+      desc: "Seamless connectivity between all BoxPox products. One ecosystem, infinite possibilities.",
+      features: ["OTA updates", "Cross-device sync", "Open API"],
+      number: "03"
     }
   ];
 
   return (
-    <section className="py-20 px-[5%] relative bg-white">
+    <section className="py-16 md:py-24 bg-white">
       <div className="container">
-        <div className="flex flex-col items-center mb-20 text-center">
-          <h2 className="text-5xl mb-4">The future of <br /> design services</h2>
-          <p className="max-w-[600px] text-lg">Need stunning graphic design, intuitive UI/UX, or eye-catching web design? Welcome home.</p>
+        {/* Section Header */}
+        <div className="max-w-2xl mb-12">
+          <span className="inline-block px-3 py-1 bg-neo-black text-white text-xs font-bold uppercase tracking-wider rounded mb-4">
+            How We Build
+          </span>
+          <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tight">
+            Engineered for<br />
+            <span className="text-neo-yellow">Tomorrow</span>
+          </h2>
+          <p className="text-neo-black/60 text-sm md:text-base leading-relaxed">
+            Every BoxPox product follows the same philosophy: build it right, build it to last, build it to evolve.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {services.map((service, index) => (
             <div 
               key={index}
-              className={`neo-card p-0 overflow-hidden flex flex-col cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)] ${hoveredIndex === index ? '-translate-x-2 -translate-y-2 shadow-[12px_12px_0px_black]' : 'shadow-neo'}`}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              className="relative p-6 bg-neo-light-gray border border-neo-black/10 rounded-xl hover:border-neo-black/30 transition-colors"
             >
-              <div className={`h-[250px] flex items-center justify-center border-b-3 border-black transition-colors duration-300 relative ${hoveredIndex === index ? 'bg-black' : 'bg-neo-yellow'}`}>
-                <div className="absolute top-5 left-5 bg-white border-3 border-black px-4 py-1 font-black text-xl rounded-full shadow-[4px_4px_0px_black] z-[2]">
-                  {service.step}
-                </div>
-                <div className={`transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] ${hoveredIndex === index ? 'text-neo-yellow scale-125 -rotate-6' : 'text-black scale-100'}`}>
-                  {service.icon}
-                </div>
-                
-                {/* Decorative dots */}
-                <div className="absolute bottom-5 right-5 flex gap-1.5">
-                   {[...Array(3)].map((_, i) => (
-                     <div key={i} className={`w-2.5 h-2.5 rounded-full border-2 border-black ${hoveredIndex === index ? 'bg-neo-yellow' : 'bg-white'}`}></div>
-                   ))}
-                </div>
+              {/* Number Badge */}
+              <div className="absolute top-4 right-4 font-mono text-3xl font-bold text-neo-black/10">
+                {service.number}
+              </div>
+
+              {/* Icon Container */}
+              <div className="w-12 h-12 rounded-lg bg-neo-yellow flex items-center justify-center text-neo-black mb-4">
+                {service.icon}
               </div>
               
-              <div className={`p-10 flex-1 transition-colors duration-300 flex flex-col ${hoveredIndex === index ? 'bg-neo-yellow' : 'bg-white'}`}>
-                <h3 className="text-3xl mb-4">{service.title}</h3>
-                <p className="text-base leading-relaxed">{service.desc}</p>
-                
-                <div className={`mt-8 h-[3px] bg-black transition-all duration-300 ${hoveredIndex === index ? 'w-full' : 'w-[50px]'}`} />
-              </div>
+              {/* Content */}
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-neo-black">
+                {service.title}
+              </h3>
+              
+              <p className="text-neo-black/60 text-sm leading-relaxed mb-4">
+                {service.desc}
+              </p>
+
+              {/* Features List */}
+              <ul className="space-y-2">
+                {service.features.map((feature, fIndex) => (
+                  <li 
+                    key={fIndex} 
+                    className="flex items-center gap-2 text-xs text-neo-black/70"
+                  >
+                    <span className="w-1 h-1 bg-neo-yellow rounded-full" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>

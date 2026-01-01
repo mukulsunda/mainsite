@@ -5,82 +5,229 @@
 :root {
   --bg-yellow: #FFD058;
   --bg-white: #FFFFFF;
-  --bg-black: #000000;
+  --bg-black: #0A0A0A;
+  --bg-gray: #1A1A1A;
   --font-main: 'Poppins', sans-serif;
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @layer base {
+  * {
+    @apply antialiased;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
   body {
-    @apply bg-neo-yellow text-neo-black font-sans overflow-x-hidden;
-    background-image: radial-gradient(#000000 1.5px, transparent 1.5px);
-    background-size: 30px 30px;
+    @apply bg-neo-white text-neo-black font-sans overflow-x-hidden;
+    background-image: 
+      linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-black uppercase leading-tight text-neo-black;
+    @apply font-black leading-[1.1] text-neo-black tracking-tight;
+  }
+  
+  h1 {
+    @apply text-5xl md:text-6xl lg:text-7xl;
+  }
+  
+  h2 {
+    @apply text-4xl md:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
   }
   
   p {
-    @apply font-medium leading-relaxed;
+    @apply font-medium leading-relaxed text-neo-black/80;
+  }
+
+  ::selection {
+    @apply bg-neo-yellow text-neo-black;
   }
 }
 
 @layer components {
   .container {
-    @apply max-w-[1400px] mx-auto px-5 w-full;
+    @apply max-w-[1400px] mx-auto px-5 md:px-8 w-full;
   }
 
+  /* Premium Card System */
   .neo-card {
-    @apply bg-white border-3 border-black shadow-neo rounded-[15px] transition-transform duration-200 ease-out;
+    @apply bg-white border-2 border-neo-black rounded-xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] relative overflow-hidden;
+    box-shadow: 4px 4px 0px 0px #0A0A0A;
   }
 
   .neo-card:hover {
-    @apply -translate-x-0.5 -translate-y-0.5 shadow-neo-hover;
+    box-shadow: 6px 6px 0px 0px #0A0A0A;
+    transform: translate(-2px, -2px);
   }
 
+  .neo-card-flat {
+    @apply bg-white border-2 border-neo-black rounded-xl transition-all duration-300;
+  }
+
+  /* Button System */
   .neo-btn {
-    @apply inline-block px-6 py-3 bg-black text-white font-extrabold uppercase tracking-wide border-3 border-black rounded-[15px] shadow-neo cursor-pointer transition-all duration-100 ease-out no-underline;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-neo-black text-white font-bold uppercase tracking-wider text-sm border-2 border-neo-black rounded-lg cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] no-underline;
+    box-shadow: 4px 4px 0px 0px #FFD058;
   }
 
   .neo-btn:hover {
-    @apply bg-white text-black -translate-x-0.5 -translate-y-0.5 shadow-neo-hover;
+    @apply bg-neo-yellow text-neo-black;
+    box-shadow: 6px 6px 0px 0px #0A0A0A;
+    transform: translate(-2px, -2px);
   }
 
   .neo-btn:active {
-    @apply translate-x-[5px] translate-y-[5px] shadow-none;
+    box-shadow: 0px 0px 0px 0px #0A0A0A;
+    transform: translate(4px, 4px);
   }
 
+  .neo-btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-transparent text-neo-black font-bold uppercase tracking-wider text-sm border-2 border-neo-black rounded-lg cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] no-underline;
+  }
+
+  .neo-btn-outline:hover {
+    @apply bg-neo-black text-white;
+  }
+
+  /* Input System */
   .neo-input {
-    @apply w-full p-4 border-3 border-black rounded-[15px] shadow-neo-sm font-medium outline-none focus:bg-yellow-50;
+    @apply w-full p-4 bg-white border-2 border-neo-black rounded-lg font-medium outline-none transition-all duration-200;
+    box-shadow: 2px 2px 0px 0px #0A0A0A;
   }
 
+  .neo-input:focus {
+    @apply border-neo-yellow bg-neo-yellow/5;
+    box-shadow: 4px 4px 0px 0px #FFD058;
+  }
+
+  .neo-input::placeholder {
+    @apply text-neo-black/40;
+  }
+
+  /* Navigation Links */
   .nav-link {
-    @apply font-bold uppercase relative text-black no-underline;
+    @apply font-semibold uppercase text-sm tracking-wide relative text-neo-black no-underline transition-colors duration-200;
   }
 
   .nav-link::after {
     content: '';
-    @apply absolute -bottom-1 left-0 w-0 h-[3px] bg-black transition-all duration-300;
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-neo-yellow transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)];
+  }
+
+  .nav-link:hover {
+    @apply text-neo-black;
   }
 
   .nav-link:hover::after {
     @apply w-full;
   }
+
+  /* Badge System */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full border-2 border-neo-black;
+  }
+
+  .badge-yellow {
+    @apply bg-neo-yellow text-neo-black;
+  }
+
+  .badge-black {
+    @apply bg-neo-black text-white;
+  }
+
+  .badge-white {
+    @apply bg-white text-neo-black;
+  }
+
+  /* Section Utilities */
+  .section-padding {
+    @apply py-20 md:py-32;
+  }
+
+  .section-padding-sm {
+    @apply py-12 md:py-20;
+  }
+
+  /* Hardware-inspired UI Elements */
+  .hardware-border {
+    @apply border-2 border-neo-black relative;
+  }
+
+  .hardware-border::before {
+    content: '';
+    @apply absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-neo-black;
+  }
+
+  .hardware-border::after {
+    content: '';
+    @apply absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-neo-black;
+  }
+
+  /* Industrial Grid Pattern */
+  .grid-bg {
+    background-image: 
+      linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .grid-bg-dark {
+    background-image: 
+      linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Dot Pattern */
+  .dot-pattern {
+    background-image: radial-gradient(#0A0A0A 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .dot-pattern-light {
+    background-image: radial-gradient(rgba(0,0,0,0.08) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+  }
+
+  /* Status Indicator */
+  .status-dot {
+    @apply w-2 h-2 rounded-full bg-green-500 animate-pulse;
+  }
+
+  /* Divider */
+  .divider {
+    @apply h-px bg-neo-black/10 w-full;
+  }
+
+  .divider-thick {
+    @apply h-0.5 bg-neo-black w-full;
+  }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Premium */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: var(--bg-yellow);
-  border-left: 3px solid black;
+  background: #F5F5F5;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: white;
-  border: 3px solid black;
-  border-radius: 10px;
+  background: #0A0A0A;
+  border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #FFD058;
 }
@@ -92,47 +239,51 @@
 }
 
 .animate-marquee {
-  animation: marquee 20s linear infinite;
+  animation: marquee 30s linear infinite;
   width: max-content;
 }
 
-
-
-/* Custom Cursor */
-.cursor-dot,
-.cursor-outline {
-  position: fixed;
-  top: 0;
-  left: 0;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  z-index: 9999;
-  pointer-events: none;
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: black;
+/* Smooth Focus States */
+*:focus-visible {
+  @apply outline-none ring-2 ring-neo-yellow ring-offset-2 ring-offset-white;
 }
 
-.cursor-outline {
-  width: 40px;
-  height: 40px;
-  border: 2px solid black;
-  transition: width 0.2s, height 0.2s, background-color 0.2s;
+/* Loading States */
+.skeleton {
+  @apply bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse;
 }
 
-.cursor-outline.hover {
-  width: 60px;
-  height: 60px;
-  background-color: rgba(255, 208, 88, 0.5);
-  border-color: transparent;
+/* Text Gradient */
+.text-gradient {
+  @apply bg-gradient-to-r from-neo-yellow via-neo-accent to-neo-yellow bg-clip-text text-transparent;
 }
 
-@media (max-width: 768px) {
-  .cursor-dot,
-  .cursor-outline {
-    display: none;
+/* Glass Effect */
+.glass {
+  @apply bg-white/80 backdrop-blur-lg border border-white/20;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Responsive text utilities */
+@media (max-width: 640px) {
+  .text-responsive-xl {
+    @apply text-4xl;
+  }
+  
+  .text-responsive-2xl {
+    @apply text-5xl;
   }
 }

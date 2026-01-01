@@ -1,117 +1,270 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Target, Lightbulb, Users } from 'lucide-react';
+import { Target, Lightbulb, Cpu, Globe, Award, ArrowRight, ArrowUpRight } from 'lucide-react';
 
 export default function About() {
-  return (
-    <main className="pt-[100px]">
-      {/* Page Header */}
-      <div className="py-20 px-[5%] pb-8 text-center relative bg-neo-yellow border-b-3 border-black">
-        <div className="animate-fade-in-up">
-          <h1 className="text-[clamp(3rem,6vw,5rem)] mb-4 uppercase text-black drop-shadow-[4px_4px_0px_white] [-webkit-text-stroke:2px_black]">
-            Who We Are
-          </h1>
-          <p className="text-xl max-w-[600px] mx-auto font-bold bg-white inline-block py-1.5 px-4 border-2 border-black shadow-[4px_4px_0px_black] -rotate-1">
-            Discover the story behind the Box of Possibility.
-          </p>
-        </div>
-      </div>
+  const values = [
+    {
+      icon: <Target size={24} />,
+      title: "Purpose-Driven",
+      desc: "Every product solves a real problem. No gimmicks, just thoughtful innovation."
+    },
+    {
+      icon: <Cpu size={24} />,
+      title: "Precision Built",
+      desc: "Micron-level accuracy in every component. Built to last, designed to perform."
+    },
+    {
+      icon: <Globe size={24} />,
+      title: "Globally Minded",
+      desc: "Products designed for humans everywhere. Inclusive, accessible, universal."
+    },
+    {
+      icon: <Lightbulb size={24} />,
+      title: "Future-Ready",
+      desc: "Modular by design. Update, upgrade, evolve without waste."
+    }
+  ];
 
-      {/* About Section */}
-      <section className="py-20 px-[5%]">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div className="neo-card p-0 overflow-hidden h-[500px] relative">
-            <Image 
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-              alt="Our Team" 
-              fill
-              className="object-cover grayscale contrast-125"
-            />
-            <div className="absolute top-0 left-0 w-full h-full bg-neo-yellow/20"></div>
+  const team = [
+    {
+      name: "Alex Morgan",
+      role: "Chief Executive Officer",
+      img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Sarah Jenkins",
+      role: "Head of Product",
+      img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Michael Chen",
+      role: "Lead Engineer",
+      img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    }
+  ];
+
+  const milestones = [
+    { year: "2020", title: "Founded", desc: "BoxPox started in a small garage with a big vision." },
+    { year: "2021", title: "First Product", desc: "The Infinite Organizer launched to critical acclaim." },
+    { year: "2023", title: "Global Expansion", desc: "Now shipping to 50+ countries worldwide." },
+    { year: "2025", title: "10K+ Customers", desc: "Building a community of innovators." },
+  ];
+
+  return (
+    <main className="pt-[72px] md:pt-[80px] bg-white min-h-screen">
+      {/* Page Header */}
+      <section className="relative overflow-hidden bg-neo-black text-white">
+        <div className="absolute inset-0 grid-bg-dark opacity-30" />
+        
+        <div className="container relative z-10 py-12 md:py-16">
+          <div className="max-w-2xl">
+            <span className="inline-block px-3 py-1 bg-neo-yellow text-neo-black text-xs font-bold uppercase tracking-wider rounded mb-4">
+              About Us
+            </span>
+            <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">
+              The Box of<br />
+              <span className="text-neo-yellow">Possibility</span>
+            </h1>
+            <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
+              We're a team of engineers, designers, and dreamers building the products we wish existed.
+            </p>
           </div>
-          
-          <div className="animate-fade-in-up [animation-delay:0.2s]">
-            <div className="neo-card bg-neo-yellow mb-8">
-              <div className="flex items-center gap-4 mb-4">
-                <Target size={32} className="text-black stroke-[2.5]" />
-                <h3 className="text-3xl m-0">Our Mission</h3>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Image */}
+            <div className="relative">
+              <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-neo-black/20">
+                <Image 
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Our Team" 
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <p className="text-lg leading-relaxed font-medium">
-                At BoxPox, we believe that the world is full of unsolved puzzles. Our mission is to find those missing pieces—the unusual, the overlooked, and the necessary—and turn them into consumer-friendly products that enhance daily life.
-              </p>
+              {/* Floating Card */}
+              <div className="absolute -bottom-6 right-4 md:-right-6 bg-neo-yellow rounded-xl p-4 max-w-[200px]">
+                <div className="flex items-center gap-2 mb-1">
+                  <Award size={18} className="text-neo-black" />
+                  <span className="font-bold text-neo-black text-sm">Award Winning</span>
+                </div>
+                <p className="text-xs text-neo-black/70">Recognized for innovation in design.</p>
+              </div>
             </div>
             
-            <div className="neo-card bg-white">
-              <div className="flex items-center gap-4 mb-4">
-                <Lightbulb size={32} className="text-black stroke-[2.5]" />
-                <h3 className="text-3xl m-0">Our Vision</h3>
-              </div>
-              <p className="text-lg leading-relaxed font-medium">
-                We envision a world where "unusual" means "better." We strive to be the leading innovators in creating products that don't just fit into your life, but improve it in ways you never imagined.
+            {/* Content */}
+            <div>
+              <span className="inline-block px-3 py-1 bg-neo-black text-white text-xs font-bold uppercase tracking-wider rounded mb-6">
+                Our Mission
+              </span>
+              <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">
+                Building the<br />
+                <span className="text-neo-yellow">Future, Today</span>
+              </h2>
+              <p className="text-lg text-neo-black/70 leading-relaxed mb-8">
+                At BoxPox, we believe that the best products don't just solve problems—they unlock new possibilities. We're not interested in incremental improvements. We're here to reimagine what consumer products can be.
               </p>
-            </div>
-            
-            <div className="mt-12">
-               <Link href="/contact" className="neo-btn">Join Our Journey</Link>
+              <p className="text-lg text-neo-black/70 leading-relaxed mb-10">
+                Our approach combines precision engineering with human-centered design. Every product goes through hundreds of iterations before it reaches your hands. Because we believe you deserve nothing less than exceptional.
+              </p>
+              
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-6 p-6 bg-neo-light-gray rounded-xl">
+                <div className="text-center">
+                  <span className="block text-3xl font-black text-neo-black font-mono">24+</span>
+                  <span className="text-xs text-neo-black/60 uppercase tracking-wider">Products</span>
+                </div>
+                <div className="text-center border-x border-neo-black/10">
+                  <span className="block text-3xl font-black text-neo-black font-mono">50+</span>
+                  <span className="text-xs text-neo-black/60 uppercase tracking-wider">Countries</span>
+                </div>
+                <div className="text-center">
+                  <span className="block text-3xl font-black text-neo-black font-mono">10K+</span>
+                  <span className="text-xs text-neo-black/60 uppercase tracking-wider">Customers</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-20 px-[5%] bg-white border-t-3 border-black">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl uppercase mb-4">Meet The <span className="text-neo-yellow drop-shadow-[2px_2px_0px_black] [-webkit-text-stroke:1px_black]">Minds</span></h2>
-          <p className="font-bold">The creative geniuses behind the box.</p>
-        </div>
+      {/* Values Section */}
+      <section className="py-12 md:py-16 bg-neo-light-gray relative overflow-hidden">
+        <div className="absolute inset-0 grid-bg opacity-50" />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {/* Team Member 1 */}
-          <div className="neo-card p-0 overflow-hidden text-center group">
-            <div className="relative h-[350px] w-full border-b-3 border-black">
-              <Image 
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="CEO" 
-                fill
-                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
-              />
-            </div>
-            <div className="p-6 bg-white group-hover:bg-neo-yellow transition-colors duration-300">
-              <h3 className="text-2xl mb-1">Alex Morgan</h3>
-              <p className="font-bold text-sm uppercase tracking-wider">Chief Visionary Officer</p>
-            </div>
+        <div className="container relative z-10">
+          <div className="max-w-2xl mb-8 md:mb-12">
+            <span className="inline-block px-3 py-1 bg-neo-black text-white text-xs font-bold uppercase tracking-wider rounded mb-4">
+              Our Values
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight">
+              What We <span className="text-neo-yellow">Stand For</span>
+            </h2>
           </div>
 
-          {/* Team Member 2 */}
-          <div className="neo-card p-0 overflow-hidden text-center group">
-            <div className="relative h-[350px] w-full border-b-3 border-black">
-              <Image 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="Designer" 
-                fill
-                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
-              />
-            </div>
-            <div className="p-6 bg-white group-hover:bg-neo-yellow transition-colors duration-300">
-              <h3 className="text-2xl mb-1">Sarah Jenkins</h3>
-              <p className="font-bold text-sm uppercase tracking-wider">Head of Product</p>
-            </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            {values.map((value, index) => (
+              <div 
+                key={index}
+                className="bg-white border border-neo-black/10 rounded-lg p-4"
+              >
+                <div className="w-10 h-10 bg-neo-yellow rounded-lg flex items-center justify-center text-neo-black mb-3">
+                  {value.icon}
+                </div>
+                <h3 className="text-sm md:text-base font-bold mb-2 text-neo-black">{value.title}</h3>
+                <p className="text-neo-black/60 text-xs leading-relaxed">{value.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline Section */}
+      <section className="py-12 md:py-16 bg-neo-black text-white relative overflow-hidden">
+        <div className="absolute inset-0 grid-bg-dark opacity-30" />
+        
+        <div className="container relative z-10">
+          <div className="max-w-2xl mx-auto text-center mb-8 md:mb-12">
+            <span className="inline-block px-3 py-1 bg-neo-yellow text-neo-black text-xs font-bold uppercase tracking-wider rounded mb-4">
+              Our Journey
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight">
+              From Garage to <span className="text-neo-yellow">Global</span>
+            </h2>
           </div>
 
-          {/* Team Member 3 */}
-          <div className="neo-card p-0 overflow-hidden text-center group">
-            <div className="relative h-[350px] w-full border-b-3 border-black">
-              <Image 
-                src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                alt="Developer" 
-                fill
-                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
-              />
+          <div className="relative max-w-4xl mx-auto">
+            {/* Timeline Line */}
+            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-white/20 transform md:-translate-x-px" />
+            
+            {milestones.map((milestone, index) => (
+              <div 
+                key={index}
+                className={`relative flex items-center gap-4 md:gap-8 mb-8 ${
+                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                }`}
+              >
+                {/* Content */}
+                <div className={`flex-1 ml-14 md:ml-0 ${index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
+                  <span className="inline-block px-2 py-0.5 bg-neo-yellow text-neo-black text-xs font-bold rounded mb-2 font-mono">
+                    {milestone.year}
+                  </span>
+                  <h3 className="text-lg md:text-xl font-bold mb-1">{milestone.title}</h3>
+                  <p className="text-white/60 text-sm">{milestone.desc}</p>
+                </div>
+                
+                {/* Dot */}
+                <div className="absolute left-6 md:left-1/2 w-3 h-3 bg-neo-yellow rounded-full transform -translate-x-1/2 border-2 border-neo-black" />
+                
+                {/* Empty space for alternating layout */}
+                <div className="hidden md:block flex-1" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-12 md:py-16 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 dot-pattern-light opacity-30" />
+        
+        <div className="container relative z-10">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 md:mb-12">
+            <div>
+              <span className="inline-block px-3 py-1 bg-neo-black text-white text-xs font-bold uppercase tracking-wider rounded mb-4">
+                The Team
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight">
+                Meet the <span className="text-neo-yellow">Minds</span>
+              </h2>
             </div>
-            <div className="p-6 bg-white group-hover:bg-neo-yellow transition-colors duration-300">
-              <h3 className="text-2xl mb-1">Michael Chen</h3>
-              <p className="font-bold text-sm uppercase tracking-wider">Lead Engineer</p>
+            <Link href="/contact" className="inline-flex items-center gap-2 text-neo-black font-bold text-sm hover:text-neo-yellow transition-colors group">
+              Join Our Team
+              <ArrowUpRight size={16} />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {team.map((member, index) => (
+              <div 
+                key={index}
+                className="group bg-white border border-neo-black/10 rounded-lg overflow-hidden"
+              >
+                <div className="relative h-56 md:h-64 overflow-hidden">
+                  <Image 
+                    src={member.img} 
+                    alt={member.name} 
+                    fill
+                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  />
+                </div>
+                <div className="p-4 bg-white group-hover:bg-neo-yellow transition-colors duration-300">
+                  <h3 className="text-base font-bold text-neo-black">{member.name}</h3>
+                  <p className="text-xs text-neo-black/60 font-medium uppercase tracking-wider">{member.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-10 md:py-12 bg-neo-yellow border-t border-neo-black">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <h3 className="text-2xl md:text-3xl font-black text-neo-black mb-1">Ready to join the journey?</h3>
+              <p className="text-neo-black/70 text-sm">Explore our products and become part of the BoxPox community.</p>
             </div>
+            <Link href="/products" className="neo-btn whitespace-nowrap text-sm py-2.5 px-5">
+              Explore Products
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
       </section>

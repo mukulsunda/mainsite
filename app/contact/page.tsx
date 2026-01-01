@@ -1,112 +1,183 @@
-"use client";
-
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ArrowRight, MessageSquare, Headphones, FileQuestion } from 'lucide-react';
+import ContactForm from '@/components/ContactForm';
 
 export default function Contact() {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert('Thank you for your message! We will get back to you soon.');
-    (e.target as HTMLFormElement).reset();
-  };
+
+  const contactMethods = [
+    {
+      icon: <MessageSquare size={20} />,
+      title: "Live Chat",
+      desc: "Chat with our team",
+      action: "Start Chat",
+      highlight: true
+    },
+    {
+      icon: <Headphones size={20} />,
+      title: "Phone Support",
+      desc: "Mon-Fri, 9AM-6PM IST",
+      action: "+91 788 860 1710"
+    },
+    {
+      icon: <FileQuestion size={20} />,
+      title: "FAQ",
+      desc: "Common questions",
+      action: "Browse FAQ"
+    }
+  ];
+
+  const contactInfo = [
+    {
+      icon: <MapPin size={18} />,
+      label: "Address",
+      value: "1617 Sector 70, Mohali 160071",
+      subtext: "Punjab, India"
+    },
+    {
+      icon: <Phone size={18} />,
+      label: "Phone",
+      value: "+91 788 860 1710",
+      subtext: "Mon-Fri, 9AM-6PM IST"
+    },
+    {
+      icon: <Mail size={18} />,
+      label: "Email",
+      value: "support@boxpox.in",
+      subtext: "We reply within 24 hours"
+    },
+    {
+      icon: <Clock size={18} />,
+      label: "Working Hours",
+      value: "Monday - Friday",
+      subtext: "9:00 AM - 6:00 PM IST"
+    }
+  ];
 
   return (
-    <main className="pt-[100px]">
+    <main className="pt-[72px] md:pt-[80px] bg-white min-h-screen">
       {/* Page Header */}
-      <div className="py-20 px-[5%] pb-8 text-center relative bg-neo-yellow border-b-3 border-black">
-        <div className="animate-fade-in-up">
-          <h1 className="text-[clamp(3rem,6vw,5rem)] mb-4 uppercase text-black drop-shadow-[4px_4px_0px_white] [-webkit-text-stroke:2px_black]">
-            Get In Touch
-          </h1>
-          <p className="text-xl max-w-[600px] mx-auto font-bold bg-white inline-block py-1.5 px-4 border-2 border-black shadow-[4px_4px_0px_black] rotate-1">
-            Have a question or an unusual idea? We'd love to hear from you.
-          </p>
-        </div>
-      </div>
-
-      {/* Contact Section */}
-      <section className="py-20 px-[5%]">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-          
-          {/* Contact Info */}
-          <div className="animate-fade-in-up">
-            <div className="text-left mb-12">
-              <h2 className="text-4xl uppercase mb-4">Contact <br /><span className="text-white drop-shadow-[2px_2px_0px_black] [-webkit-text-stroke:1px_black]">Information</span></h2>
-              <p className="font-bold">Reach out to us through any of these channels.</p>
-            </div>
-            
-            <div className="neo-card flex items-center gap-6 mb-8 p-6 bg-white">
-              <div className="bg-black p-2.5 rounded-full text-white border-2 border-black">
-                <MapPin size={24} />
-              </div>
-              <div>
-                <h4 className="text-xl mb-2">Our Location</h4>
-                <p className="font-medium">1617 sector 70 mohali 160071</p>
-              </div>
-            </div>
-            
-            <div className="neo-card flex items-center gap-6 mb-8 p-6 bg-neo-yellow">
-              <div className="bg-black p-2.5 rounded-full text-white border-2 border-black">
-                <Phone size={24} />
-              </div>
-              <div>
-                <h4 className="text-xl mb-2">Phone Number</h4>
-                <p className="font-medium">7888601710</p>
-              </div>
-            </div>
-            
-            <div className="neo-card flex items-center gap-6 mb-8 p-6 bg-white">
-              <div className="bg-black p-2.5 rounded-full text-white border-2 border-black">
-                <Mail size={24} />
-              </div>
-              <div>
-                <h4 className="text-xl mb-2">Email Address</h4>
-                <p className="font-medium">hello@boxpox.com</p>
-              </div>
-            </div>
-
-            <div className="neo-card flex items-center gap-6 mb-8 p-6 bg-neo-yellow">
-              <div className="bg-black p-2.5 rounded-full text-white border-2 border-black">
-                <Clock size={24} />
-              </div>
-              <div>
-                <h4 className="text-xl mb-2">Working Hours</h4>
-                <p className="font-medium">Mon - Fri: 9:00 AM - 6:00 PM</p>
-              </div>
-            </div>
+      <section className="relative overflow-hidden bg-neo-black text-white">
+        <div className="absolute inset-0 grid-bg-dark opacity-30" />
+        
+        <div className="container relative z-10 py-12 md:py-16">
+          <div className="max-w-2xl">
+            <span className="inline-block px-3 py-1 bg-neo-yellow text-neo-black text-xs font-bold uppercase tracking-wider rounded mb-4">
+              Contact
+            </span>
+            <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">
+              Let's <span className="text-neo-yellow">Talk</span>
+            </h1>
+            <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
+              Have a question, feedback, or an idea for a collaboration? We'd love to hear from you.
+            </p>
           </div>
-          
-          {/* Contact Form */}
-          <div className="animate-fade-in-up [animation-delay:0.2s]">
-            <div className="neo-card p-8 md:p-12 bg-white relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-neo-yellow rounded-bl-full border-l-3 border-b-3 border-black z-0"></div>
-              
-              <h3 className="text-3xl mb-8 relative z-10">Send us a Message</h3>
-              
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6 relative z-10">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="font-bold ml-1">Your Name</label>
-                  <input type="text" id="name" className="neo-input" placeholder="John Doe" required />
+        </div>
+      </section>
+
+      {/* Quick Contact Methods */}
+      <section className="relative z-10 -mt-6">
+        <div className="container">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {contactMethods.map((method, index) => (
+              <div 
+                key={index}
+                className={`p-4 rounded-lg border transition-colors ${
+                  method.highlight 
+                    ? 'bg-neo-yellow border-neo-black' 
+                    : 'bg-white border-neo-black/10 hover:border-neo-black/30'
+                }`}
+              >
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 ${
+                  method.highlight ? 'bg-neo-black text-white' : 'bg-neo-light-gray text-neo-black'
+                }`}>
+                  {method.icon}
                 </div>
-                
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="font-bold ml-1">Your Email</label>
-                  <input type="email" id="email" className="neo-input" placeholder="john@example.com" required />
+                <h3 className="font-bold text-neo-black mb-1 text-sm">{method.title}</h3>
+                <p className="text-xs text-neo-black/60 mb-2">{method.desc}</p>
+                <span className={`inline-flex items-center gap-1 font-semibold text-xs ${
+                  method.highlight ? 'text-neo-black' : 'text-neo-yellow'
+                }`}>
+                  {method.action}
+                  <ArrowRight size={16} />
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Main Contact Section */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Contact Form */}
+            <div>
+              <div className="mb-6">
+                <span className="inline-block px-3 py-1 bg-neo-black text-white text-xs font-bold uppercase tracking-wider rounded mb-3">
+                  Send a Message
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight">
+                  Drop us a <span className="text-neo-yellow">Line</span>
+                </h2>
+              </div>
+
+              <ContactForm />
+            </div>
+
+            {/* Contact Info */}
+            <div>
+              <div className="mb-6">
+                <span className="inline-block px-3 py-1 bg-neo-yellow text-neo-black text-xs font-bold uppercase tracking-wider rounded mb-3">
+                  Get in Touch
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight">
+                  Contact <span className="text-neo-yellow">Info</span>
+                </h2>
+              </div>
+
+              <div className="space-y-3 mb-6">
+                {contactInfo.map((info, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-start gap-3 p-4 bg-neo-light-gray rounded-lg"
+                  >
+                    <div className="w-9 h-9 bg-neo-yellow rounded-lg flex items-center justify-center text-neo-black flex-shrink-0">
+                      {info.icon}
+                    </div>
+                    <div>
+                      <p className="text-xs font-mono text-neo-black/40 uppercase tracking-wider">{info.label}</p>
+                      <p className="font-bold text-neo-black text-sm">{info.value}</p>
+                      <p className="text-xs text-neo-black/60">{info.subtext}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Map Placeholder */}
+              <div className="relative h-48 bg-neo-light-gray rounded-lg border border-neo-black/10 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <MapPin size={32} className="mx-auto text-neo-black/20 mb-2" />
+                    <p className="text-neo-black/40 text-xs">Interactive map</p>
+                  </div>
                 </div>
-                
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="subject" className="font-bold ml-1">Subject</label>
-                  <input type="text" id="subject" className="neo-input" placeholder="Project Inquiry" required />
+                <div className="absolute inset-0 grid-bg opacity-50" />
+              </div>
+
+              {/* Social Links */}
+              <div className="mt-6 p-4 bg-neo-black rounded-lg">
+                <p className="text-white font-bold mb-3 text-sm">Follow us on social media</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Twitter', 'Instagram', 'LinkedIn', 'YouTube'].map((social) => (
+                    <a 
+                      key={social}
+                      href="#"
+                      className="px-3 py-1.5 bg-white/10 text-white text-xs font-medium rounded hover:bg-neo-yellow hover:text-neo-black transition-colors"
+                    >
+                      {social}
+                    </a>
+                  ))}
                 </div>
-                
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="message" className="font-bold ml-1">Message</label>
-                  <textarea id="message" rows={5} className="neo-input resize-y" placeholder="Tell us about your project..." required></textarea>
-                </div>
-                
-                <button type="submit" className="neo-btn w-full text-center justify-center mt-4 hover:bg-neo-yellow">
-                  Send Message
-                </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>

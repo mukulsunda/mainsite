@@ -1,23 +1,27 @@
 "use client";
 import { useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const faqs = [
   {
-    question: "What exactly is BoxPox?",
-    answer: "We are a design agency that thinks outside the box. We provide subscription-based design services, meaning you get unlimited design requests for a flat monthly fee."
+    question: "What makes BoxPox products different?",
+    answer: "Every BoxPox product is built with modular architecture, premium materials, and precision engineering. We design for longevity and upgradability, not planned obsolescence."
   },
   {
-    question: "How does the subscription work?",
-    answer: "It's simple. You subscribe, you add design requests to your queue, and we knock them out one by one. You can pause or cancel anytime."
+    question: "Do you offer international shipping?",
+    answer: "Yes! We ship to over 50 countries worldwide. Shipping times vary by location, typically 5-10 business days for international orders. All orders include tracking."
   },
   {
-    question: "What is the turnaround time?",
-    answer: "Typically, you'll receive your designs within 48 hours. Complex requests might take a bit longer, but we'll keep you in the loop."
+    question: "What's your return policy?",
+    answer: "We offer a 30-day no-questions-asked return policy. If you're not completely satisfied with your purchase, we'll provide a full refund or exchange."
   },
   {
-    question: "Do you offer refunds?",
-    answer: "Due to the high-quality nature of our work, we don't offer refunds. However, we'll revise the designs until you're 100% satisfied."
+    question: "How long is the warranty?",
+    answer: "All BoxPox products come with a 5-year limited warranty covering manufacturing defects. Extended warranty options are available at checkout."
+  },
+  {
+    question: "Can I upgrade my existing products?",
+    answer: "Absolutely! Our modular design philosophy means most products can be upgraded with new modules and components. Check each product page for compatible upgrades."
   }
 ];
 
@@ -25,34 +29,76 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-20 px-[5%] bg-neo-yellow border-y-3 border-black">
-      <div className="container max-w-[1000px]">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl mb-4">Frequently Asked <br /> Questions</h2>
-          <p className="font-bold text-xl">Got questions? We've got answers.</p>
-        </div>
-
-        <div className="flex flex-col gap-6">
-          {faqs.map((faq, index) => (
-            <div 
-              key={index} 
-              className={`neo-card p-0 cursor-pointer transition-all duration-300 ${openIndex === index ? 'bg-black text-white' : 'bg-white text-black'}`}
-              onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            >
-              <div className="p-6 md:p-8 flex justify-between items-center">
-                <h3 className="text-xl md:text-2xl font-bold pr-8">{faq.question}</h3>
-                <div className={`min-w-[40px] h-[40px] rounded-full border-2 flex items-center justify-center transition-transform duration-300 ${openIndex === index ? 'border-white rotate-45' : 'border-black rotate-0'}`}>
-                  {openIndex === index ? <Plus size={24} /> : <Plus size={24} />}
-                </div>
-              </div>
-              
-              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="p-6 md:p-8 pt-0 text-lg opacity-90 leading-relaxed border-t border-gray-700">
-                  {faq.answer}
-                </div>
-              </div>
+    <section id="faq" className="py-16 md:py-24 bg-neo-light-gray">
+      <div className="container">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+          {/* Left Column - Header */}
+          <div className="lg:col-span-4">
+            <div className="lg:sticky lg:top-28">
+              <span className="inline-block px-3 py-1 bg-neo-black text-white text-xs font-bold uppercase tracking-wider rounded mb-4">
+                FAQ
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tight">
+                Questions?<br />
+                <span className="text-neo-yellow">Answered.</span>
+              </h2>
+              <p className="text-neo-black/60 leading-relaxed mb-6 text-sm md:text-base">
+                Everything you need to know about BoxPox products and services.
+              </p>
+              <a 
+                href="/contact" 
+                className="inline-flex items-center gap-2 text-neo-black font-semibold hover:text-neo-yellow transition-colors text-sm"
+              >
+                Contact Support →
+              </a>
             </div>
-          ))}
+          </div>
+
+          {/* Right Column - FAQ Items */}
+          <div className="lg:col-span-8">
+            <div className="space-y-3">
+              {faqs.map((faq, index) => (
+                <div 
+                  key={index} 
+                  className={`bg-white border-2 rounded-xl overflow-hidden ${
+                    openIndex === index 
+                      ? 'border-neo-black' 
+                      : 'border-neo-black/10 hover:border-neo-black/30'
+                  }`}
+                >
+                  <button
+                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                    className="w-full px-5 py-4 md:px-6 md:py-5 flex justify-between items-center text-left gap-3"
+                  >
+                    <span className="flex items-center gap-3">
+                      <span className={`font-mono text-xs font-bold ${
+                        openIndex === index ? 'text-neo-yellow' : 'text-neo-black/30'
+                      }`}>
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <span className="text-base md:text-lg font-bold text-neo-black">
+                        {faq.question}
+                      </span>
+                    </span>
+                    <ChevronDown 
+                      size={20} 
+                      className={`flex-shrink-0 text-neo-black/50 transition-transform duration-200 ${
+                        openIndex === index ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  
+                  {openIndex === index && (
+                    <div className="px-5 pb-5 md:px-6 md:pb-6">
+                      <p className="pl-8 md:pl-9 text-neo-black/70 leading-relaxed text-sm md:text-base border-l-2 border-neo-yellow/30">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
