@@ -180,26 +180,26 @@ export default function About() {
 
           <div className="relative max-w-4xl mx-auto">
             {/* Timeline Line */}
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-white/20 transform md:-translate-x-px" />
+            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-neo-yellow/40 transform md:-translate-x-px" />
             
             {milestones.map((milestone, index) => (
               <div 
                 key={index}
-                className={`relative flex items-center gap-4 md:gap-8 mb-8 ${
+                className={`relative flex items-center gap-4 md:gap-8 mb-10 ${
                   index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                 }`}
               >
                 {/* Content */}
                 <div className={`flex-1 ml-14 md:ml-0 ${index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                  <span className="inline-block px-2 py-0.5 bg-neo-yellow text-neo-black text-xs font-bold rounded mb-2 font-mono">
+                  <span className="inline-block px-3 py-1 bg-neo-yellow text-neo-black text-xs font-bold rounded-lg mb-3 font-mono">
                     {milestone.year}
                   </span>
-                  <h3 className="text-lg md:text-xl font-bold mb-1">{milestone.title}</h3>
-                  <p className="text-white/60 text-sm">{milestone.desc}</p>
+                  <h3 className="text-xl md:text-2xl font-black mb-2 text-white">{milestone.title}</h3>
+                  <p className="text-white/80 text-sm md:text-base leading-relaxed">{milestone.desc}</p>
                 </div>
                 
                 {/* Dot */}
-                <div className="absolute left-6 md:left-1/2 w-3 h-3 bg-neo-yellow rounded-full transform -translate-x-1/2 border-2 border-neo-black" />
+                <div className="absolute left-6 md:left-1/2 w-4 h-4 bg-neo-yellow rounded-full transform -translate-x-1/2 border-3 border-white shadow-lg" />
                 
                 {/* Empty space for alternating layout */}
                 <div className="hidden md:block flex-1" />

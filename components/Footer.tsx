@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { ArrowUpRight, MapPin, Mail, Phone } from 'lucide-react';
 
 export default function Footer() {
@@ -42,49 +41,30 @@ export default function Footer() {
       <div className="relative z-10">
         {/* Top Section */}
         <div className="border-b border-white/10">
-          <div className="container py-16 md:py-24">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+          <div className="container py-10 md:py-14">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
               {/* Brand Column */}
-              <div className="lg:col-span-4">
-                <Link href="/" className="inline-block mb-6">
-                  <Image 
-                    src="/logo.svg" 
-                    alt="BoxPox Logo" 
-                    width={160} 
-                    height={50} 
-                    className="h-12 w-auto brightness-0 invert"
-                  />
-                </Link>
-                <p className="text-white/60 leading-relaxed mb-8 max-w-sm">
-                  Consumer-focused innovation. Hardware and software products engineered for the humans of tomorrow.
-                </p>
-                
-                {/* Newsletter Mini */}
-                <div className="p-5 bg-white/5 rounded-xl border border-white/10">
-                  <p className="text-sm font-semibold mb-4 text-white">Subscribe to updates</p>
-                  <div className="flex gap-3">
-                    <input 
-                      type="email" 
-                      placeholder="your@email.com"
-                      className="flex-1 min-w-0 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-neo-yellow transition-colors"
-                    />
-                    <button 
-                      type="button"
-                      className="px-5 py-3 bg-neo-yellow text-neo-black font-bold text-sm rounded-lg hover:bg-white transition-colors whitespace-nowrap"
-                    >
-                      Join
-                    </button>
+              <div className="lg:col-span-3">
+                <Link href="/" className="inline-block mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-neo-yellow rounded-lg flex items-center justify-center">
+                      <span className="text-xl font-black text-neo-black">B</span>
+                    </div>
+                    <span className="text-2xl font-black text-white">Box<span className="text-neo-yellow">Pox</span></span>
                   </div>
-                </div>
+                </Link>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  Consumer-focused innovation for the humans of tomorrow.
+                </p>
               </div>
 
               {/* Links Columns */}
-              <div className="lg:col-span-8">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="lg:col-span-9">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {/* Products */}
                   <div>
-                    <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-6">Products</h4>
-                    <ul className="space-y-3">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Products</h4>
+                    <ul className="space-y-2">
                       {footerLinks.products.map((link) => (
                         <li key={link.label}>
                           <Link 
@@ -101,8 +81,8 @@ export default function Footer() {
 
                   {/* Company */}
                   <div>
-                    <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-6">Company</h4>
-                    <ul className="space-y-3">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Company</h4>
+                    <ul className="space-y-2">
                       {footerLinks.company.map((link) => (
                         <li key={link.label}>
                           <Link 
@@ -119,8 +99,8 @@ export default function Footer() {
 
                   {/* Support */}
                   <div>
-                    <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-6">Support</h4>
-                    <ul className="space-y-3">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Support</h4>
+                    <ul className="space-y-2">
                       {footerLinks.support.map((link) => (
                         <li key={link.label}>
                           <Link 
@@ -137,8 +117,8 @@ export default function Footer() {
 
                   {/* Contact */}
                   <div>
-                    <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-6">Contact</h4>
-                    <ul className="space-y-4">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Contact</h4>
+                    <ul className="space-y-3">
                       <li className="flex items-start gap-3 text-white/60 text-sm">
                         <MapPin size={16} className="text-neo-yellow mt-0.5 flex-shrink-0" />
                         <span>1617 Sector 70<br />Mohali, 160071</span>

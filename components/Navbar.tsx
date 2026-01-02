@@ -32,6 +32,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/products', label: 'Products' },
+    { href: '/boxprint', label: 'BoxPrint', highlight: true },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
@@ -49,21 +50,28 @@ export default function Navbar() {
           <Image 
             src="/logo.svg" 
             alt="BoxPox Logo" 
-            width={140} 
-            height={40} 
-            className="h-8 md:h-10 w-auto"
+            width={180} 
+            height={50} 
+            className="h-10 md:h-14 w-auto"
             priority
           />
         </Link>
 
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex gap-6 items-center">
+        {/* Desktop Menu - Centered */}
+        <div className="hidden lg:flex gap-6 items-center absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => (
             <Link 
               key={link.href} 
               href={link.href} 
-              className="font-semibold text-sm text-neo-black hover:text-neo-yellow transition-colors"
+              className={`font-semibold text-sm transition-colors ${
+                link.highlight 
+                  ? 'text-neo-yellow hover:text-neo-black flex items-center gap-1' 
+                  : 'text-neo-black hover:text-neo-yellow'
+              }`}
             >
+              {link.highlight && (
+                <span className="w-1.5 h-1.5 bg-neo-yellow rounded-full animate-pulse" />
+              )}
               {link.label}
             </Link>
           ))}

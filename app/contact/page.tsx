@@ -152,17 +152,6 @@ export default function Contact() {
                 ))}
               </div>
 
-              {/* Map Placeholder */}
-              <div className="relative h-48 bg-neo-light-gray rounded-lg border border-neo-black/10 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin size={32} className="mx-auto text-neo-black/20 mb-2" />
-                    <p className="text-neo-black/40 text-xs">Interactive map</p>
-                  </div>
-                </div>
-                <div className="absolute inset-0 grid-bg opacity-50" />
-              </div>
-
               {/* Social Links */}
               <div className="mt-6 p-4 bg-neo-black rounded-lg">
                 <p className="text-white font-bold mb-3 text-sm">Follow us on social media</p>
