@@ -20,6 +20,11 @@ export const metadata: Metadata = {
   title: "BoxPox — Box of Possibility",
   description: "Consumer-focused innovation. Hardware and software products engineered for the future.",
   keywords: ["innovation", "hardware", "software", "consumer products", "technology"],
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
