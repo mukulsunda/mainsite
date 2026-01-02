@@ -55,6 +55,7 @@ export default function SignIn() {
       router.push('/account'); // Redirect to account page
       router.refresh(); // Refresh to update server components
     } catch (error) {
+      console.error(error);
       setErrors({ ...errors, email: 'An unexpected error occurred' });
     } finally {
       setIsLoading(false);
@@ -211,7 +212,7 @@ export default function SignIn() {
 
           {/* Sign Up Link */}
           <p className="mt-8 text-center text-sm text-neo-black/60">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/signup" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
               Create one free
             </Link>

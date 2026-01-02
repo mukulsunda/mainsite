@@ -3,8 +3,8 @@
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { 
-  Printer, Upload, Palette, Calculator, ShoppingCart, 
-  ChevronRight, Shield, Truck, Clock, Star, ArrowRight,
+  Printer, Upload, Palette, 
+  Shield, Truck, Clock, Star, ArrowRight,
   CheckCircle, Box, Layers
 } from 'lucide-react';
 
@@ -19,7 +19,6 @@ import { ModelFile, PrintConfig, MaterialType, MATERIALS } from './types';
 
 export default function BoxPrintPage() {
   // State
-  const [currentStep, setCurrentStep] = useState(1);
   const [modelFile, setModelFile] = useState<ModelFile | null>(null);
   const [config, setConfig] = useState<PrintConfig>({
     material: 'PLA',
@@ -37,9 +36,6 @@ export default function BoxPrintPage() {
   // Handlers
   const handleFileSelect = useCallback((file: ModelFile | null) => {
     setModelFile(file);
-    if (file) {
-      setCurrentStep(2);
-    }
   }, []);
 
   const handleDimensionsCalculated = useCallback((

@@ -64,10 +64,10 @@ export default function Contact() {
               Contact
             </span>
             <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">
-              Let's <span className="text-neo-yellow">Talk</span>
+              Let&apos;s <span className="text-neo-yellow">Talk</span>
             </h1>
             <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
-              Have a question, feedback, or an idea for a collaboration? We'd love to hear from you.
+              Have a question, feedback, or an idea for a collaboration? We&apos;d love to hear from you.
             </p>
           </div>
         </div>

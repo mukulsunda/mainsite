@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ChevronDown, Zap, Flame, Droplets, Wind, Check, X } from 'lucide-react';
-import { MaterialType, MATERIALS, Material } from '../types';
+import { MaterialType, MATERIALS } from '../types';
 
 export default function MaterialGuide() {
   const [expandedMaterial, setExpandedMaterial] = useState<MaterialType | null>(null);

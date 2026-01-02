@@ -67,7 +67,7 @@ export default function About() {
               <span className="text-neo-yellow">Possibility</span>
             </h1>
             <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
-              We're a team of engineers, designers, and dreamers building the products we wish existed.
+              We&apos;re a team of engineers, designers, and dreamers building the products we wish existed.
             </p>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function About() {
                 <span className="text-neo-yellow">Future, Today</span>
               </h2>
               <p className="text-lg text-neo-black/70 leading-relaxed mb-8">
-                At BoxPox, we believe that the best products don't just solve problems—they unlock new possibilities. We're not interested in incremental improvements. We're here to reimagine what consumer products can be.
+                At BoxPox, we believe that the best products don&apos;t just solve problems—they unlock new possibilities. We&apos;re not interested in incremental improvements. We&apos;re here to reimagine what consumer products can be.
               </p>
               <p className="text-lg text-neo-black/70 leading-relaxed mb-10">
                 Our approach combines precision engineering with human-centered design. Every product goes through hundreds of iterations before it reaches your hands. Because we believe you deserve nothing less than exceptional.

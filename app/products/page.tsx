@@ -264,8 +264,8 @@ export default function Products() {
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h3 className="text-2xl font-bold text-neo-black mb-2">Can't find what you're looking for?</h3>
-              <p className="text-neo-black/60">We're always working on new products. Let us know what you need.</p>
+              <h3 className="text-2xl font-bold text-neo-black mb-2">Can&apos;t find what you&apos;re looking for?</h3>
+              <p className="text-neo-black/60">We&apos;re always working on new products. Let us know what you need.</p>
             </div>
             <Link href="/contact" className="neo-btn whitespace-nowrap">
               Contact Us

@@ -195,7 +195,7 @@ export default function Cart() {
             </div>
             <h2 className="text-2xl font-bold mb-3">Your cart is empty</h2>
             <p className="text-neo-black/60 mb-8 max-w-sm mx-auto">
-              Looks like you haven't added anything to your cart yet. Start exploring our products!
+              Looks like you haven&apos;t added anything to your cart yet. Start exploring our products!
             </p>
             <Link href="/products" className="neo-btn inline-flex">
               Browse Products

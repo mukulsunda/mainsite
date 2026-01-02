@@ -15,7 +15,6 @@ interface PricingCalculatorProps {
 export default function PricingCalculator({
   config,
   estimatedWeight,
-  volume,
   onAddToCart,
   isModelLoaded
 }: PricingCalculatorProps) {

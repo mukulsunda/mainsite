@@ -94,6 +94,7 @@ export default function SignUp() {
       // Success! Redirect to dashboard or show confirmation
       router.push('/signin?registered=true');
     } catch (error) {
+      console.error(error);
       setErrors({ ...errors, submit: 'An unexpected error occurred' });
     } finally {
       setIsLoading(false);

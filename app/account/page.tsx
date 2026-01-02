@@ -1,7 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
-import { User, Package, Settings, LogOut } from 'lucide-react';
-import Link from 'next/link';
+import { Package, Settings, LogOut } from 'lucide-react';
 
 export default async function AccountPage() {
   const supabase = createClient();

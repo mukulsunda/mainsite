@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState, Suspense, useMemo, useLayoutEffect } from 'react';
+import React, { useEffect, useRef, useState, Suspense, useLayoutEffect } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, Grid, Environment, Html, useProgress, Center, Stage } from '@react-three/drei';
+import { OrbitControls, Grid, Html, useProgress, Center, Stage } from '@react-three/drei';
 import * as THREE from 'three';
 import { STLLoader } from 'three-stdlib';
 import { OBJLoader } from 'three-stdlib';
@@ -242,7 +242,7 @@ function SceneContent({
 
 // Error Boundary Wrapper
 class ErrorBoundaryWrapper extends React.Component<{ children: React.ReactNode }, { hasError: boolean, error: Error | null }> {
-  constructor(props: any) {
+  constructor(props: { children: React.ReactNode }) {
     super(props);
     this.state = { hasError: false, error: null };
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Minus, Plus, Settings, ChevronDown, Info, AlertTriangle } from 'lucide-react';
+import { Minus, Plus, Info, AlertTriangle } from 'lucide-react';
 import { PrintConfig, PrintQuality, QUALITY_SETTINGS, INFILL_OPTIONS } from '../types';
 
 interface PrintOptionsProps {

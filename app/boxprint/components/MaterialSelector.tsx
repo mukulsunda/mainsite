@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Check, Info, ChevronDown } from 'lucide-react';
-import { MaterialType, MATERIALS, Material } from '../types';
+import { MaterialType, MATERIALS } from '../types';
 
 interface MaterialSelectorProps {
   selectedMaterial: MaterialType;
