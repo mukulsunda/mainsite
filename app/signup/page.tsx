@@ -3,8 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff, ArrowRight, Check, User, Mail, Lock, Shield, Truck, Gift, Zap } from 'lucide-react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
+  const supabase = createClient();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -68,11 +72,32 @@ export default function SignUp() {
     e.preventDefault();
     if (!validateStep2()) return;
     
-    setIsLoading(true);
-    setTimeout(() => {
+    
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            newsletter: formData.newsletter,
+          },
+        },
+      });
+
+      if (error) {
+        setErrors({ ...errors, submit: error.message });
+        return;
+      }
+
+      // Success! Redirect to dashboard or show confirmation
+      router.push('/signin?registered=true');
+    } catch (error) {
+      setErrors({ ...errors, submit: 'An unexpected error occurred' });
+    } finally {
       setIsLoading(false);
-      // Handle sign up logic here
-    }, 1500);
+    }
   };
 
   const benefits = [
