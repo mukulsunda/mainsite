@@ -35,6 +35,9 @@ export default function CheckoutPage() {
   }, [router, supabase]);
 
   const handlePayment = async () => {
+    alert('Payments are currently disabled for maintenance. Please check back later.');
+    return;
+    /* 
     if (!mobileNumber || mobileNumber.length < 10) {
       alert('Please enter a valid mobile number');
       return;
@@ -83,6 +86,7 @@ export default function CheckoutPage() {
     } finally {
       setLoading(false);
     }
+    */
   };
 
   if (initializing) {
