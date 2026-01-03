@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, MapPin, Mail, Phone } from 'lucide-react';
 
 export default function Footer() {
@@ -46,12 +47,13 @@ export default function Footer() {
               {/* Brand Column */}
               <div className="lg:col-span-3">
                 <Link href="/" className="inline-block mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-neo-yellow rounded-lg flex items-center justify-center">
-                      <span className="text-xl font-black text-neo-black">B</span>
-                    </div>
-                    <span className="text-2xl font-black text-white">Box<span className="text-neo-yellow">Pox</span></span>
-                  </div>
+                  <Image 
+                    src="/logo.png" 
+                    alt="BoxPox Logo" 
+                    width={120} 
+                    height={120} 
+                    className="h-12 w-auto"
+                  />
                 </Link>
                 <p className="text-white/60 text-sm leading-relaxed">
                   Consumer-focused innovation for the humans of tomorrow.

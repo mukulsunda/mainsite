@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Eye, EyeOff, ArrowRight, Check, User, Mail, Lock, Shield, Truck, Gift, Zap } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -119,8 +120,14 @@ export default function SignUp() {
         <div className="absolute bottom-20 right-10 w-32 h-32 bg-neo-black/5 rounded-full blur-3xl" />
         
         <div className="relative z-10 text-neo-black max-w-lg">
-          <div className="w-16 h-16 mb-8 bg-neo-black rounded-2xl flex items-center justify-center shadow-xl">
-            <span className="text-2xl font-black text-neo-yellow">B</span>
+          <div className="mb-8">
+            <Image 
+              src="/logo.png" 
+              alt="BoxPox Logo" 
+              width={80} 
+              height={80} 
+              className="h-20 w-auto shadow-xl rounded-2xl"
+            />
           </div>
           
           <h2 className="text-4xl font-black mb-4 leading-tight">
@@ -150,10 +157,13 @@ export default function SignUp() {
         <div className="w-full max-w-md">
           {/* Logo */}
           <Link href="/" className="inline-flex items-center gap-2 mb-8">
-            <div className="w-10 h-10 bg-neo-yellow rounded-xl flex items-center justify-center">
-              <span className="text-xl font-black text-neo-black">B</span>
-            </div>
-            <span className="text-2xl font-black text-neo-black">Box<span className="text-neo-yellow">Pox</span></span>
+            <Image 
+              src="/logo.png" 
+              alt="BoxPox Logo" 
+              width={50} 
+              height={50} 
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Progress Indicator */}

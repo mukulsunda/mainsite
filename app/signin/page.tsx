@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Eye, EyeOff, ArrowRight, Mail, Lock, Check, Sparkles } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -76,10 +77,13 @@ export default function SignIn() {
         <div className="w-full max-w-md">
           {/* Logo */}
           <Link href="/" className="inline-flex items-center gap-2 mb-10">
-            <div className="w-10 h-10 bg-neo-yellow rounded-xl flex items-center justify-center">
-              <span className="text-xl font-black text-neo-black">B</span>
-            </div>
-            <span className="text-2xl font-black text-neo-black">Box<span className="text-neo-yellow">Pox</span></span>
+            <Image 
+              src="/logo.png" 
+              alt="BoxPox Logo" 
+              width={50} 
+              height={50} 
+              className="h-12 w-auto"
+            />
           </Link>
 
           <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tight text-neo-black">Welcome back</h1>
