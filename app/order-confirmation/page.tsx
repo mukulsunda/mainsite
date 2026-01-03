@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 function OrderConfirmationContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  // const router = useRouter();
   const [status, setStatus] = useState<'loading' | 'success' | 'failure'>('loading');
   const [message, setMessage] = useState('Verifying payment...');
 

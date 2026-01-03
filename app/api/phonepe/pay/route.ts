@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
+import { NextResponse } from 'next/server';
+// import crypto from 'crypto';
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   return NextResponse.json({ error: 'PhonePe integration is currently disabled' }, { status: 503 });
   /*
   try {
