@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 
 export default function CheckoutPage() {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [mobileNumber, setMobileNumber] = useState('');
   const [initializing, setInitializing] = useState(true);
   const router = useRouter();
@@ -128,17 +128,9 @@ export default function CheckoutPage() {
 
         <button
           onClick={handlePayment}
-          disabled={loading}
           className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          {loading ? (
-            <>
-              <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-              Processing...
-            </>
-          ) : (
-            'Pay with PhonePe'
-          )}
+          Pay with PhonePe
         </button>
         
         <p className="mt-4 text-xs text-center text-zinc-500">
