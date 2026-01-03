@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Eye, EyeOff, ArrowRight, Check, User, Mail, Lock, Shield, Truck, Gift, Zap } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, Check, User, Mail, Lock, Shield, Truck, Gift, Zap, AlertCircle, Loader2 } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 
@@ -23,6 +23,7 @@ export default function SignUp() {
     newsletter: true
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [generalError, setGeneralError] = useState('');
 
   const passwordRequirements = [
     { label: 'At least 8 characters', met: formData.password.length >= 8 },
@@ -73,9 +74,11 @@ export default function SignUp() {
     e.preventDefault();
     if (!validateStep2()) return;
     
+    setIsLoading(true);
+    setGeneralError('');
     
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -88,15 +91,26 @@ export default function SignUp() {
       });
 
       if (error) {
-        setErrors({ ...errors, submit: error.message });
+        if (error.message.includes('already registered')) {
+          setGeneralError('This email is already registered. Please sign in instead.');
+        } else {
+          setGeneralError(error.message);
+        }
         return;
       }
 
-      // Success! Redirect to dashboard or show confirmation
-      router.push('/signin?registered=true');
+      // Check if email confirmation is required
+      if (data.user && !data.session) {
+        // Email confirmation required
+        router.push('/signin?registered=true');
+      } else if (data.session) {
+        // Auto logged in
+        router.push('/account');
+        router.refresh();
+      }
     } catch (error) {
       console.error(error);
-      setErrors({ ...errors, submit: 'An unexpected error occurred' });
+      setGeneralError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -178,6 +192,14 @@ export default function SignUp() {
           <p className="text-neo-black/60 mb-8">
             {currentStep === 1 ? 'Join the BoxPox community today' : 'Choose a strong password to secure your account'}
           </p>
+
+          {/* General Error Message */}
+          {generalError && (
+            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3">
+              <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-800">{generalError}</p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {currentStep === 1 ? (
@@ -261,11 +283,11 @@ export default function SignUp() {
                   </div>
                 </label>
 
-                {/* Next Button */}
                 <button
                   type="button"
                   onClick={handleNextStep}
-                  className="w-full py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2"
+                  disabled={isLoading}
+                  className="w-full py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   Continue
                   <ArrowRight size={18} />
@@ -355,11 +377,11 @@ export default function SignUp() {
                   />
                   <span className="text-sm text-neo-black/70">
                     I agree to the{' '}
-                    <Link href="#" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
+                    <Link href="/terms" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
                       Terms of Service
                     </Link>{' '}
                     and{' '}
-                    <Link href="#" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
+                    <Link href="/privacy" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
                       Privacy Policy
                     </Link>
                   </span>
@@ -378,14 +400,11 @@ export default function SignUp() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                    className="flex-1 py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {isLoading ? (
                       <span className="flex items-center gap-2">
-                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                        </svg>
+                        <Loader2 className="animate-spin h-5 w-5" />
                         Creating...
                       </span>
                     ) : (

@@ -8,21 +8,22 @@ export default function Footer() {
   const footerLinks = {
     products: [
       { label: 'All Products', href: '/products' },
-      { label: 'New Arrivals', href: '/products' },
-      { label: 'Best Sellers', href: '/products' },
+      { label: 'BoxPrint (3D)', href: '/boxprint' },
       { label: 'Coming Soon', href: '/products' },
     ],
     company: [
       { label: 'About Us', href: '/about' },
-      { label: 'Our Story', href: '/about' },
+      { label: 'Contact', href: '/contact' },
       { label: 'Careers', href: '/contact' },
-      { label: 'Press Kit', href: '/contact' },
     ],
     support: [
-      { label: 'Contact', href: '/contact' },
       { label: 'FAQ', href: '/#faq' },
-      { label: 'Shipping', href: '/contact' },
-      { label: 'Returns', href: '/contact' },
+      { label: 'Shipping Policy', href: '/shipping' },
+      { label: 'Refund Policy', href: '/refund' },
+    ],
+    legal: [
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Privacy Policy', href: '/privacy' },
     ],
   };
 
@@ -62,7 +63,7 @@ export default function Footer() {
 
               {/* Links Columns */}
               <div className="lg:col-span-9">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
                   {/* Products */}
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Products</h4>
@@ -117,6 +118,24 @@ export default function Footer() {
                     </ul>
                   </div>
 
+                  {/* Legal */}
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Legal</h4>
+                    <ul className="space-y-2">
+                      {footerLinks.legal.map((link) => (
+                        <li key={link.label}>
+                          <Link 
+                            href={link.href} 
+                            className="text-white/60 hover:text-neo-yellow transition-colors text-sm inline-flex items-center gap-1 group"
+                          >
+                            {link.label}
+                            <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
                   {/* Contact */}
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">Contact</h4>
@@ -148,8 +167,8 @@ export default function Footer() {
             <div className="flex items-center gap-6 text-sm text-white/40">
               <span>© {currentYear} BoxPox. All rights reserved.</span>
               <span className="hidden md:inline">•</span>
-              <Link href="#" className="hover:text-white transition-colors hidden md:inline">Privacy Policy</Link>
-              <Link href="#" className="hover:text-white transition-colors hidden md:inline">Terms of Service</Link>
+              <Link href="/privacy" className="hover:text-white transition-colors hidden md:inline">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-white transition-colors hidden md:inline">Terms of Service</Link>
             </div>
 
             {/* Social Links */}
