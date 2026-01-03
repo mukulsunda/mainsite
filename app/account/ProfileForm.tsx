@@ -52,23 +52,51 @@ export default function ProfileForm({ user, initialProfile }: ProfileFormProps) 
     setMessage(null);
 
     try {
-      // Update profile in database
-      const { error: profileError } = await supabase
+      // First, check if profile exists
+      const { data: existingProfile } = await supabase
         .from('profiles')
-        .upsert({
-          id: user.id,
-          email: user.email,
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          phone: formData.phone,
-          address: formData.address,
-          city: formData.city,
-          state: formData.state,
-          zip_code: formData.zip_code,
-          updated_at: new Date().toISOString(),
-        });
+        .select('id')
+        .eq('id', user.id)
+        .single();
+
+      let profileError;
+
+      if (existingProfile) {
+        // Update existing profile
+        const { error } = await supabase
+          .from('profiles')
+          .update({
+            first_name: formData.first_name,
+            last_name: formData.last_name,
+            phone: formData.phone,
+            address: formData.address,
+            city: formData.city,
+            state: formData.state,
+            zip_code: formData.zip_code,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', user.id);
+        profileError = error;
+      } else {
+        // Insert new profile
+        const { error } = await supabase
+          .from('profiles')
+          .insert({
+            id: user.id,
+            email: user.email,
+            first_name: formData.first_name,
+            last_name: formData.last_name,
+            phone: formData.phone,
+            address: formData.address,
+            city: formData.city,
+            state: formData.state,
+            zip_code: formData.zip_code,
+          });
+        profileError = error;
+      }
 
       if (profileError) {
+        console.error('Profile error details:', profileError);
         throw profileError;
       }
 

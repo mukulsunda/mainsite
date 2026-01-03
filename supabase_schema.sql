@@ -21,6 +21,10 @@ alter table public.profiles enable row level security;
 create policy "Users can view own profile" on public.profiles
   for select using ((select auth.uid()) = id);
 
+-- Allow users to insert their own profile
+create policy "Users can insert own profile" on public.profiles
+  for insert with check ((select auth.uid()) = id);
+
 -- Allow users to update their own profile
 create policy "Users can update own profile" on public.profiles
   for update using ((select auth.uid()) = id);

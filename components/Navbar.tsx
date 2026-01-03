@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { Menu, X, ShoppingBag } from 'lucide-react';
+import { Menu, X, ShoppingBag, User } from 'lucide-react';
+import { createClient } from '@/utils/supabase/client';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<{ email?: string; user_metadata?: { first_name?: string } } | null>(null);
+  const supabase = createClient();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +19,22 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Check auth state
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -79,12 +98,26 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex items-center gap-3">
-          <Link 
-            href="/signin"
-            className="px-4 py-2 text-sm font-semibold text-neo-black hover:text-neo-yellow transition-colors"
-          >
-            Sign In
-          </Link>
+          {user ? (
+            <Link 
+              href="/account"
+              className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-neo-black hover:text-neo-yellow transition-colors"
+            >
+              <div className="w-8 h-8 bg-neo-yellow rounded-full flex items-center justify-center border border-neo-black">
+                <User size={16} className="text-neo-black" />
+              </div>
+              <span className="hidden xl:inline">
+                {user.user_metadata?.first_name || 'Account'}
+              </span>
+            </Link>
+          ) : (
+            <Link 
+              href="/signin"
+              className="px-4 py-2 text-sm font-semibold text-neo-black hover:text-neo-yellow transition-colors"
+            >
+              Sign In
+            </Link>
+          )}
           <Link 
             href="/cart" 
             className="relative p-2 rounded-lg border border-neo-black/20 hover:border-neo-black transition-colors"
@@ -144,22 +177,33 @@ export default function Navbar() {
               >
                 Shop Now
               </Link>
-              <div className="flex gap-3">
+              {user ? (
                 <Link 
-                  href="/signin" 
+                  href="/account" 
                   onClick={() => setIsOpen(false)} 
-                  className="flex-1 py-3 border border-neo-black/20 rounded-lg text-center font-semibold text-sm"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-neo-yellow text-neo-black rounded-lg font-semibold"
                 >
-                  Sign In
+                  <User size={18} />
+                  My Account
                 </Link>
-                <Link 
-                  href="/signup" 
-                  onClick={() => setIsOpen(false)} 
-                  className="flex-1 py-3 bg-neo-yellow text-neo-black rounded-lg text-center font-semibold text-sm"
-                >
-                  Sign Up
-                </Link>
-              </div>
+              ) : (
+                <div className="flex gap-3">
+                  <Link 
+                    href="/signin" 
+                    onClick={() => setIsOpen(false)} 
+                    className="flex-1 py-3 border border-neo-black/20 rounded-lg text-center font-semibold text-sm"
+                  >
+                    Sign In
+                  </Link>
+                  <Link 
+                    href="/signup" 
+                    onClick={() => setIsOpen(false)} 
+                    className="flex-1 py-3 bg-neo-yellow text-neo-black rounded-lg text-center font-semibold text-sm"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Bottom Info */}

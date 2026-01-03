@@ -104,8 +104,8 @@ export default function SignUp() {
         // Email confirmation required
         router.push('/signin?registered=true');
       } else if (data.session) {
-        // Auto logged in
-        router.push('/account');
+        // Auto logged in - go to home page
+        router.push('/');
         router.refresh();
       }
     } catch (error) {
