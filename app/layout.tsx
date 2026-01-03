@@ -23,7 +23,12 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    apple: "/logo.svg",
+  },
+  appleWebApp: {
+    title: "BoxPox",
+    statusBarStyle: "default",
+    capable: true,
   },
 };
 
