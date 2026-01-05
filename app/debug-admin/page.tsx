@@ -78,9 +78,9 @@ export default async function DebugAdminPage() {
             <p>Error accessing table ❌</p>
             <p>{countError.message}</p>
             <p className="text-xs mt-1 text-gray-500">
-              (If "relation does not exist", run the schema SQL)
+              (If &quot;relation does not exist&quot;, run the schema SQL)
               <br/>
-              (If "permission denied", RLS policies might be wrong)
+              (If &quot;permission denied&quot;, RLS policies might be wrong)
             </p>
           </div>
         ) : (

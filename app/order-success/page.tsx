@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { CheckCircle, Package, Truck, ArrowRight, Mail, Clock, Printer, Home } from 'lucide-react';
+import { CheckCircle, Package, Truck, Mail, Clock, Printer, Home } from 'lucide-react';
 import Confetti from 'react-confetti';
 
 function OrderSuccessContent() {
