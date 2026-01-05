@@ -1,13 +1,16 @@
 "use client";
 
-import { useMemo } from 'react';
-import { ShoppingCart, Clock, Package, Zap } from 'lucide-react';
-import { PrintConfig, PriceBreakdown, MATERIALS, QUALITY_SETTINGS, LABOR_RATE_PER_HOUR, SETUP_FEE, MIN_ORDER_VALUE } from '../types';
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ShoppingCart, Clock, Package, Zap, CreditCard, Loader2 } from 'lucide-react';
+import { PrintConfig, PriceBreakdown, MATERIALS, QUALITY_SETTINGS, LABOR_RATE_PER_HOUR, SETUP_FEE, MIN_ORDER_VALUE, ModelFile } from '../types';
+import { useCart } from '@/context/CartContext';
 
 interface PricingCalculatorProps {
   config: PrintConfig;
   estimatedWeight: number;
   volume: number;
+  modelFile: ModelFile | null;
   onAddToCart: () => void;
   isModelLoaded: boolean;
 }
@@ -15,9 +18,13 @@ interface PricingCalculatorProps {
 export default function PricingCalculator({
   config,
   estimatedWeight,
+  modelFile,
   onAddToCart,
   isModelLoaded
 }: PricingCalculatorProps) {
+  const router = useRouter();
+  const { addPrintItem } = useCart();
+  const [isProcessing, setIsProcessing] = useState(false);
   
   const pricing = useMemo((): PriceBreakdown => {
     const material = MATERIALS[config.material];
@@ -68,6 +75,96 @@ export default function PricingCalculator({
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(price);
+  };
+
+  // Convert file to base64 for storage
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
+  const handleAddToCart = async () => {
+    if (!modelFile || !modelFile.file || !modelFile.dimensions) return;
+    
+    setIsProcessing(true);
+    try {
+      const fileData = await fileToBase64(modelFile.file);
+      const material = MATERIALS[config.material];
+      const selectedColor = material.colors.find(c => c.hex === config.color);
+      
+      addPrintItem({
+        fileName: modelFile.name,
+        fileSize: modelFile.size,
+        fileType: modelFile.format,
+        fileData,
+        dimensions: modelFile.dimensions,
+        volume: modelFile.volume || 0,
+        material: config.material,
+        color: selectedColor?.name || 'Default',
+        colorHex: config.color,
+        quality: config.quality,
+        infill: config.infill,
+        scale: config.scale,
+        quantity: config.quantity,
+        estimatedWeight: pricing.estimatedWeight,
+        estimatedTime: pricing.estimatedTime,
+        unitPrice: pricing.unitPrice,
+        totalPrice: pricing.totalPrice,
+        instructions: config.instructions,
+      });
+      
+      onAddToCart();
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Failed to add item to cart. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleBuyNow = async () => {
+    if (!modelFile || !modelFile.file || !modelFile.dimensions) return;
+    
+    setIsProcessing(true);
+    try {
+      const fileData = await fileToBase64(modelFile.file);
+      const material = MATERIALS[config.material];
+      const selectedColor = material.colors.find(c => c.hex === config.color);
+      
+      // Add to cart first
+      addPrintItem({
+        fileName: modelFile.name,
+        fileSize: modelFile.size,
+        fileType: modelFile.format,
+        fileData,
+        dimensions: modelFile.dimensions,
+        volume: modelFile.volume || 0,
+        material: config.material,
+        color: selectedColor?.name || 'Default',
+        colorHex: config.color,
+        quality: config.quality,
+        infill: config.infill,
+        scale: config.scale,
+        quantity: config.quantity,
+        estimatedWeight: pricing.estimatedWeight,
+        estimatedTime: pricing.estimatedTime,
+        unitPrice: pricing.unitPrice,
+        totalPrice: pricing.totalPrice,
+        instructions: config.instructions,
+      });
+      
+      // Navigate to checkout
+      router.push('/checkout');
+    } catch (error) {
+      console.error('Error processing order:', error);
+      alert('Failed to process order. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -145,21 +242,56 @@ export default function PricingCalculator({
           </div>
         </div>
 
-        {/* Add to Cart Button */}
-        <button
-          onClick={onAddToCart}
-          disabled={!isModelLoaded}
-          className={`
-            w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all
-            ${isModelLoaded 
-              ? 'bg-neo-yellow text-neo-black hover:bg-neo-yellow/90 hover:scale-[1.02]' 
-              : 'bg-neo-black/10 text-neo-black/40 cursor-not-allowed'
-            }
-          `}
-        >
-          <ShoppingCart size={18} />
-          Add to Cart
-        </button>
+        {/* Dimension Check Warning */}
+        {modelFile?.dimensions && (
+          (modelFile.dimensions.x > 256 || modelFile.dimensions.y > 256 || modelFile.dimensions.z > 256) && (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm">
+              <p className="font-semibold text-amber-800">⚠️ Model exceeds build plate</p>
+              <p className="text-amber-600 text-xs mt-1">
+                Max size: 256×256×256mm. Consider scaling down or contact us for large prints.
+              </p>
+            </div>
+          )
+        )}
+
+        {/* Action Buttons */}
+        <div className="space-y-2 pt-2">
+          {/* Buy Now Button */}
+          <button
+            onClick={handleBuyNow}
+            disabled={!isModelLoaded || isProcessing}
+            className={`
+              w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all
+              ${isModelLoaded && !isProcessing
+                ? 'bg-neo-black text-white hover:bg-neo-black/90 hover:scale-[1.02]' 
+                : 'bg-neo-black/10 text-neo-black/40 cursor-not-allowed'
+              }
+            `}
+          >
+            {isProcessing ? (
+              <Loader2 size={18} className="animate-spin" />
+            ) : (
+              <CreditCard size={18} />
+            )}
+            {isProcessing ? 'Processing...' : 'Buy Now'}
+          </button>
+
+          {/* Add to Cart Button */}
+          <button
+            onClick={handleAddToCart}
+            disabled={!isModelLoaded || isProcessing}
+            className={`
+              w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border-2
+              ${isModelLoaded && !isProcessing
+                ? 'border-neo-black text-neo-black hover:bg-neo-yellow hover:border-neo-yellow' 
+                : 'border-neo-black/10 text-neo-black/40 cursor-not-allowed'
+              }
+            `}
+          >
+            <ShoppingCart size={18} />
+            Add to Cart
+          </button>
+        </div>
 
         {/* Trust Badges */}
         <div className="flex items-center justify-center gap-4 pt-2 text-xs text-neo-black/40">
