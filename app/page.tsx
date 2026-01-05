@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, ChevronDown, Box, Cpu, Zap, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ChevronDown, Box, Cpu, Zap, ArrowUpRight, Printer, Upload, Clock, Sparkles } from 'lucide-react';
 import ServicesSection from '@/components/ServicesSection';
 import FAQ from '@/components/FAQ';
 import Newsletter from '@/components/Newsletter';
@@ -69,17 +69,94 @@ export default function Home() {
         </div>
       </section>
 
+      {/* BoxPrint CTA Section - EMPHASIZED */}
+      <section className="py-12 md:py-20 bg-neo-black relative overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-40 h-40 bg-neo-yellow rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-10 right-10 w-60 h-60 bg-neo-yellow rounded-full blur-3xl animate-pulse delay-1000" />
+        </div>
+        
+        <div className="container relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Content */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-neo-yellow text-neo-black rounded-full font-bold text-sm">
+                <Sparkles size={16} />
+                NEW SERVICE
+              </div>
+              
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                Need <span className="text-neo-yellow">3D Printing?</span>
+              </h2>
+              
+              <p className="text-white/70 text-base md:text-lg mb-6 max-w-md mx-auto lg:mx-0">
+                Get instant quotes for your 3D prints. Upload your model, choose materials, 
+                and have professional-quality prints delivered to your door.
+              </p>
+
+              {/* Features */}
+              <div className="grid grid-cols-3 gap-3 mb-8 max-w-md mx-auto lg:mx-0">
+                {[
+                  { icon: Upload, label: 'Upload STL/OBJ' },
+                  { icon: Printer, label: 'Instant Quote' },
+                  { icon: Clock, label: '48hr Dispatch' },
+                ].map((item, i) => (
+                  <div key={i} className="text-center p-3 bg-white/5 rounded-xl border border-white/10">
+                    <item.icon size={24} className="mx-auto text-neo-yellow mb-2" />
+                    <span className="text-xs text-white/60 font-medium">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Link 
+                href="/boxprint" 
+                className="inline-flex items-center gap-3 px-8 py-4 bg-neo-yellow text-neo-black font-black text-lg rounded-xl hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,208,88,0.3)] hover:shadow-[0_0_50px_rgba(255,208,88,0.5)]"
+              >
+                <Printer size={24} />
+                Get Your Quote Now
+                <ArrowRight size={20} />
+              </Link>
+            </div>
+
+            {/* Visual */}
+            <div className="relative hidden lg:block">
+              <div className="relative aspect-square max-w-md mx-auto">
+                {/* 3D Grid Animation Placeholder */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-64 h-64 border-2 border-neo-yellow/30 rounded-2xl rotate-12 animate-pulse" />
+                  <div className="absolute w-48 h-48 border-2 border-neo-yellow/50 rounded-xl -rotate-6" />
+                  <div className="absolute w-32 h-32 bg-neo-yellow/10 rounded-lg flex items-center justify-center">
+                    <Printer size={64} className="text-neo-yellow" />
+                  </div>
+                </div>
+                
+                {/* Stats Floating */}
+                <div className="absolute top-0 right-0 px-4 py-2 bg-white rounded-lg shadow-xl">
+                  <span className="text-xs text-neo-black/60">Starting from</span>
+                  <p className="text-xl font-black text-neo-black">₹199</p>
+                </div>
+                
+                <div className="absolute bottom-10 left-0 px-4 py-2 bg-green-500 text-white rounded-lg shadow-xl">
+                  <span className="text-sm font-bold">✓ Quality Guaranteed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Feature Ticker */}
-      <div className="bg-neo-black py-3 overflow-hidden">
+      <div className="bg-neo-yellow py-3 overflow-hidden">
         <div className="animate-marquee flex gap-8">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex gap-8 items-center whitespace-nowrap">
               {['INNOVATIVE DESIGN', 'PRECISION ENGINEERING', 'SUSTAINABLE MATERIALS', 'FUTURE-READY', 'HUMAN-CENTERED', 'MODULAR SYSTEMS'].map((text, index) => (
                 <div key={index} className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-white uppercase tracking-wide">
+                  <span className="text-sm font-semibold text-neo-black uppercase tracking-wide">
                     {text}
                   </span>
-                  <Box size={14} className="text-neo-yellow" />
+                  <Box size={14} className="text-neo-black" />
                 </div>
               ))}
             </div>

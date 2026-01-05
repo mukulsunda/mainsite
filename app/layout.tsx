@@ -3,6 +3,7 @@ import { Poppins, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { CartProvider } from "@/context/CartContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,8 +19,8 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: "BoxPox — Box of Possibility",
-  description: "Consumer-focused innovation. Hardware and software products engineered for the future.",
-  keywords: ["innovation", "hardware", "software", "consumer products", "technology"],
+  description: "Consumer-focused innovation. Hardware and software products engineered for the future. Get instant 3D printing quotes with BoxPrint.",
+  keywords: ["innovation", "hardware", "software", "consumer products", "technology", "3D printing", "BoxPrint", "custom prints"],
   icons: {
     icon: "/logo.png",
     shortcut: "/logo.png",
@@ -29,6 +30,11 @@ export const metadata: Metadata = {
     title: "BoxPox",
     statusBarStyle: "default",
     capable: true,
+  },
+  openGraph: {
+    title: "BoxPox — Box of Possibility",
+    description: "Consumer-focused innovation. Hardware and software products engineered for the future.",
+    type: "website",
   },
 };
 
@@ -40,9 +46,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${poppins.variable} ${spaceMono.variable} font-sans cursor-default`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

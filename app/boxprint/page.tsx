@@ -203,6 +203,7 @@ export default function BoxPrintPage() {
                   config={config}
                   estimatedWeight={estimatedWeight}
                   volume={volume}
+                  modelFile={modelFile}
                   onAddToCart={handleAddToCart}
                   isModelLoaded={!!modelFile && !!modelFile.dimensions}
                 />

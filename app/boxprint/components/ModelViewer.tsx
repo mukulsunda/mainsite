@@ -160,6 +160,9 @@ function FallbackModel({
   );
 }
 
+// Build plate dimensions in mm
+const BUILD_PLATE = { x: 256, y: 256, z: 256 };
+
 // Main Scene Content
 function SceneContent({ 
   modelFile, 
@@ -176,6 +179,7 @@ function SceneContent({
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const [url, setUrl] = useState<string | null>(null);
+  const [modelScale, setModelScale] = useState(1);
 
   // Create object URL
   useEffect(() => {
@@ -196,6 +200,13 @@ function SceneContent({
   });
 
   const handleLoaded = React.useCallback((dims: { x: number; y: number; z: number }, volume: number) => {
+    // Calculate scale to fit model within viewable area
+    const maxDim = Math.max(dims.x, dims.y, dims.z);
+    // Normalize large models to fit in view (target ~100 units for good camera distance)
+    const targetSize = 100;
+    const newScale = maxDim > 0 ? targetSize / maxDim : 1;
+    setModelScale(newScale);
+    
     if (onDimensionsCalculated) {
       onDimensionsCalculated(dims, volume);
     }
@@ -212,7 +223,7 @@ function SceneContent({
   const ext = modelFile.name.split('.').pop()?.toLowerCase();
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} scale={[modelScale, modelScale, modelScale]}>
       <Center>
         {ext === 'stl' ? (
           <STLModel 
@@ -293,7 +304,11 @@ export default function ModelViewer({ modelFile, materialColor, onDimensionsCalc
 
       {/* Canvas */}
       <div className="flex-1 w-full h-full cursor-move">
-        <Canvas shadows camera={{ position: [100, 100, 100], fov: 45 }}>
+        <Canvas 
+          shadows 
+          camera={{ position: [150, 120, 150], fov: 50, near: 0.1, far: 10000 }}
+          gl={{ antialias: true, preserveDrawingBuffer: true }}
+        >
           <Suspense fallback={<Loader />}>
             <ErrorBoundaryWrapper>
               <Stage environment="city" intensity={0.5} adjustCamera={false}>
@@ -306,8 +321,24 @@ export default function ModelViewer({ modelFile, materialColor, onDimensionsCalc
                 />
               </Stage>
               
-              {showGrid && <Grid infiniteGrid fadeDistance={200} sectionColor="#000000" cellColor="#aaaaaa" position={[0, -0.1, 0]} />}
-              <OrbitControls makeDefault autoRotate={false} />
+              {showGrid && (
+                <Grid 
+                  infiniteGrid 
+                  fadeDistance={500} 
+                  fadeStrength={1}
+                  sectionColor="#000000" 
+                  cellColor="#aaaaaa" 
+                  position={[0, -0.1, 0]} 
+                />
+              )}
+              <OrbitControls 
+                makeDefault 
+                autoRotate={false} 
+                maxDistance={1000}
+                minDistance={10}
+                enableDamping
+                dampingFactor={0.05}
+              />
             </ErrorBoundaryWrapper>
           </Suspense>
         </Canvas>

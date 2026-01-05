@@ -3,16 +3,20 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { Menu, X, ShoppingBag, User } from 'lucide-react';
+import { Menu, X, ShoppingBag, User, Printer } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
+import { useCart } from '@/context/CartContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<{ email?: string; user_metadata?: { first_name?: string } } | null>(null);
+  const [mounted, setMounted] = useState(false);
   const supabase = createClient();
+  const { getCartCount, state } = useCart();
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
@@ -47,6 +51,8 @@ export default function Navbar() {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
+  const cartCount = mounted && !state.isLoading ? getCartCount() : 0;
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -123,12 +129,15 @@ export default function Navbar() {
             className="relative p-2 rounded-lg border border-neo-black/20 hover:border-neo-black transition-colors"
           >
             <ShoppingBag size={20} />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-neo-yellow border border-neo-black rounded-full text-[10px] font-bold flex items-center justify-center">
-              0
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-neo-yellow border border-neo-black rounded-full text-[10px] font-bold flex items-center justify-center">
+                {cartCount > 9 ? '9+' : cartCount}
+              </span>
+            )}
           </Link>
-          <Link href="/products" className="px-4 py-2 bg-neo-black text-white text-sm font-semibold rounded-lg hover:bg-neo-yellow hover:text-neo-black transition-colors">
-            Shop Now
+          <Link href="/boxprint" className="px-4 py-2 bg-neo-black text-white text-sm font-semibold rounded-lg hover:bg-neo-yellow hover:text-neo-black transition-colors flex items-center gap-2">
+            <Printer size={16} />
+            Get Quote
           </Link>
         </div>
 
@@ -163,25 +172,26 @@ export default function Navbar() {
             {/* Mobile CTA */}
             <div className="py-6 space-y-3">
               <Link 
-                href="/cart" 
+                href="/boxprint" 
                 onClick={() => setIsOpen(false)} 
-                className="flex items-center justify-center gap-2 w-full py-3 border border-neo-black rounded-lg font-semibold"
+                className="flex items-center justify-center gap-2 w-full py-3.5 bg-neo-yellow text-neo-black rounded-lg font-bold text-lg"
               >
-                <ShoppingBag size={18} />
-                Cart (0)
+                <Printer size={20} />
+                Get 3D Print Quote
               </Link>
               <Link 
-                href="/products" 
+                href="/cart" 
                 onClick={() => setIsOpen(false)} 
-                className="block w-full py-3 bg-neo-black text-white text-center font-semibold rounded-lg"
+                className="flex items-center justify-center gap-2 w-full py-3 border-2 border-neo-black rounded-lg font-semibold"
               >
-                Shop Now
+                <ShoppingBag size={18} />
+                Cart {cartCount > 0 && `(${cartCount})`}
               </Link>
               {user ? (
                 <Link 
                   href="/account" 
                   onClick={() => setIsOpen(false)} 
-                  className="flex items-center justify-center gap-2 w-full py-3 bg-neo-yellow text-neo-black rounded-lg font-semibold"
+                  className="flex items-center justify-center gap-2 w-full py-3 border border-neo-black/20 rounded-lg font-semibold"
                 >
                   <User size={18} />
                   My Account
@@ -198,7 +208,7 @@ export default function Navbar() {
                   <Link 
                     href="/signup" 
                     onClick={() => setIsOpen(false)} 
-                    className="flex-1 py-3 bg-neo-yellow text-neo-black rounded-lg text-center font-semibold text-sm"
+                    className="flex-1 py-3 bg-neo-black text-white rounded-lg text-center font-semibold text-sm"
                   >
                     Sign Up
                   </Link>

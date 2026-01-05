@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { 
   ArrowLeft, 
-  Download, 
   User, 
   FileBox,
   CreditCard,
@@ -15,6 +14,7 @@ import {
   Box
 } from 'lucide-react';
 import OrderDetailClient from './OrderDetailClient';
+import FileDownloadButton from './FileDownloadButton';
 import { ORDER_STATUS_CONFIG } from '../../types';
 
 interface OrderDetailPageProps {
@@ -74,10 +74,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
             Created {new Date(order.created_at).toLocaleString('en-IN')}
           </p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors">
-          <Download size={16} />
-          Download Model
-        </button>
+        <FileDownloadButton fileName={order.file_name} filePath={order.file_path} />
       </div>
       
       {/* Main Content Grid */}
@@ -175,10 +172,11 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
                     {order.file_checksum && <span> • SHA256: {order.file_checksum.slice(0, 16)}...</span>}
                   </p>
                 </div>
-                <button className="flex items-center gap-2 px-4 py-2 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors">
-                  <Download size={16} />
-                  Download
-                </button>
+                <FileDownloadButton 
+                  fileName={order.file_name} 
+                  filePath={order.file_path}
+                  className="bg-neutral-900 text-white hover:bg-neutral-800 border-0"
+                />
               </div>
             </div>
           </div>
