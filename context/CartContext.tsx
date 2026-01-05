@@ -53,10 +53,15 @@ type CartAction =
   | { type: 'CLEAR_CART' }
   | { type: 'SET_LOADING'; payload: boolean };
 
+// Result type for add operations
+export type AddToCartResult = 
+  | { success: true; message: string; isNew: boolean }
+  | { success: false; message: string; existingItem?: PrintCartItem };
+
 interface CartContextType {
   state: CartState;
-  addPrintItem: (item: Omit<PrintCartItem, 'id' | 'type' | 'addedAt'>) => void;
-  addProductItem: (item: Omit<ProductCartItem, 'id' | 'type'>) => void;
+  addPrintItem: (item: Omit<PrintCartItem, 'id' | 'type' | 'addedAt'>) => AddToCartResult;
+  addProductItem: (item: Omit<ProductCartItem, 'id' | 'type'>) => AddToCartResult;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -64,6 +69,7 @@ interface CartContextType {
   getCartCount: () => number;
   getPrintItems: () => PrintCartItem[];
   getProductItems: () => ProductCartItem[];
+  isItemInCart: (fileName: string, material: string, quality: string, infill: number) => PrintCartItem | undefined;
 }
 
 const CART_STORAGE_KEY = 'boxpox_cart';
@@ -133,7 +139,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-  const addPrintItem = (item: Omit<PrintCartItem, 'id' | 'type' | 'addedAt'>) => {
+  // Check if a similar print item already exists in cart
+  const isItemInCart = (fileName: string, material: string, quality: string, infill: number): PrintCartItem | undefined => {
+    return state.items.find(item => {
+      if (item.type !== 'print') return false;
+      const printItem = item as PrintCartItem;
+      return (
+        printItem.fileName === fileName &&
+        printItem.material === material &&
+        printItem.quality === quality &&
+        printItem.infill === infill
+      );
+    }) as PrintCartItem | undefined;
+  };
+
+  const addPrintItem = (item: Omit<PrintCartItem, 'id' | 'type' | 'addedAt'>): AddToCartResult => {
+    // Check if item with same config already exists
+    const existingItem = isItemInCart(item.fileName, item.material, item.quality, item.infill);
+    
+    if (existingItem) {
+      return {
+        success: false,
+        message: 'This item is already in your cart with the same configuration.',
+        existingItem
+      };
+    }
+
     const newItem: PrintCartItem = {
       ...item,
       id: generateId(),
@@ -141,9 +172,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
       addedAt: new Date().toISOString(),
     };
     dispatch({ type: 'ADD_ITEM', payload: newItem });
+    
+    return {
+      success: true,
+      message: 'Item added to cart successfully!',
+      isNew: true
+    };
   };
 
-  const addProductItem = (item: Omit<ProductCartItem, 'id' | 'type'>) => {
+  const addProductItem = (item: Omit<ProductCartItem, 'id' | 'type'>): AddToCartResult => {
     // Check if product already exists in cart
     const existingItem = state.items.find(
       i => i.type === 'product' && (i as ProductCartItem).productId === item.productId
@@ -154,6 +191,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         type: 'UPDATE_QUANTITY',
         payload: { id: existingItem.id, quantity: existingItem.quantity + item.quantity },
       });
+      return {
+        success: true,
+        message: 'Quantity updated in cart!',
+        isNew: false
+      };
     } else {
       const newItem: ProductCartItem = {
         ...item,
@@ -161,6 +203,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         type: 'product',
       };
       dispatch({ type: 'ADD_ITEM', payload: newItem });
+      return {
+        success: true,
+        message: 'Item added to cart!',
+        isNew: true
+      };
     }
   };
 
@@ -183,7 +230,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const getCartTotal = () => {
     return state.items.reduce((total, item) => {
       if (item.type === 'print') {
-        return total + (item as PrintCartItem).totalPrice;
+        const printItem = item as PrintCartItem;
+        // Use unitPrice * quantity for accurate total
+        return total + (printItem.unitPrice * printItem.quantity);
       } else {
         return total + (item as ProductCartItem).price * item.quantity;
       }
@@ -215,6 +264,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         getCartCount,
         getPrintItems,
         getProductItems,
+        isItemInCart,
       }}
     >
       {children}

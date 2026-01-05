@@ -11,24 +11,48 @@ import {
   CheckCircle,
   Loader2,
   MapPin,
-  User,
-  Phone,
   Mail,
-  Box
+  Box,
+  Plus,
+  Home,
+  Building
 } from 'lucide-react';
 import { useCart, PrintCartItem } from '@/context/CartContext';
 import { createClient } from '@/utils/supabase/client';
 
-interface ShippingForm {
+interface AddressData {
   name: string;
-  email: string;
   phone: string;
   address: string;
   city: string;
   state: string;
   pincode: string;
-  notes: string;
 }
+
+interface SavedAddress extends AddressData {
+  id: string;
+  label: string;
+  isDefault: boolean;
+}
+
+interface CheckoutForm {
+  email: string;
+  shipping: AddressData;
+  billing: AddressData;
+  sameAsShipping: boolean;
+  notes: string;
+  saveAddress: boolean;
+  addressLabel: string;
+}
+
+const emptyAddress: AddressData = {
+  name: '',
+  phone: '',
+  address: '',
+  city: '',
+  state: '',
+  pincode: '',
+};
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -37,27 +61,34 @@ export default function CheckoutPage() {
   
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [form, setForm] = useState<ShippingForm>({
-    name: '',
+  const [userId, setUserId] = useState<string | null>(null);
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
+  const [showNewAddress, setShowNewAddress] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
+  
+  const [form, setForm] = useState<CheckoutForm>({
     email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    pincode: '',
+    shipping: { ...emptyAddress },
+    billing: { ...emptyAddress },
+    sameAsShipping: true,
     notes: '',
+    saveAddress: false,
+    addressLabel: '',
   });
-  const [errors, setErrors] = useState<Partial<ShippingForm>>({});
+  
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setMounted(true);
     
-    const fetchUser = async () => {
+    const fetchUserData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        setUserId(user.id);
         setForm(prev => ({ ...prev, email: user.email || '' }));
         
-        // Fetch profile for additional info
+        // Fetch profile
         const { data: profile } = await supabase
           .from('profiles')
           .select('*')
@@ -67,14 +98,59 @@ export default function CheckoutPage() {
         if (profile) {
           setForm(prev => ({
             ...prev,
-            name: profile.full_name || profile.first_name || '',
-            phone: profile.phone || '',
+            shipping: {
+              ...prev.shipping,
+              name: profile.full_name || profile.first_name || '',
+              phone: profile.phone || '',
+            },
           }));
         }
+        
+        // Fetch saved addresses
+        const { data: addresses } = await supabase
+          .from('user_addresses')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('is_default', { ascending: false });
+        
+        if (addresses && addresses.length > 0) {
+          setSavedAddresses(addresses.map(addr => ({
+            id: addr.id,
+            label: addr.label || 'Address',
+            name: addr.name,
+            phone: addr.phone,
+            address: addr.address_line,
+            city: addr.city,
+            state: addr.state,
+            pincode: addr.pincode,
+            isDefault: addr.is_default,
+          })));
+          
+          // Auto-select default address
+          const defaultAddr = addresses.find(a => a.is_default);
+          if (defaultAddr) {
+            setSelectedAddressId(defaultAddr.id);
+            setForm(prev => ({
+              ...prev,
+              shipping: {
+                name: defaultAddr.name,
+                phone: defaultAddr.phone,
+                address: defaultAddr.address_line,
+                city: defaultAddr.city,
+                state: defaultAddr.state,
+                pincode: defaultAddr.pincode,
+              },
+            }));
+          }
+        } else {
+          setShowNewAddress(true);
+        }
+      } else {
+        setShowNewAddress(true);
       }
     };
     
-    fetchUser();
+    fetchUserData();
   }, [supabase]);
 
   const printItems = getPrintItems();
@@ -92,58 +168,165 @@ export default function CheckoutPage() {
   };
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<ShippingForm> = {};
+    const newErrors: Record<string, string> = {};
     
-    if (!form.name.trim()) newErrors.name = 'Name is required';
     if (!form.email.trim()) newErrors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Invalid email';
-    if (!form.phone.trim()) newErrors.phone = 'Phone is required';
-    else if (!/^[6-9]\d{9}$/.test(form.phone.replace(/\D/g, ''))) newErrors.phone = 'Invalid phone number';
-    if (!form.address.trim()) newErrors.address = 'Address is required';
-    if (!form.city.trim()) newErrors.city = 'City is required';
-    if (!form.state.trim()) newErrors.state = 'State is required';
-    if (!form.pincode.trim()) newErrors.pincode = 'Pincode is required';
-    else if (!/^\d{6}$/.test(form.pincode)) newErrors.pincode = 'Invalid pincode';
+    
+    // Shipping validation
+    if (!form.shipping.name.trim()) newErrors['shipping.name'] = 'Name is required';
+    if (!form.shipping.phone.trim()) newErrors['shipping.phone'] = 'Phone is required';
+    else if (!/^[6-9]\d{9}$/.test(form.shipping.phone.replace(/\D/g, ''))) newErrors['shipping.phone'] = 'Invalid phone';
+    if (!form.shipping.address.trim()) newErrors['shipping.address'] = 'Address is required';
+    if (!form.shipping.city.trim()) newErrors['shipping.city'] = 'City is required';
+    if (!form.shipping.state.trim()) newErrors['shipping.state'] = 'State is required';
+    if (!form.shipping.pincode.trim()) newErrors['shipping.pincode'] = 'Pincode is required';
+    else if (!/^\d{6}$/.test(form.shipping.pincode)) newErrors['shipping.pincode'] = 'Invalid pincode';
+    
+    // Billing validation (if different)
+    if (!form.sameAsShipping) {
+      if (!form.billing.name.trim()) newErrors['billing.name'] = 'Name is required';
+      if (!form.billing.phone.trim()) newErrors['billing.phone'] = 'Phone is required';
+      if (!form.billing.address.trim()) newErrors['billing.address'] = 'Address is required';
+      if (!form.billing.city.trim()) newErrors['billing.city'] = 'City is required';
+      if (!form.billing.state.trim()) newErrors['billing.state'] = 'State is required';
+      if (!form.billing.pincode.trim()) newErrors['billing.pincode'] = 'Pincode is required';
+      else if (!/^\d{6}$/.test(form.billing.pincode)) newErrors['billing.pincode'] = 'Invalid pincode';
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-    if (errors[name as keyof ShippingForm]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
+  const handleInputChange = (field: string, value: string) => {
+    const keys = field.split('.');
+    if (keys.length === 2) {
+      const [section, key] = keys;
+      setForm(prev => ({
+        ...prev,
+        [section]: { ...(prev[section as keyof CheckoutForm] as AddressData), [key]: value }
+      }));
+    } else {
+      setForm(prev => ({ ...prev, [field]: value }));
+    }
+    
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const selectSavedAddress = (addr: SavedAddress) => {
+    setSelectedAddressId(addr.id);
+    setShowNewAddress(false);
+    setForm(prev => ({
+      ...prev,
+      shipping: {
+        name: addr.name,
+        phone: addr.phone,
+        address: addr.address,
+        city: addr.city,
+        state: addr.state,
+        pincode: addr.pincode,
+      },
+    }));
+  };
+
+  // Helper function to convert base64 to Blob
+  const base64ToBlob = (base64: string, contentType: string = ''): Blob => {
+    const byteCharacters = atob(base64.split(',')[1] || base64);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      byteArrays.push(new Uint8Array(byteNumbers));
+    }
+    return new Blob(byteArrays, { type: contentType });
+  };
+
+  // Upload file to Supabase Storage
+  const uploadFile = async (item: PrintCartItem): Promise<string> => {
+    if (!item.fileData) return '';
+    
+    try {
+      const blob = base64ToBlob(item.fileData, 'application/octet-stream');
+      const file = new File([blob], item.fileName, { type: 'application/octet-stream' });
+      
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await fetch('/api/boxprint/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        console.error('File upload failed');
+        return '';
+      }
+      
+      const result = await response.json();
+      return result.file_path || '';
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      return '';
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setOrderError(null);
     
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      setOrderError('Please fill in all required fields correctly.');
+      return;
+    }
     if (printItems.length === 0) {
-      alert('Your cart is empty');
+      setOrderError('Your cart is empty');
       return;
     }
     
     setIsSubmitting(true);
     
     try {
-      // Create orders for each print item
+      // Save address if requested
+      if (form.saveAddress && userId && form.addressLabel.trim()) {
+        await supabase.from('user_addresses').insert({
+          user_id: userId,
+          label: form.addressLabel,
+          name: form.shipping.name,
+          phone: form.shipping.phone,
+          address_line: form.shipping.address,
+          city: form.shipping.city,
+          state: form.shipping.state,
+          pincode: form.shipping.pincode,
+          is_default: savedAddresses.length === 0,
+        });
+      }
+
+      // Upload files and create orders for each print item
       const orderPromises = printItems.map(async (item: PrintCartItem) => {
+        // Upload file first
+        const filePath = await uploadFile(item);
+        
+        const billingAddr = form.sameAsShipping ? form.shipping : form.billing;
+        
         const orderData = {
-          customer_name: form.name,
+          customer_name: form.shipping.name,
           customer_email: form.email,
-          customer_phone: form.phone,
+          customer_phone: form.shipping.phone,
           file_name: item.fileName,
           file_type: item.fileType,
           file_size: item.fileSize,
-          file_path: '', // Will be updated after upload
+          file_path: filePath,
           material: item.material,
-          color: item.colorHex,
+          color: item.color,
+          color_hex: item.colorHex,
           quality: item.quality,
           infill: item.infill,
-          scale: item.scale * 100,
+          scale: item.scale,
           quantity: item.quantity,
           dimensions_x: item.dimensions.x,
           dimensions_y: item.dimensions.y,
@@ -152,15 +335,19 @@ export default function CheckoutPage() {
           estimated_weight: item.estimatedWeight,
           estimated_print_time: item.estimatedTime,
           material_cost: item.unitPrice * 0.4,
-          printing_cost: item.unitPrice * 0.5,
-          finishing_cost: item.unitPrice * 0.1,
-          total_price: item.totalPrice * item.quantity,
-          shipping_address: form.address,
-          shipping_city: form.city,
-          shipping_state: form.state,
-          shipping_pincode: form.pincode,
-          notes: form.notes || item.instructions,
-          priority: 'normal',
+          labor_cost: item.unitPrice * 0.5,
+          setup_fee: item.unitPrice * 0.1,
+          unit_price: item.unitPrice,
+          total_price: item.unitPrice * item.quantity,
+          shipping_address: form.shipping.address,
+          shipping_city: form.shipping.city,
+          shipping_state: form.shipping.state,
+          shipping_pincode: form.shipping.pincode,
+          billing_address: billingAddr.address,
+          billing_city: billingAddr.city,
+          billing_state: billingAddr.state,
+          billing_pincode: billingAddr.pincode,
+          customer_instructions: form.notes || item.instructions,
         };
 
         const response = await fetch('/api/boxprint/order', {
@@ -169,15 +356,21 @@ export default function CheckoutPage() {
           body: JSON.stringify(orderData),
         });
 
+        const data = await response.json();
+        
         if (!response.ok) {
-          throw new Error('Failed to create order');
+          throw new Error(data.error || data.details || 'Failed to create order');
         }
 
-        return response.json();
+        return data;
       });
 
       const results = await Promise.all(orderPromises);
       const orderNumbers = results.map(r => r.order_number).filter(Boolean);
+      
+      if (orderNumbers.length === 0) {
+        throw new Error('No orders were created');
+      }
       
       // Clear cart after successful order
       clearCart();
@@ -187,7 +380,7 @@ export default function CheckoutPage() {
       
     } catch (error) {
       console.error('Order submission error:', error);
-      alert('Failed to place order. Please try again.');
+      setOrderError(error instanceof Error ? error.message : 'Failed to place order. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -230,6 +423,13 @@ export default function CheckoutPage() {
           Back to Cart
         </Link>
 
+        {/* Error Banner */}
+        {orderError && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+            <strong>Error:</strong> {orderError}
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Checkout Form */}
           <div className="lg:col-span-2">
@@ -237,143 +437,301 @@ export default function CheckoutPage() {
               {/* Contact Information */}
               <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
                 <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <User size={20} className="text-neo-yellow" />
+                  <Mail size={20} className="text-neo-yellow" />
                   Contact Information
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Full Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={form.name}
-                      onChange={handleInputChange}
-                      placeholder="Your full name"
-                      className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow transition-all ${
-                        errors.name ? 'border-red-500' : 'border-neo-black/20'
-                      }`}
-                    />
-                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Email *</label>
-                    <div className="relative">
-                      <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neo-black/40" />
-                      <input
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleInputChange}
-                        placeholder="your@email.com"
-                        className={`w-full pl-10 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow transition-all ${
-                          errors.email ? 'border-red-500' : 'border-neo-black/20'
-                        }`}
-                      />
-                    </div>
-                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Phone Number *</label>
-                    <div className="relative">
-                      <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neo-black/40" />
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={form.phone}
-                        onChange={handleInputChange}
-                        placeholder="10-digit mobile number"
-                        className={`w-full pl-10 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow transition-all ${
-                          errors.phone ? 'border-red-500' : 'border-neo-black/20'
-                        }`}
-                      />
-                    </div>
-                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Email *</label>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder="your@email.com"
+                    className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                      errors.email ? 'border-red-500' : 'border-neo-black/20'
+                    }`}
+                  />
+                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
               </div>
 
-              {/* Shipping Address */}
-              <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <MapPin size={20} className="text-neo-yellow" />
-                  Shipping Address
-                </h2>
-                <div className="grid grid-cols-1 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Address *</label>
-                    <input
-                      type="text"
-                      name="address"
-                      value={form.address}
-                      onChange={handleInputChange}
-                      placeholder="House/Flat No., Building, Street"
-                      className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow transition-all ${
-                        errors.address ? 'border-red-500' : 'border-neo-black/20'
+              {/* Saved Addresses */}
+              {savedAddresses.length > 0 && (
+                <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
+                  <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                    <MapPin size={20} className="text-neo-yellow" />
+                    Saved Addresses
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {savedAddresses.map((addr) => (
+                      <button
+                        key={addr.id}
+                        type="button"
+                        onClick={() => selectSavedAddress(addr)}
+                        className={`p-4 rounded-lg border-2 text-left transition-all ${
+                          selectedAddressId === addr.id
+                            ? 'border-neo-yellow bg-neo-yellow/10'
+                            : 'border-neo-black/10 hover:border-neo-black/30'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-semibold text-sm flex items-center gap-2">
+                            {addr.label.toLowerCase().includes('home') ? <Home size={14} /> : <Building size={14} />}
+                            {addr.label}
+                          </span>
+                          {addr.isDefault && (
+                            <span className="text-[10px] px-2 py-0.5 bg-neo-yellow rounded-full">Default</span>
+                          )}
+                        </div>
+                        <p className="text-sm text-neo-black/70">{addr.name}</p>
+                        <p className="text-xs text-neo-black/50 mt-1 line-clamp-2">{addr.address}</p>
+                        <p className="text-xs text-neo-black/50">{addr.city}, {addr.state} - {addr.pincode}</p>
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedAddressId(null);
+                        setShowNewAddress(true);
+                        setForm(prev => ({ ...prev, shipping: { ...emptyAddress } }));
+                      }}
+                      className={`p-4 rounded-lg border-2 border-dashed text-center transition-all ${
+                        showNewAddress && !selectedAddressId
+                          ? 'border-neo-yellow bg-neo-yellow/10'
+                          : 'border-neo-black/20 hover:border-neo-black/40'
                       }`}
-                    />
-                    {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+                    >
+                      <Plus size={24} className="mx-auto mb-2 text-neo-black/40" />
+                      <span className="text-sm font-medium">Add New Address</span>
+                    </button>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                </div>
+              )}
+
+              {/* Shipping Address Form */}
+              {(showNewAddress || savedAddresses.length === 0) && (
+                <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
+                  <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                    <Truck size={20} className="text-neo-yellow" />
+                    Shipping Address
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Full Name *</label>
+                      <input
+                        type="text"
+                        value={form.shipping.name}
+                        onChange={(e) => handleInputChange('shipping.name', e.target.value)}
+                        placeholder="Full name"
+                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                          errors['shipping.name'] ? 'border-red-500' : 'border-neo-black/20'
+                        }`}
+                      />
+                      {errors['shipping.name'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.name']}</p>}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Phone *</label>
+                      <input
+                        type="tel"
+                        value={form.shipping.phone}
+                        onChange={(e) => handleInputChange('shipping.phone', e.target.value)}
+                        placeholder="10-digit number"
+                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                          errors['shipping.phone'] ? 'border-red-500' : 'border-neo-black/20'
+                        }`}
+                      />
+                      {errors['shipping.phone'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.phone']}</p>}
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Address *</label>
+                      <input
+                        type="text"
+                        value={form.shipping.address}
+                        onChange={(e) => handleInputChange('shipping.address', e.target.value)}
+                        placeholder="House/Flat No., Building, Street"
+                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                          errors['shipping.address'] ? 'border-red-500' : 'border-neo-black/20'
+                        }`}
+                      />
+                      {errors['shipping.address'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.address']}</p>}
+                    </div>
                     <div>
                       <label className="block text-sm font-medium text-neo-black/70 mb-1.5">City *</label>
                       <input
                         type="text"
-                        name="city"
-                        value={form.city}
-                        onChange={handleInputChange}
+                        value={form.shipping.city}
+                        onChange={(e) => handleInputChange('shipping.city', e.target.value)}
                         placeholder="City"
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow transition-all ${
-                          errors.city ? 'border-red-500' : 'border-neo-black/20'
+                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                          errors['shipping.city'] ? 'border-red-500' : 'border-neo-black/20'
                         }`}
                       />
-                      {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
+                      {errors['shipping.city'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.city']}</p>}
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">State *</label>
-                      <select
-                        name="state"
-                        value={form.state}
-                        onChange={handleInputChange}
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow transition-all bg-white ${
-                          errors.state ? 'border-red-500' : 'border-neo-black/20'
-                        }`}
-                      >
-                        <option value="">Select</option>
-                        {indianStates.map(state => (
-                          <option key={state} value={state}>{state}</option>
-                        ))}
-                      </select>
-                      {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
-                    </div>
-                    <div className="col-span-2 md:col-span-1">
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Pincode *</label>
-                      <input
-                        type="text"
-                        name="pincode"
-                        value={form.pincode}
-                        onChange={handleInputChange}
-                        placeholder="6-digit pincode"
-                        maxLength={6}
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow transition-all ${
-                          errors.pincode ? 'border-red-500' : 'border-neo-black/20'
-                        }`}
-                      />
-                      {errors.pincode && <p className="text-red-500 text-xs mt-1">{errors.pincode}</p>}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-neo-black/70 mb-1.5">State *</label>
+                        <select
+                          value={form.shipping.state}
+                          onChange={(e) => handleInputChange('shipping.state', e.target.value)}
+                          className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow bg-white ${
+                            errors['shipping.state'] ? 'border-red-500' : 'border-neo-black/20'
+                          }`}
+                        >
+                          <option value="">Select</option>
+                          {indianStates.map(state => (
+                            <option key={state} value={state}>{state}</option>
+                          ))}
+                        </select>
+                        {errors['shipping.state'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.state']}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Pincode *</label>
+                        <input
+                          type="text"
+                          value={form.shipping.pincode}
+                          onChange={(e) => handleInputChange('shipping.pincode', e.target.value)}
+                          placeholder="6 digits"
+                          maxLength={6}
+                          className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                            errors['shipping.pincode'] ? 'border-red-500' : 'border-neo-black/20'
+                          }`}
+                        />
+                        {errors['shipping.pincode'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.pincode']}</p>}
+                      </div>
                     </div>
                   </div>
+                  
+                  {/* Save Address Option */}
+                  {userId && (
+                    <div className="mt-4 pt-4 border-t border-neo-black/10">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={form.saveAddress}
+                          onChange={(e) => setForm(prev => ({ ...prev, saveAddress: e.target.checked }))}
+                          className="w-4 h-4 rounded border-neo-black/30"
+                        />
+                        <span className="text-sm">Save this address for future orders</span>
+                      </label>
+                      {form.saveAddress && (
+                        <input
+                          type="text"
+                          value={form.addressLabel}
+                          onChange={(e) => setForm(prev => ({ ...prev, addressLabel: e.target.value }))}
+                          placeholder="Label (e.g., Home, Office)"
+                          className="mt-2 w-full px-4 py-2 border border-neo-black/20 rounded-lg text-sm"
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
+              )}
+
+              {/* Billing Address */}
+              <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
+                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <CreditCard size={20} className="text-neo-yellow" />
+                  Billing Address
+                </h2>
+                <label className="flex items-center gap-2 cursor-pointer mb-4">
+                  <input
+                    type="checkbox"
+                    checked={form.sameAsShipping}
+                    onChange={(e) => setForm(prev => ({ ...prev, sameAsShipping: e.target.checked }))}
+                    className="w-4 h-4 rounded border-neo-black/30"
+                  />
+                  <span className="text-sm font-medium">Same as shipping address</span>
+                </label>
+                
+                {!form.sameAsShipping && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Full Name *</label>
+                      <input
+                        type="text"
+                        value={form.billing.name}
+                        onChange={(e) => handleInputChange('billing.name', e.target.value)}
+                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                          errors['billing.name'] ? 'border-red-500' : 'border-neo-black/20'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Phone *</label>
+                      <input
+                        type="tel"
+                        value={form.billing.phone}
+                        onChange={(e) => handleInputChange('billing.phone', e.target.value)}
+                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                          errors['billing.phone'] ? 'border-red-500' : 'border-neo-black/20'
+                        }`}
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Address *</label>
+                      <input
+                        type="text"
+                        value={form.billing.address}
+                        onChange={(e) => handleInputChange('billing.address', e.target.value)}
+                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                          errors['billing.address'] ? 'border-red-500' : 'border-neo-black/20'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">City *</label>
+                      <input
+                        type="text"
+                        value={form.billing.city}
+                        onChange={(e) => handleInputChange('billing.city', e.target.value)}
+                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                          errors['billing.city'] ? 'border-red-500' : 'border-neo-black/20'
+                        }`}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-neo-black/70 mb-1.5">State *</label>
+                        <select
+                          value={form.billing.state}
+                          onChange={(e) => handleInputChange('billing.state', e.target.value)}
+                          className={`w-full px-4 py-2.5 border rounded-lg bg-white ${
+                            errors['billing.state'] ? 'border-red-500' : 'border-neo-black/20'
+                          }`}
+                        >
+                          <option value="">Select</option>
+                          {indianStates.map(state => (
+                            <option key={state} value={state}>{state}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Pincode *</label>
+                        <input
+                          type="text"
+                          value={form.billing.pincode}
+                          onChange={(e) => handleInputChange('billing.pincode', e.target.value)}
+                          maxLength={6}
+                          className={`w-full px-4 py-2.5 border rounded-lg ${
+                            errors['billing.pincode'] ? 'border-red-500' : 'border-neo-black/20'
+                          }`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Order Notes */}
               <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
                 <h2 className="text-lg font-bold mb-4">Order Notes (Optional)</h2>
                 <textarea
-                  name="notes"
                   value={form.notes}
-                  onChange={handleInputChange}
+                  onChange={(e) => setForm(prev => ({ ...prev, notes: e.target.value }))}
                   placeholder="Any special instructions for your order..."
                   rows={3}
-                  className="w-full px-4 py-2.5 border border-neo-black/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow transition-all resize-none"
+                  className="w-full px-4 py-2.5 border border-neo-black/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow resize-none"
                 />
               </div>
 
@@ -406,7 +764,7 @@ export default function CheckoutPage() {
               <h2 className="text-lg font-bold mb-4">Order Summary</h2>
               
               {/* Items */}
-              <div className="space-y-3 mb-4 max-h-[200px] overflow-y-auto">
+              <div className="space-y-3 mb-4 max-h-[250px] overflow-y-auto">
                 {printItems.map((item) => (
                   <div key={item.id} className="flex gap-3 p-2 bg-neo-light-gray rounded-lg">
                     <div 
@@ -421,7 +779,7 @@ export default function CheckoutPage() {
                         {item.material} • {item.quality} • ×{item.quantity}
                       </p>
                     </div>
-                    <p className="text-sm font-bold">{formatPrice(item.totalPrice * item.quantity)}</p>
+                    <p className="text-sm font-bold whitespace-nowrap">{formatPrice(item.unitPrice * item.quantity)}</p>
                   </div>
                 ))}
               </div>
@@ -434,8 +792,15 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-neo-black/60">Shipping</span>
-                  <span>{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
+                  <span className={shipping === 0 ? 'text-green-600 font-medium' : ''}>
+                    {shipping === 0 ? 'FREE' : formatPrice(shipping)}
+                  </span>
                 </div>
+                {shipping > 0 && subtotal < 500 && (
+                  <p className="text-xs text-neo-black/50 bg-neo-light-gray p-2 rounded">
+                    Add {formatPrice(500 - subtotal)} more for free shipping
+                  </p>
+                )}
                 <div className="flex justify-between text-lg font-bold pt-2 border-t border-neo-black/10">
                   <span>Total</span>
                   <span>{formatPrice(total)}</span>

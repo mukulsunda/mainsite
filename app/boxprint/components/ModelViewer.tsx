@@ -324,11 +324,15 @@ export default function ModelViewer({ modelFile, materialColor, onDimensionsCalc
               {showGrid && (
                 <Grid 
                   infiniteGrid 
-                  fadeDistance={500} 
-                  fadeStrength={1}
-                  sectionColor="#000000" 
-                  cellColor="#aaaaaa" 
-                  position={[0, -0.1, 0]} 
+                  fadeDistance={300} 
+                  fadeStrength={2}
+                  cellSize={5}
+                  sectionSize={25}
+                  cellThickness={0.5}
+                  sectionThickness={1}
+                  sectionColor="#555555" 
+                  cellColor="#cccccc" 
+                  position={[0, -0.5, 0]} 
                 />
               )}
               <OrbitControls 
