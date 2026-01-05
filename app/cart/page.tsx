@@ -257,7 +257,7 @@ function PrintCartItemCard({
             </button>
           </div>
           <p className="text-base md:text-lg font-black text-neo-black">
-            {formatPrice(item.totalPrice * item.quantity)}
+            {formatPrice(item.unitPrice * item.quantity)}
           </p>
         </div>
       </div>

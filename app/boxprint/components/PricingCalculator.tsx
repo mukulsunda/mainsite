@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Clock, Package, Zap, CreditCard, Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { ShoppingCart, Clock, Package, Zap, CreditCard, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { PrintConfig, PriceBreakdown, MATERIALS, QUALITY_SETTINGS, LABOR_RATE_PER_HOUR, SETUP_FEE, MIN_ORDER_VALUE, ModelFile } from '../types';
 import { useCart } from '@/context/CartContext';
 
@@ -23,8 +24,17 @@ export default function PricingCalculator({
   isModelLoaded
 }: PricingCalculatorProps) {
   const router = useRouter();
-  const { addPrintItem } = useCart();
+  const { addPrintItem, isItemInCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [cartMessage, setCartMessage] = useState<{ type: 'success' | 'error' | 'warning'; text: string } | null>(null);
+  
+  // Check if item is already in cart
+  const existingInCart = modelFile ? isItemInCart(
+    modelFile.name,
+    config.material,
+    config.quality,
+    config.infill
+  ) : undefined;
   
   const pricing = useMemo((): PriceBreakdown => {
     const material = MATERIALS[config.material];
@@ -91,12 +101,14 @@ export default function PricingCalculator({
     if (!modelFile || !modelFile.file || !modelFile.dimensions) return;
     
     setIsProcessing(true);
+    setCartMessage(null);
+    
     try {
       const fileData = await fileToBase64(modelFile.file);
       const material = MATERIALS[config.material];
       const selectedColor = material.colors.find(c => c.hex === config.color);
       
-      addPrintItem({
+      const result = addPrintItem({
         fileName: modelFile.name,
         fileSize: modelFile.size,
         fileType: modelFile.format,
@@ -117,10 +129,18 @@ export default function PricingCalculator({
         instructions: config.instructions,
       });
       
-      onAddToCart();
+      if (result.success) {
+        setCartMessage({ type: 'success', text: result.message });
+        onAddToCart();
+      } else {
+        setCartMessage({ type: 'warning', text: result.message });
+      }
+      
+      // Clear message after 4 seconds
+      setTimeout(() => setCartMessage(null), 4000);
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('Failed to add item to cart. Please try again.');
+      setCartMessage({ type: 'error', text: 'Failed to add item to cart. Please try again.' });
     } finally {
       setIsProcessing(false);
     }
@@ -128,6 +148,12 @@ export default function PricingCalculator({
 
   const handleBuyNow = async () => {
     if (!modelFile || !modelFile.file || !modelFile.dimensions) return;
+    
+    // If already in cart, just go to checkout
+    if (existingInCart) {
+      router.push('/checkout');
+      return;
+    }
     
     setIsProcessing(true);
     try {
@@ -157,7 +183,7 @@ export default function PricingCalculator({
         instructions: config.instructions,
       });
       
-      // Navigate to checkout
+      // Navigate to checkout regardless
       router.push('/checkout');
     } catch (error) {
       console.error('Error processing order:', error);
@@ -273,25 +299,47 @@ export default function PricingCalculator({
             ) : (
               <CreditCard size={18} />
             )}
-            {isProcessing ? 'Processing...' : 'Buy Now'}
+            {isProcessing ? 'Processing...' : existingInCart ? 'Go to Checkout' : 'Buy Now'}
           </button>
 
           {/* Add to Cart Button */}
-          <button
-            onClick={handleAddToCart}
-            disabled={!isModelLoaded || isProcessing}
-            className={`
-              w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border-2
-              ${isModelLoaded && !isProcessing
-                ? 'border-neo-black text-neo-black hover:bg-neo-yellow hover:border-neo-yellow' 
-                : 'border-neo-black/10 text-neo-black/40 cursor-not-allowed'
-              }
-            `}
-          >
-            <ShoppingCart size={18} />
-            Add to Cart
-          </button>
+          {existingInCart ? (
+            <Link
+              href="/cart"
+              className="w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border-2 border-green-500 text-green-600 bg-green-50 hover:bg-green-100"
+            >
+              <CheckCircle size={18} />
+              Already in Cart - View Cart
+            </Link>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              disabled={!isModelLoaded || isProcessing}
+              className={`
+                w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border-2
+                ${isModelLoaded && !isProcessing
+                  ? 'border-neo-black text-neo-black hover:bg-neo-yellow hover:border-neo-yellow' 
+                  : 'border-neo-black/10 text-neo-black/40 cursor-not-allowed'
+                }
+              `}
+            >
+              <ShoppingCart size={18} />
+              Add to Cart
+            </button>
+          )}
         </div>
+
+        {/* Cart Message */}
+        {cartMessage && (
+          <div className={`p-3 rounded-lg text-sm flex items-center gap-2 ${
+            cartMessage.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' :
+            cartMessage.type === 'warning' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+            'bg-red-50 text-red-700 border border-red-200'
+          }`}>
+            {cartMessage.type === 'success' ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
+            {cartMessage.text}
+          </div>
+        )}
 
         {/* Trust Badges */}
         <div className="flex items-center justify-center gap-4 pt-2 text-xs text-neo-black/40">
