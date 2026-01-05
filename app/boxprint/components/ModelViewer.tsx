@@ -160,8 +160,8 @@ function FallbackModel({
   );
 }
 
-// Build plate dimensions in mm
-const BUILD_PLATE = { x: 256, y: 256, z: 256 };
+// Build plate dimensions in mm (kept for reference)
+// const BUILD_PLATE = { x: 256, y: 256, z: 256 };
 
 // Main Scene Content
 function SceneContent({ 
