@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Space_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { CartProvider } from "@/context/CartContext";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -47,9 +46,9 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`${poppins.variable} ${spaceMono.variable} font-sans cursor-default`}>
         <CartProvider>
-          <Navbar />
-          {children}
-          <Footer />
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
         </CartProvider>
       </body>
     </html>
