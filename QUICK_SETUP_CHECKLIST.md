@@ -23,21 +23,14 @@ Copy this checklist and follow it step by step to enable file uploads.
 
 ---
 
-## ✅ Step 2: Enable RLS (SQL Editor) (2 minutes)
+## ✅ Step 2: Skip RLS Enable (Already Done!)
 
-### Open SQL Editor
-```
-1. Click: SQL Editor (left sidebar)
-2. Click: New query
-```
-
-### Copy & Run This SQL
+⚠️ **IMPORTANT**: Do NOT run this anymore:
 ```sql
 ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 ```
 
-**After running**:
-- [ ] Query executed successfully (no errors)
+**Why?** Supabase automatically enables RLS on `storage.objects` - you don't have permission to enable it manually. This is normal and not an error.
 
 ---
 
@@ -140,9 +133,21 @@ policy_count
 
 ---
 
-## ⚠️ Troubleshooting
+## ⚠️ Common Error: "must be owner of table objects"
 
-### ❌ "Permission denied" error on upload
+**Problem**:
+```
+Error: 42501: must be owner of table objects
+```
+
+**Solution**:
+- This happens when trying to run: `ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;`
+- ✅ **Just skip this command** - RLS is already enabled automatically
+- Only run the `CREATE POLICY` statements below
+
+---
+
+## ✅ Corrected Step 3: Create RLS Policies Only (3 minutes)
 
 **Check**:
 - [ ] Bucket name is exactly `File storage` (not `3d-models`)

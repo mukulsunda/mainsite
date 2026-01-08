@@ -4,24 +4,24 @@
 -- IMPORTANT: Follow these steps in order!
 -- =====================================================
 
--- STEP 1: Enable RLS on storage.objects table (RUN THIS FIRST)
+-- STEP 1: Create bucket via Supabase Dashboard (REQUIRED)
 -- =====================================================
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
-
--- STEP 2: Create bucket via Supabase Dashboard (REQUIRED)
--- =====================================================
+-- NOTE: RLS is automatically enabled on storage.objects by default in Supabase
+-- You do NOT need to run: ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+-- 
 -- 1. Go to Supabase Dashboard > Storage
 -- 2. Click "New bucket"
 -- 3. Name: "File storage"
 -- 4. Check "Public bucket" (allows public downloads)
 -- 5. Click "Create bucket"
 --
--- After creating the bucket, run STEP 3 SQL policies below.
+-- After creating the bucket, run STEP 2 SQL policies below.
 -- =====================================================
 
--- STEP 3: Create storage policies for the File storage bucket
+-- STEP 2: Create storage policies for the File storage bucket
 -- =====================================================
 -- Run these SQL commands AFTER creating the bucket above
+-- Go to: SQL Editor > New Query > Copy & Paste below
 
 -- Allow anyone to view/download files (public access for public bucket)
 CREATE POLICY "Public read access for File storage"
@@ -64,7 +64,25 @@ USING (bucket_id = 'File storage');
 -- SELECT * FROM storage.buckets WHERE id = 'File storage';
 
 -- Check if policies are applied:
--- SELECT * FROM pg_policies WHERE tablename = 'objects' AND schemaname = 'storage';
+-- SELECT COUNT(*) as policy_count FROM pg_policies 
+-- WHERE tablename = 'objects' AND schemaname = 'storage' 
+-- AND policyname LIKE '%File storage%';
 
--- Test a file exists (replace with actual file path):
--- SELECT * FROM storage.objects WHERE bucket_id = 'File storage' LIMIT 1;
+-- Test if files can be uploaded:
+-- Upload a file via the application, then run:
+-- SELECT name, size, created_at FROM storage.objects 
+-- WHERE bucket_id = 'File storage' LIMIT 1;
+
+-- =====================================================
+-- TROUBLESHOOTING
+-- =====================================================
+-- Error: "must be owner of table objects"
+-- → This is normal! Skip the ALTER TABLE statement
+-- → Only run the CREATE POLICY statements below
+-- → RLS is already enabled by Supabase automatically
+
+-- Error: "policy already exists"
+-- → The policies have already been created
+-- → You can safely ignore this error or run:
+-- → DROP POLICY IF EXISTS "policy_name" ON storage.objects;
+-- → Then recreate it

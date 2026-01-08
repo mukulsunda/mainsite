@@ -59,17 +59,16 @@ Expected output: One row with `id = 'File storage'` and `public = true`
 1. In Supabase Dashboard, click **SQL Editor** in left sidebar
 2. Click **New query**
 
-### 2.2 Enable RLS on storage.objects
+### 2.2 ⚠️ IMPORTANT: Skip the ALTER TABLE Command
 
-Copy and run this SQL:
-
+❌ **DO NOT RUN** this (it will fail with permission error):
 ```sql
 ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 ```
 
-⚠️ **Important**: This enables Row Level Security on ALL storage operations.
+**Why?** Supabase automatically enables RLS on `storage.objects`. You don't have permission to enable it manually - this is normal and not an error.
 
-### 2.3 Create Access Policies
+### 2.3 Create Access Policies ONLY
 
 Copy and run this complete SQL script:
 
@@ -194,6 +193,25 @@ After successful order:
 ---
 
 ## Step 5: Troubleshooting
+
+### Issue: "ERROR: 42501: must be owner of table objects"
+
+**Problem**: You tried to run:
+```sql
+ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+```
+
+**Solution**: 
+1. ✅ **Just skip this command** - RLS is already enabled automatically by Supabase
+2. Only run the `CREATE POLICY` statements
+3. You don't have permission to modify Supabase's internal `storage.objects` table - this is normal
+
+**What to do**:
+- Delete the `ALTER TABLE` line from your SQL
+- Only run the 6 `CREATE POLICY` statements
+- Ignore this error if it appears - it's not critical
+
+---
 
 ### Issue: "Permission denied" when uploading
 
