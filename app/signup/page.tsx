@@ -451,13 +451,19 @@ export default function SignUp() {
             </>
           )}
 
-          {/* Sign In Link */}
-          <p className="mt-8 text-center text-sm text-neo-black/60">
-            Already have an account?{' '}
-            <Link href="/signin" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
-              Sign in
+          {/* Sign In Link - Always visible with prominent button */}
+          <div className="mt-6 pt-6 border-t border-neo-black/10">
+            <p className="text-center text-sm text-neo-black/60 mb-3">
+              Already have an account?
+            </p>
+            <Link 
+              href="/signin" 
+              className="w-full py-3 border-2 border-neo-black text-neo-black font-bold rounded-xl hover:bg-neo-black hover:text-white transition-all flex items-center justify-center gap-2"
+            >
+              Sign In
+              <ArrowRight size={18} />
             </Link>
-          </p>
+          </div>
         </div>
       </div>
     </main>

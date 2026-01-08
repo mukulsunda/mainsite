@@ -67,7 +67,7 @@ function SignInForm() {
 
       if (error) {
         if (error.message.includes('Invalid login credentials')) {
-          setErrors({ general: 'Invalid email or password. Please try again.' });
+          setErrors({ general: 'No account found with these credentials. Please check your email and password, or create a new account.' });
         } else if (error.message.includes('Email not confirmed')) {
           setErrors({ general: 'Please verify your email address before signing in. Check your inbox for the verification link.' });
         } else {
@@ -326,13 +326,19 @@ function SignInForm() {
             Continue with Google
           </button>
 
-          {/* Sign Up Link */}
-          <p className="mt-8 text-center text-sm text-neo-black/60">
-            Don&apos;t have an account?{' '}
-            <Link href="/signup" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
-              Create one free
+          {/* Sign Up Link - Always visible */}
+          <div className="mt-6 pt-6 border-t border-neo-black/10">
+            <p className="text-center text-sm text-neo-black/60 mb-3">
+              Don&apos;t have an account?
+            </p>
+            <Link 
+              href="/signup" 
+              className="w-full py-3 border-2 border-neo-black text-neo-black font-bold rounded-xl hover:bg-neo-black hover:text-white transition-all flex items-center justify-center gap-2"
+            >
+              Create Account Free
+              <ArrowRight size={18} />
             </Link>
-          </p>
+          </div>
         </div>
       </div>
 
