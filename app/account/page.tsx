@@ -197,6 +197,51 @@ export default function AccountPage() {
     router.push('/');
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmed = confirm(
+      'Are you sure you want to delete your account? This action cannot be undone and will permanently delete:\n\n' +
+      '• Your profile information\n' +
+      '• Saved addresses\n' +
+      '• Order history\n\n' +
+      'Type DELETE to confirm.'
+    );
+    
+    if (!confirmed) return;
+    
+    const deleteConfirm = prompt('Type DELETE to confirm account deletion:');
+    if (deleteConfirm !== 'DELETE') {
+      alert('Account deletion cancelled.');
+      return;
+    }
+    
+    try {
+      if (!user) return;
+      
+      // Delete user data from related tables
+      await supabase.from('user_addresses').delete().eq('user_id', user.id);
+      await supabase.from('profiles').delete().eq('id', user.id);
+      
+      // Delete auth user (this will sign them out)
+      const { error } = await supabase.auth.admin.deleteUser(user.id);
+      
+      if (error) {
+        // If admin delete fails, try signing out and showing message
+        console.error('Admin delete failed:', error);
+        // Soft delete - just sign out and inform user
+        await supabase.auth.signOut();
+        alert('Your account data has been cleared. For complete account removal, please contact support@boxpox.in');
+        router.push('/');
+        return;
+      }
+      
+      alert('Your account has been deleted successfully.');
+      router.push('/');
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      alert('Failed to delete account. Please contact support@boxpox.in for assistance.');
+    }
+  };
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -704,7 +749,10 @@ export default function AccountPage() {
                         <p className="font-bold text-sm text-red-700">Delete Account</p>
                         <p className="text-xs text-red-600">Permanently delete your account and all data</p>
                       </div>
-                      <button className="text-sm font-bold text-red-600 hover:text-red-800 transition-colors">
+                      <button 
+                        onClick={handleDeleteAccount}
+                        className="text-sm font-bold text-red-600 hover:text-red-800 transition-colors px-4 py-2 border border-red-300 rounded-lg hover:bg-red-100"
+                      >
                         Delete
                       </button>
                     </div>

@@ -22,7 +22,7 @@ function SignInForm() {
   });
   const [errors, setErrors] = useState<{email?: string; password?: string; general?: string}>({});
 
-  // Check for registration success message
+  // Check for registration success message and errors
   useEffect(() => {
     if (searchParams.get('registered') === 'true') {
       setSuccessMessage('Account created successfully! Please check your email to verify your account, then sign in.');
@@ -32,6 +32,13 @@ function SignInForm() {
     }
     if (searchParams.get('reset') === 'true') {
       setSuccessMessage('Password reset successful! Please sign in with your new password.');
+    }
+    // Handle no account error from Google OAuth
+    if (searchParams.get('error') === 'no_account') {
+      const email = searchParams.get('email');
+      setErrors({ 
+        general: `No account found for ${email || 'this email'}. Please create an account first to continue with Google.` 
+      });
     }
   }, [searchParams]);
 
@@ -149,10 +156,10 @@ function SignInForm() {
     <>
       {/* Full-screen loading overlay */}
       {isLoading && (
-        <div className="fixed inset-0 bg-white/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
-          <div className="text-center">
-            <div className="relative mb-6">
-              <div className="w-16 h-16 border-4 border-neo-yellow/30 rounded-full"></div>
+        <div className="fixed inset-0 bg-white/95 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center text-center">
+            <div className="relative mb-6 w-16 h-16 mx-auto">
+              <div className="absolute inset-0 w-16 h-16 border-4 border-neo-yellow/30 rounded-full"></div>
               <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-neo-yellow rounded-full animate-spin"></div>
             </div>
             <h3 className="text-xl font-bold text-neo-black mb-2">Signing you in...</h3>
