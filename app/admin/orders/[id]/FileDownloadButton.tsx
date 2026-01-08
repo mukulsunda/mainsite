@@ -22,39 +22,70 @@ export default function FileDownloadButton({ fileName, filePath, className = '' 
     setIsDownloading(true);
     
     try {
+      const supabase = createClient();
+      
       // Check if it's already a full URL
       if (filePath.startsWith('http')) {
         // Direct URL - download directly
+        const response = await fetch(filePath);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.href = filePath;
+        link.href = url;
         link.download = fileName;
-        link.target = '_blank';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
       } else {
-        // Get public URL from Supabase Storage
-        const supabase = createClient();
-        const { data } = supabase.storage
+        // Create signed URL for private bucket access
+        const { data, error } = await supabase.storage
           .from('File storage')
-          .getPublicUrl(filePath);
+          .createSignedUrl(filePath, 60); // 60 seconds expiry
         
-        if (data?.publicUrl) {
-          // Download the file
+        if (error) {
+          console.error('Signed URL error:', error);
+          // Fallback to public URL
+          const { data: publicData } = supabase.storage
+            .from('File storage')
+            .getPublicUrl(filePath);
+          
+          if (publicData?.publicUrl) {
+            const response = await fetch(publicData.publicUrl);
+            if (!response.ok) throw new Error('File not accessible');
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+            return;
+          }
+          throw new Error('Could not generate download URL');
+        }
+        
+        if (data?.signedUrl) {
+          // Fetch the file and download
+          const response = await fetch(data.signedUrl);
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
           const link = document.createElement('a');
-          link.href = data.publicUrl;
+          link.href = url;
           link.download = fileName;
-          link.target = '_blank';
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
         } else {
           throw new Error('Could not generate download URL');
         }
       }
     } catch (error) {
       console.error('Download error:', error);
-      alert('Failed to download file. Please try again.');
+      alert('Failed to download file. Please check if the file exists in storage.');
     } finally {
       setIsDownloading(false);
     }
