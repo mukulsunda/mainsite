@@ -34,8 +34,7 @@ export default function FileDownloadLink({ fileName, filePath, variant = 'icon' 
         // Get public URL from Supabase Storage
         const supabase = createClient();
         const { data } = supabase.storage
-          .from('File storage')
-          .getPublicUrl(filePath);
+        .from('storage')
         
         if (data?.publicUrl) {
           // Download the file
