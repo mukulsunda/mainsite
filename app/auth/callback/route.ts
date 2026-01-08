@@ -23,13 +23,18 @@ export async function GET(request: Request) {
         .from('profiles')
         .select('id, first_name')
         .eq('id', data.user.id)
-        .single();
+        .maybeSingle();
 
       // If signing in (not signing up) and no profile exists, reject login
       if (!isNewSignup && !profile) {
         // Sign out the user since they don't have an account
         await supabase.auth.signOut();
-        return NextResponse.redirect(`${origin}/signin?error=no_account&email=${encodeURIComponent(data.user.email || '')}`);
+        
+        // Clear cookies by setting response headers
+        const response = NextResponse.redirect(`${origin}/signin?error=no_account&email=${encodeURIComponent(data.user.email || '')}`);
+        response.cookies.delete('sb-eyspyeslaugfpmwzsfhw-auth-token');
+        response.cookies.delete('sb-eyspyeslaugfpmwzsfhw-auth-token-code-verifier');
+        return response;
       }
 
       // If this is a new signup via Google OAuth, create their profile

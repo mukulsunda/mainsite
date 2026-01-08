@@ -161,24 +161,26 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="container py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="container py-6 px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
             {/* Copyright */}
-            <div className="flex items-center gap-6 text-sm text-white/40">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs sm:text-sm text-white/40 text-center">
               <span>© {currentYear} BoxPox. All rights reserved.</span>
-              <span className="hidden md:inline">•</span>
-              <Link href="/privacy" className="hover:text-white transition-colors hidden md:inline">Privacy Policy</Link>
-              <Link href="/terms" className="hover:text-white transition-colors hidden md:inline">Terms of Service</Link>
+              <div className="flex items-center gap-3">
+                <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+                <span>•</span>
+                <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+              </div>
             </div>
 
             {/* Social Links */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center flex-wrap gap-2">
               {socialLinks.map((social) => (
                 <a 
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="px-4 py-2 text-sm text-white/60 hover:text-neo-yellow border border-white/10 rounded-lg hover:border-neo-yellow/50 transition-all"
+                  className="px-3 py-1.5 text-xs sm:text-sm text-white/60 hover:text-neo-yellow border border-white/10 rounded-lg hover:border-neo-yellow/50 transition-all"
                 >
                   {social.label}
                 </a>
