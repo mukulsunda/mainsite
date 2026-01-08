@@ -8,10 +8,10 @@ import {
   Eye,
   ChevronLeft,
   ChevronRight,
-  Package,
-  Download
+  Package
 } from 'lucide-react';
 import { BoxPrintOrder, ORDER_STATUS_CONFIG } from '../types';
+import FileDownloadLink from './components/FileDownloadLink';
 
 interface OrdersTableClientProps {
   orders: BoxPrintOrder[];
@@ -221,12 +221,11 @@ export default function OrdersTableClient({
                           >
                             <Eye size={16} className="text-neutral-600" />
                           </Link>
-                          <button
-                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
-                            title="Download File"
-                          >
-                            <Download size={16} className="text-neutral-600" />
-                          </button>
+                          <FileDownloadLink 
+                            fileName={order.file_name}
+                            filePath={order.file_path}
+                            variant="icon"
+                          />
                         </div>
                       </td>
                     </tr>
