@@ -8,7 +8,7 @@
 - **Impact**: Setup is now simpler and works without permission errors
 
 ### 2. ✅ File Upload Not Working
-- **Root Cause**: Bucket name mismatch (`3d-models` vs `File storage`)
+- **Root Cause**: Bucket name was `File storage` (now updated to `storage`)
 - **Solution**: Fixed upload API to use correct bucket name
 - **Impact**: Files now upload successfully to Supabase Storage
 
@@ -23,7 +23,7 @@
 
 ### Code Changes
 1. **app/api/boxprint/upload/route.ts**
-   - Uses correct bucket: `File storage`
+   - Uses correct bucket: `storage`
 
 2. **app/admin/orders/[id]/FileDownloadButton.tsx**
    - Fetches public URL from Supabase Storage
@@ -62,7 +62,7 @@
 ### Step 1: Create Bucket (Dashboard) - 5 minutes
 ```
 1. Supabase Dashboard > Storage > New bucket
-2. Name: "File storage" (exact)
+2. Name: "storage" (exact)
 3. Public: ✅ checked
 4. Create
 ```
@@ -109,7 +109,7 @@ Only run the 6 CREATE POLICY statements from `supabase_storage_setup.sql`
 │ /api/boxprint/upload (POST)                                 │
 │ - Receives FormData with file                               │
 │ - Converts to Buffer                                        │
-│ - Uploads to Supabase Storage "File storage" bucket         │
+│ - Uploads to Supabase Storage "storage" bucket         │
 │ - Creates path: orders/[ORDER_NUMBER]/[timestamp].stl       │
 │ - Returns: public URL + file path                           │
 └─────────────────────┬───────────────────────────────────────┘
@@ -147,7 +147,7 @@ Only run the 6 CREATE POLICY statements from `supabase_storage_setup.sql`
 ✅ **Upload**:
 - User selects 3D file
 - File validates (format, size)
-- File uploads to "File storage" bucket
+- File uploads to "storage" bucket
 - Path stored in database
 
 ✅ **Download**:
@@ -165,13 +165,13 @@ Only run the 6 CREATE POLICY statements from `supabase_storage_setup.sql`
 
 ## Testing Checklist
 
-- [ ] Created "File storage" bucket in Supabase Dashboard
+- [ ] Created "storage" bucket in Supabase Dashboard
 - [ ] Bucket marked as Public ✅
 - [ ] Ran CREATE POLICY statements (skipped ALTER TABLE)
 - [ ] 6 policies created successfully
 - [ ] Uploaded 3D file from /boxprint
 - [ ] Completed checkout and order created
-- [ ] File appears in Storage > File storage bucket
+- [ ] File appears in Storage > storage bucket
 - [ ] Downloaded file from admin orders list
 - [ ] Downloaded file from order detail page
 - [ ] Downloaded file is correct 3D model
