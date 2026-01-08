@@ -65,6 +65,18 @@ export default function AccountPage() {
     push_orders: true,
     push_promotions: false,
   });
+  
+  // Add address modal
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [newAddress, setNewAddress] = useState({
+    label: 'Home',
+    name: '',
+    phone: '',
+    address_line: '',
+    city: '',
+    state: '',
+    pincode: '',
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -192,6 +204,41 @@ export default function AccountPage() {
     }
   };
 
+  const handleSaveNewAddress = async () => {
+    if (!user) return;
+    if (!newAddress.name || !newAddress.phone || !newAddress.address_line || !newAddress.city || !newAddress.state || !newAddress.pincode) {
+      alert('Please fill all fields');
+      return;
+    }
+    
+    try {
+      const { data, error } = await supabase
+        .from('user_addresses')
+        .insert({
+          user_id: user.id,
+          label: newAddress.label,
+          name: newAddress.name,
+          phone: newAddress.phone,
+          address_line: newAddress.address_line,
+          city: newAddress.city,
+          state: newAddress.state,
+          pincode: newAddress.pincode,
+          is_default: addresses.length === 0,
+        })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      
+      setAddresses([...addresses, data]);
+      setShowAddressModal(false);
+      setNewAddress({ label: 'Home', name: '', phone: '', address_line: '', city: '', state: '', pincode: '' });
+    } catch (error) {
+      console.error('Error saving address:', error);
+      alert('Failed to save address');
+    }
+  };
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push('/');
@@ -297,63 +344,63 @@ export default function AccountPage() {
     : user.email;
 
   return (
-    <main className="min-h-screen bg-neo-light-gray pt-24 pb-12 px-4">
+    <main className="min-h-screen bg-neo-light-gray pt-20 md:pt-24 pb-8 md:pb-12 px-3 md:px-4">
       <div className="container max-w-6xl mx-auto">
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-black text-neo-black mb-2">My Account</h1>
-          <p className="text-neo-black/60">Manage your profile, orders, and preferences</p>
+        <div className="mb-4 md:mb-8">
+          <h1 className="text-2xl md:text-4xl font-black text-neo-black mb-1 md:mb-2">My Account</h1>
+          <p className="text-sm md:text-base text-neo-black/60">Manage your profile, orders, and preferences</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-8">
           {/* Left Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 space-y-4 md:space-y-6">
             {/* Profile Card */}
-            <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-neo-yellow rounded-full flex items-center justify-center border-2 border-neo-black">
-                  <span className="text-2xl font-black text-neo-black">
+            <div className="bg-white border-2 border-neo-black rounded-xl p-4 md:p-6 shadow-neo">
+              <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-neo-yellow rounded-full flex items-center justify-center border-2 border-neo-black flex-shrink-0">
+                  <span className="text-xl md:text-2xl font-black text-neo-black">
                     {profileForm.first_name ? profileForm.first_name[0] : user.email?.[0].toUpperCase()}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-lg font-bold text-neo-black truncate">{displayName}</h2>
-                  <p className="text-sm text-neo-black/60 truncate">{user.email}</p>
+                  <h2 className="text-base md:text-lg font-bold text-neo-black truncate">{displayName}</h2>
+                  <p className="text-xs md:text-sm text-neo-black/60 truncate">{user.email}</p>
                 </div>
               </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="bg-neo-light-gray rounded-lg p-3 text-center">
-                  <p className="text-2xl font-black text-neo-black">{ordersCount}</p>
-                  <p className="text-xs text-neo-black/60">Orders</p>
+              <div className="grid grid-cols-2 gap-2 md:gap-3 mb-4 md:mb-6">
+                <div className="bg-neo-light-gray rounded-lg p-2 md:p-3 text-center">
+                  <p className="text-xl md:text-2xl font-black text-neo-black">{ordersCount}</p>
+                  <p className="text-[10px] md:text-xs text-neo-black/60">Orders</p>
                 </div>
-                <div className="bg-neo-light-gray rounded-lg p-3 text-center">
-                  <p className="text-2xl font-black text-neo-black">{wishlistCount}</p>
-                  <p className="text-xs text-neo-black/60">Wishlist</p>
+                <div className="bg-neo-light-gray rounded-lg p-2 md:p-3 text-center">
+                  <p className="text-xl md:text-2xl font-black text-neo-black">{wishlistCount}</p>
+                  <p className="text-[10px] md:text-xs text-neo-black/60">Wishlist</p>
                 </div>
               </div>
 
-              {/* Menu Items */}
-              <nav className="space-y-1">
+              {/* Menu Items - Horizontal scroll on mobile */}
+              <nav className="flex lg:flex-col gap-1 overflow-x-auto pb-2 lg:pb-0 -mx-2 px-2 lg:mx-0 lg:px-0 scrollbar-hide">
                 {menuItems.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => setActiveTab(item.tab)}
-                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors group text-left ${
+                    className={`flex-shrink-0 lg:flex-shrink flex items-center gap-2 lg:gap-3 p-2 lg:p-3 rounded-lg transition-colors group text-left whitespace-nowrap ${
                       activeTab === item.tab 
                         ? 'bg-neo-yellow' 
-                        : 'hover:bg-neo-light-gray'
+                        : 'hover:bg-neo-light-gray bg-neo-light-gray lg:bg-transparent'
                     }`}
                   >
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                    <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center transition-colors ${
                       activeTab === item.tab 
                         ? 'bg-neo-black' 
-                        : 'bg-neo-light-gray group-hover:bg-neo-yellow'
+                        : 'bg-white lg:bg-neo-light-gray group-hover:bg-neo-yellow'
                     }`}>
-                      <item.icon size={20} className={activeTab === item.tab ? 'text-white' : 'text-neo-black'} />
+                      <item.icon size={16} className={`lg:w-5 lg:h-5 ${activeTab === item.tab ? 'text-white' : 'text-neo-black'}`} />
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 hidden lg:block">
                       <div className="flex items-center gap-2">
                         <p className="font-bold text-neo-black text-sm">{item.label}</p>
                         {item.badge !== undefined && item.badge > 0 && (
@@ -361,23 +408,24 @@ export default function AccountPage() {
                         )}
                       </div>
                     </div>
-                    <ChevronRight size={18} className="text-neo-black/30" />
+                    <ChevronRight size={18} className="text-neo-black/30 hidden lg:block" />
                   </button>
                 ))}
               </nav>
 
               {/* Sign Out */}
-              <div className="mt-4 pt-4 border-t border-neo-black/10">
+              <div className="mt-3 lg:mt-4 pt-3 lg:pt-4 border-t border-neo-black/10">
                 <button 
                   onClick={handleSignOut}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors group text-left"
+                  className="w-full flex items-center gap-2 lg:gap-3 p-2 lg:p-3 rounded-lg hover:bg-red-50 transition-colors group text-left"
                 >
-                  <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-red-100 transition-colors">
-                    <LogOut size={20} className="text-red-500" />
+                  <div className="w-8 h-8 lg:w-10 lg:h-10 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-red-100 transition-colors">
+                    <LogOut size={16} className="lg:w-5 lg:h-5 text-red-500" />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 hidden lg:block">
                     <p className="font-bold text-red-500 text-sm">Sign Out</p>
                   </div>
+                  <span className="lg:hidden text-xs font-bold text-red-500">Sign Out</span>
                 </button>
               </div>
             </div>
@@ -387,58 +435,58 @@ export default function AccountPage() {
           <div className="lg:col-span-3">
             {/* Profile Tab */}
             {activeTab === 'profile' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-                <h3 className="text-xl font-bold mb-6">Profile Information</h3>
+              <div className="bg-white border-2 border-neo-black rounded-xl p-4 md:p-6 shadow-neo">
+                <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6">Profile Information</h3>
                 
                 {saveMessage && (
-                  <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
+                  <div className={`mb-4 md:mb-6 p-3 md:p-4 rounded-lg flex items-start gap-2 md:gap-3 text-sm ${
                     saveMessage.type === 'success' 
                       ? 'bg-green-50 text-green-700 border border-green-200' 
                       : 'bg-red-50 text-red-700 border border-red-200'
                   }`}>
-                    {saveMessage.type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+                    {saveMessage.type === 'success' ? <CheckCircle size={18} className="flex-shrink-0 mt-0.5" /> : <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />}
                     {saveMessage.text}
                   </div>
                 )}
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div>
-                    <label className="block text-sm font-bold mb-2">First Name</label>
+                    <label className="block text-sm font-bold mb-1.5 md:mb-2">First Name</label>
                     <input
                       type="text"
                       value={profileForm.first_name}
                       onChange={(e) => setProfileForm({ ...profileForm, first_name: e.target.value })}
-                      className="w-full px-4 py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none"
+                      className="w-full px-3 md:px-4 py-2.5 md:py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none text-sm md:text-base"
                       placeholder="Enter first name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-2">Last Name</label>
+                    <label className="block text-sm font-bold mb-1.5 md:mb-2">Last Name</label>
                     <input
                       type="text"
                       value={profileForm.last_name}
                       onChange={(e) => setProfileForm({ ...profileForm, last_name: e.target.value })}
-                      className="w-full px-4 py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none"
+                      className="w-full px-3 md:px-4 py-2.5 md:py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none text-sm md:text-base"
                       placeholder="Enter last name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-2">Email</label>
+                    <label className="block text-sm font-bold mb-1.5 md:mb-2">Email</label>
                     <input
                       type="email"
                       value={user.email || ''}
                       disabled
-                      className="w-full px-4 py-3 border-2 border-neo-black/10 rounded-xl bg-neo-light-gray text-neo-black/60"
+                      className="w-full px-3 md:px-4 py-2.5 md:py-3 border-2 border-neo-black/10 rounded-xl bg-neo-light-gray text-neo-black/60 text-sm md:text-base"
                     />
-                    <p className="text-xs text-neo-black/50 mt-1">Email cannot be changed</p>
+                    <p className="text-[10px] md:text-xs text-neo-black/50 mt-1">Email cannot be changed</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-2">Phone Number</label>
+                    <label className="block text-sm font-bold mb-1.5 md:mb-2">Phone Number</label>
                     <input
                       type="tel"
                       value={profileForm.phone}
                       onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                      className="w-full px-4 py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none"
+                      className="w-full px-3 md:px-4 py-2.5 md:py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none text-sm md:text-base"
                       placeholder="Enter phone number"
                     />
                   </div>
@@ -447,7 +495,7 @@ export default function AccountPage() {
                 <button
                   onClick={handleSaveProfile}
                   disabled={isSaving}
-                  className="mt-6 neo-btn"
+                  className="mt-4 md:mt-6 neo-btn text-sm md:text-base py-2.5 md:py-3"
                 >
                   {isSaving ? (
                     <>
@@ -463,48 +511,48 @@ export default function AccountPage() {
 
             {/* Orders Tab */}
             {activeTab === 'orders' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold">My Orders</h3>
-                  <span className="text-sm text-neo-black/60">{ordersCount} total orders</span>
+              <div className="bg-white border-2 border-neo-black rounded-xl p-4 md:p-6 shadow-neo">
+                <div className="flex items-center justify-between mb-4 md:mb-6">
+                  <h3 className="text-lg md:text-xl font-bold">My Orders</h3>
+                  <span className="text-xs md:text-sm text-neo-black/60">{ordersCount} total</span>
                 </div>
                 
                 {orders.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Package size={48} className="mx-auto text-neo-black/20 mb-4" />
-                    <h4 className="font-bold text-lg mb-2">No orders yet</h4>
-                    <p className="text-neo-black/60 mb-6">Start exploring and place your first order!</p>
-                    <Link href="/boxprint" className="neo-btn inline-flex">
+                  <div className="text-center py-8 md:py-12">
+                    <Package size={40} className="mx-auto text-neo-black/20 mb-3 md:mb-4" />
+                    <h4 className="font-bold text-base md:text-lg mb-2">No orders yet</h4>
+                    <p className="text-sm text-neo-black/60 mb-4 md:mb-6">Start exploring and place your first order!</p>
+                    <Link href="/boxprint" className="neo-btn inline-flex text-sm">
                       Get a Quote
                     </Link>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3 md:space-y-4">
                     {orders.map((order) => (
                       <div 
                         key={order.id}
-                        className="border border-neo-black/10 rounded-xl p-4 hover:border-neo-black/30 transition-colors"
+                        className="border border-neo-black/10 rounded-xl p-3 md:p-4 hover:border-neo-black/30 transition-colors"
                       >
-                        <div className="flex items-start justify-between gap-4">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="font-mono text-sm font-bold">{order.order_number}</span>
-                              <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
+                            <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2 flex-wrap">
+                              <span className="font-mono text-xs md:text-sm font-bold">{order.order_number}</span>
+                              <span className={`px-2 py-0.5 rounded-full text-[10px] md:text-xs font-medium ${getStatusColor(order.status)}`}>
                                 {order.status}
                               </span>
                             </div>
-                            <p className="text-sm text-neo-black/70 truncate">{order.file_name}</p>
-                            <p className="text-xs text-neo-black/50 mt-1">
+                            <p className="text-xs md:text-sm text-neo-black/70 truncate">{order.file_name}</p>
+                            <p className="text-[10px] md:text-xs text-neo-black/50 mt-1">
                               {order.material} • Qty: {order.quantity} • {formatDate(order.created_at)}
                             </p>
                           </div>
-                          <div className="text-right">
-                            <p className="font-bold">{formatPrice(order.total_price)}</p>
+                          <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 sm:text-right">
+                            <p className="font-bold text-sm md:text-base">{formatPrice(order.total_price)}</p>
                             <Link 
                               href={`/order-tracking/${order.order_number}`}
-                              className="text-xs text-neo-black hover:text-neo-yellow font-medium mt-1 inline-flex items-center gap-1"
+                              className="text-[10px] md:text-xs text-neo-black hover:text-neo-yellow font-medium inline-flex items-center gap-1"
                             >
-                              Track Order <ChevronRight size={14} />
+                              Track <ChevronRight size={12} />
                             </Link>
                           </div>
                         </div>
@@ -517,13 +565,16 @@ export default function AccountPage() {
 
             {/* Addresses Tab */}
             {activeTab === 'addresses' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold">Saved Addresses</h3>
-                  <Link href="/checkout" className="neo-btn-secondary text-sm">
-                    <Plus size={16} />
+              <div className="bg-white border-2 border-neo-black rounded-xl p-4 md:p-6 shadow-neo">
+                <div className="flex items-center justify-between mb-4 md:mb-6">
+                  <h3 className="text-lg md:text-xl font-bold">Saved Addresses</h3>
+                  <button 
+                    onClick={() => setShowAddressModal(true)}
+                    className="neo-btn-secondary text-xs md:text-sm py-2 px-3"
+                  >
+                    <Plus size={14} />
                     Add New
-                  </Link>
+                  </button>
                 </div>
                 
                 {addresses.length === 0 ? (
@@ -763,6 +814,108 @@ export default function AccountPage() {
           </div>
         </div>
       </div>
+      
+      {/* Add Address Modal */}
+      {showAddressModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="p-4 md:p-6 border-b border-neo-black/10">
+              <h3 className="text-lg font-bold">Add New Address</h3>
+            </div>
+            <div className="p-4 md:p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Label</label>
+                <select
+                  value={newAddress.label}
+                  onChange={(e) => setNewAddress({ ...newAddress, label: e.target.value })}
+                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                >
+                  <option value="Home">Home</option>
+                  <option value="Work">Work</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Full Name</label>
+                <input
+                  type="text"
+                  value={newAddress.name}
+                  onChange={(e) => setNewAddress({ ...newAddress, name: e.target.value })}
+                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                  placeholder="Enter full name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Phone Number</label>
+                <input
+                  type="tel"
+                  value={newAddress.phone}
+                  onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
+                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                  placeholder="Enter phone number"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">Address</label>
+                <textarea
+                  value={newAddress.address_line}
+                  onChange={(e) => setNewAddress({ ...newAddress, address_line: e.target.value })}
+                  rows={2}
+                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm resize-none"
+                  placeholder="House/flat no, building, street"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-bold mb-1.5">City</label>
+                  <input
+                    type="text"
+                    value={newAddress.city}
+                    onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+                    className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                    placeholder="City"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold mb-1.5">State</label>
+                  <input
+                    type="text"
+                    value={newAddress.state}
+                    onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
+                    className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                    placeholder="State"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-bold mb-1.5">PIN Code</label>
+                <input
+                  type="text"
+                  value={newAddress.pincode}
+                  onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
+                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                  placeholder="PIN code"
+                  maxLength={6}
+                />
+              </div>
+            </div>
+            <div className="p-4 md:p-6 border-t border-neo-black/10 flex gap-3">
+              <button
+                onClick={() => setShowAddressModal(false)}
+                className="flex-1 py-2.5 border-2 border-neo-black/20 rounded-lg font-bold text-sm hover:bg-neo-light-gray transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveNewAddress}
+                className="flex-1 py-2.5 bg-neo-black text-white rounded-lg font-bold text-sm hover:bg-neo-black/90 transition-colors"
+              >
+                Save Address
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
