@@ -9,139 +9,116 @@ export default function Home() {
   return (
     <main className="pt-[72px] md:pt-[80px]">
       {/* Hero Section */}
-      <section className="min-h-[calc(100vh-72px)] md:min-h-[calc(100vh-80px)] flex flex-col justify-center relative overflow-hidden bg-white px-5 md:px-8">
+      <section className="min-h-[60vh] md:min-h-[calc(100vh-80px)] flex flex-col justify-center relative overflow-hidden bg-white px-4 md:px-8">
         {/* Background */}
         <div className="absolute inset-0 dot-pattern-light opacity-40" />
         
-        <div className="container relative z-10 py-12 md:py-0">
+        <div className="container relative z-10 py-8 md:py-0">
           <div className="max-w-3xl">
             {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 bg-neo-black text-white rounded-full text-xs font-semibold">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <div className="inline-flex items-center gap-1.5 mb-4 md:mb-6 px-2.5 py-1 bg-neo-black text-white rounded-full text-[10px] md:text-xs font-semibold">
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
               NOW SHIPPING WORLDWIDE
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] mb-4 md:mb-6 tracking-tight">
               <span className="text-neo-black">Unlock</span>
               <br />
               <span className="text-neo-yellow">Possibility</span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-base sm:text-lg md:text-xl text-neo-black/70 max-w-lg mb-8 leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg text-neo-black/70 max-w-lg mb-6 md:mb-8 leading-relaxed">
               Consumer-focused innovation. Hardware and software products engineered for the humans of tomorrow.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12">
-              <Link href="/products" className="neo-btn justify-center sm:justify-start">
+            <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 mb-8 md:mb-12">
+              <Link href="/products" className="neo-btn justify-center sm:justify-start text-sm md:text-base py-2.5 md:py-3">
                 Explore Products
-                <ArrowRight size={18} />
+                <ArrowRight size={16} />
               </Link>
-              <Link href="/about" className="neo-btn-outline justify-center sm:justify-start">
+              <Link href="/about" className="neo-btn-outline justify-center sm:justify-start text-sm md:text-base py-2.5 md:py-3">
                 Our Story
               </Link>
             </div>
 
             {/* Stats */}
-            <div className="flex flex-wrap gap-6 sm:gap-10 pt-8 border-t border-neo-black/10">
+            <div className="flex flex-wrap gap-4 sm:gap-8 pt-6 border-t border-neo-black/10">
               <div>
-                <span className="block text-3xl sm:text-4xl font-black text-neo-black font-mono">24+</span>
-                <span className="text-xs sm:text-sm text-neo-black/60 font-medium uppercase tracking-wider">Products</span>
+                <span className="block text-2xl sm:text-3xl font-black text-neo-black font-mono">24+</span>
+                <span className="text-[10px] sm:text-xs text-neo-black/60 font-medium uppercase tracking-wider">Products</span>
               </div>
               <div>
-                <span className="block text-3xl sm:text-4xl font-black text-neo-black font-mono">10K+</span>
-                <span className="text-xs sm:text-sm text-neo-black/60 font-medium uppercase tracking-wider">Happy Users</span>
+                <span className="block text-2xl sm:text-3xl font-black text-neo-black font-mono">10K+</span>
+                <span className="text-[10px] sm:text-xs text-neo-black/60 font-medium uppercase tracking-wider">Happy Users</span>
               </div>
               <div>
-                <span className="block text-3xl sm:text-4xl font-black text-neo-black font-mono">99%</span>
-                <span className="text-xs sm:text-sm text-neo-black/60 font-medium uppercase tracking-wider">Satisfaction</span>
+                <span className="block text-2xl sm:text-3xl font-black text-neo-black font-mono">99%</span>
+                <span className="text-[10px] sm:text-xs text-neo-black/60 font-medium uppercase tracking-wider">Satisfaction</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1">
           <span className="text-[10px] font-mono text-neo-black/40 uppercase tracking-widest">Scroll</span>
-          <ChevronDown size={20} className="text-neo-black/40 animate-bounce" />
+          <ChevronDown size={18} className="text-neo-black/40 animate-bounce" />
         </div>
       </section>
 
-      {/* BoxPrint CTA Section - EMPHASIZED */}
-      <section className="py-12 md:py-20 bg-neo-black relative overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-40 h-40 bg-neo-yellow rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-10 right-10 w-60 h-60 bg-neo-yellow rounded-full blur-3xl animate-pulse delay-1000" />
+      {/* BoxPrint CTA Section - Compact & Mobile Optimized */}
+      <section className="py-10 md:py-16 bg-neo-black relative overflow-hidden">
+        {/* Subtle Background */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 left-1/4 w-32 h-32 bg-neo-yellow rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-40 h-40 bg-neo-yellow rounded-full blur-3xl" />
         </div>
         
-        <div className="container relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Content */}
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-neo-yellow text-neo-black rounded-full font-bold text-sm">
-                <Sparkles size={16} />
-                NEW SERVICE
-              </div>
-              
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                Need <span className="text-neo-yellow">3D Printing?</span>
-              </h2>
-              
-              <p className="text-white/70 text-base md:text-lg mb-6 max-w-md mx-auto lg:mx-0">
-                Get instant quotes for your 3D prints. Upload your model, choose materials, 
-                and have professional-quality prints delivered to your door.
-              </p>
+        <div className="container relative z-10 px-5">
+          <div className="max-w-4xl mx-auto text-center">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 bg-neo-yellow/10 border border-neo-yellow/20 text-neo-yellow rounded-full font-bold text-xs">
+              <Sparkles size={14} />
+              NEW SERVICE
+            </div>
+            
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white mb-3 tracking-tight">
+              Need <span className="text-neo-yellow">3D Printing?</span>
+            </h2>
+            
+            <p className="text-white/60 text-sm md:text-base mb-6 max-w-md mx-auto">
+              Upload your model, get instant quotes, and receive professional-quality prints at your doorstep.
+            </p>
 
-              {/* Features */}
-              <div className="grid grid-cols-3 gap-3 mb-8 max-w-md mx-auto lg:mx-0">
-                {[
-                  { icon: Upload, label: 'Upload STL/OBJ' },
-                  { icon: Printer, label: 'Instant Quote' },
-                  { icon: Clock, label: '48hr Dispatch' },
-                ].map((item, i) => (
-                  <div key={i} className="text-center p-3 bg-white/5 rounded-xl border border-white/10">
-                    <item.icon size={24} className="mx-auto text-neo-yellow mb-2" />
-                    <span className="text-xs text-white/60 font-medium">{item.label}</span>
-                  </div>
-                ))}
-              </div>
-
-              <Link 
-                href="/boxprint" 
-                className="inline-flex items-center gap-3 px-8 py-4 bg-neo-yellow text-neo-black font-black text-lg rounded-xl hover:scale-105 transition-transform shadow-[0_0_30px_rgba(255,208,88,0.3)] hover:shadow-[0_0_50px_rgba(255,208,88,0.5)]"
-              >
-                <Printer size={24} />
-                Get Your Quote Now
-                <ArrowRight size={20} />
-              </Link>
+            {/* Features - Horizontal on all screens */}
+            <div className="flex justify-center gap-3 sm:gap-6 mb-6 flex-wrap">
+              {[
+                { icon: Upload, label: 'Upload STL/OBJ' },
+                { icon: Printer, label: 'Instant Quote' },
+                { icon: Clock, label: '48hr Dispatch' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-2 text-white/70">
+                  <item.icon size={16} className="text-neo-yellow" />
+                  <span className="text-xs sm:text-sm font-medium">{item.label}</span>
+                </div>
+              ))}
             </div>
 
-            {/* Visual */}
-            <div className="relative hidden lg:block">
-              <div className="relative aspect-square max-w-md mx-auto">
-                {/* 3D Grid Animation Placeholder */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-64 h-64 border-2 border-neo-yellow/30 rounded-2xl rotate-12 animate-pulse" />
-                  <div className="absolute w-48 h-48 border-2 border-neo-yellow/50 rounded-xl -rotate-6" />
-                  <div className="absolute w-32 h-32 bg-neo-yellow/10 rounded-lg flex items-center justify-center">
-                    <Printer size={64} className="text-neo-yellow" />
-                  </div>
-                </div>
-                
-                {/* Stats Floating */}
-                <div className="absolute top-0 right-0 px-4 py-2 bg-white rounded-lg shadow-xl">
-                  <span className="text-xs text-neo-black/60">Starting from</span>
-                  <p className="text-xl font-black text-neo-black">₹199</p>
-                </div>
-                
-                <div className="absolute bottom-10 left-0 px-4 py-2 bg-green-500 text-white rounded-lg shadow-xl">
-                  <span className="text-sm font-bold">✓ Quality Guaranteed</span>
-                </div>
-              </div>
-            </div>
+            {/* CTA Button */}
+            <Link 
+              href="/boxprint" 
+              className="inline-flex items-center gap-2 px-6 py-3 bg-neo-yellow text-neo-black font-bold text-sm md:text-base rounded-xl hover:bg-yellow-400 transition-all hover:scale-105"
+            >
+              <Printer size={18} />
+              Get Your Quote
+              <ArrowRight size={16} />
+            </Link>
+            
+            {/* Price hint */}
+            <p className="mt-4 text-xs text-white/40">Starting from ₹199 • Quality Guaranteed</p>
           </div>
         </div>
       </section>
