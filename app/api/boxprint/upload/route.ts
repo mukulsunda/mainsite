@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     
     // Upload to Supabase Storage
     const { error: uploadError } = await supabase.storage
-      .from('3d-models')
+      .from('File storage')
       .upload(filePath, buffer, {
         contentType: file.type || 'application/octet-stream',
         cacheControl: '3600',
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     
     // Get public URL
     const { data: urlData } = supabase.storage
-      .from('3d-models')
+      .from('File storage')
       .getPublicUrl(filePath);
     
     return NextResponse.json({
