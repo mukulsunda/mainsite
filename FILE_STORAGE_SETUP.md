@@ -6,7 +6,7 @@ This guide will help you set up the 3D file storage system for the BoxPox printi
 
 The BoxPox application uses Supabase Storage to store 3D model files (.stl, .obj, .gltf formats) that users upload. Files are:
 - **Uploaded**: When users submit print orders
-- **Stored**: In the `File storage` bucket in Supabase Storage
+- **Stored**: In the `storage` bucket in Supabase Storage
 - **Retrieved**: By admin and customers for order verification and delivery
 
 ---
@@ -37,7 +37,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 
 1. Click **New bucket** button
 2. Fill in the form:
-   - **Bucket name**: `File storage` (MUST match exactly)
+   - **Bucket name**: `storage` (MUST match exactly)
    - **Privacy**: Check **Public bucket** ✅
    - Click **Create bucket**
 
@@ -45,10 +45,10 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 
 ```sql
 -- Run this query in SQL Editor to verify:
-SELECT * FROM storage.buckets WHERE id = 'File storage';
+SELECT * FROM storage.buckets WHERE id = 'storage';
 ```
 
-Expected output: One row with `id = 'File storage'` and `public = true`
+Expected output: One row with `id = 'storage'` and `public = true`
 
 ---
 
@@ -74,38 +74,38 @@ Copy and run this complete SQL script:
 
 ```sql
 -- Allow anyone to view/download files (public access for public bucket)
-CREATE POLICY "Public read access for File storage"
+CREATE POLICY "Public read access for storage"
 ON storage.objects FOR SELECT
-USING (bucket_id = 'File storage');
+USING (bucket_id = 'storage');
 
 -- Allow authenticated users to upload files
-CREATE POLICY "Authenticated users can upload to File storage"
+CREATE POLICY "Authenticated users can upload to storage"
 ON storage.objects FOR INSERT
 TO authenticated
-WITH CHECK (bucket_id = 'File storage' AND auth.role() = 'authenticated');
+WITH CHECK (bucket_id = 'storage' AND auth.role() = 'authenticated');
 
 -- Allow service role to upload files (for server-side uploads via API)
-CREATE POLICY "Service role can upload to File storage"
+CREATE POLICY "Service role can upload to storage"
 ON storage.objects FOR INSERT
 TO service_role
-WITH CHECK (bucket_id = 'File storage' AND auth.role() = 'service_role');
+WITH CHECK (bucket_id = 'storage' AND auth.role() = 'service_role');
 
 -- Allow service role to read files (for verification/retrieval)
-CREATE POLICY "Service role can read File storage"
+CREATE POLICY "Service role can read storage"
 ON storage.objects FOR SELECT
 TO service_role
-USING (bucket_id = 'File storage');
+USING (bucket_id = 'storage');
 
 -- Allow service role to update and delete
-CREATE POLICY "Service role can manage File storage"
+CREATE POLICY "Service role can manage storage"
 ON storage.objects FOR UPDATE
 TO service_role
-USING (bucket_id = 'File storage');
+USING (bucket_id = 'storage');
 
-CREATE POLICY "Service role can delete from File storage"
+CREATE POLICY "Service role can delete from storage"
 ON storage.objects FOR DELETE
 TO service_role
-USING (bucket_id = 'File storage');
+USING (bucket_id = 'storage');
 ```
 
 ### 2.4 Verify Policies Created
@@ -141,13 +141,13 @@ SELECT
   created_at,
   updated_at
 FROM storage.buckets 
-WHERE id = 'File storage';
+WHERE id = 'storage';
 ```
 
 Expected output:
 ```
 bucket_name  | is_public | created_at | updated_at
-File storage | true      | [date]     | [date]
+storage | true      | [date]     | [date]
 ```
 
 ### 3.2 Check Storage Policies
@@ -159,7 +159,7 @@ SELECT COUNT(*) as total_policies
 FROM pg_policies 
 WHERE tablename = 'objects' 
   AND schemaname = 'storage'
-  AND policyname LIKE '%File storage%';
+  AND policyname LIKE '%storage%';
 ```
 
 Expected: `6` policies
@@ -182,7 +182,7 @@ Expected: `6` policies
 
 After successful order:
 
-1. In Supabase Dashboard > **Storage** > **File storage**
+1. In Supabase Dashboard > **Storage** > **storage**
 2. Look for folder: `orders/[ORDER_NUMBER]/`
 3. You should see: `[timestamp]-[randomstr].stl` (or your file format)
 4. Click the file to see details:
@@ -216,7 +216,7 @@ ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 ### Issue: "Permission denied" when uploading
 
 **Solution**: 
-1. Verify bucket name is exactly `File storage` (case-sensitive)
+1. Verify bucket name is exactly `storage` (case-sensitive)
 2. Ensure RLS policies were created
 3. Run verification queries above
 
@@ -224,7 +224,7 @@ ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 
 **Solution**:
 1. Check bucket exists in Storage tab
-2. Verify bucket name is `File storage` (not `3d-models` or other names)
+2. Verify bucket name is `storage` (not `3d-models` or other names)
 3. If missing, recreate following Step 1
 
 ### Issue: Files upload but can't download
@@ -290,7 +290,7 @@ https://eyspyeslaugfpmwzsfhw.supabase.co/storage/v1/object/public/File%20storage
 **Signed URL** (for private files, if needed later):
 ```typescript
 const { data, error } = await supabase.storage
-  .from('File storage')
+  .from('storage')
   .createSignedUrl('orders/ORD-123/file.stl', 3600); // 1 hour expiry
 ```
 
@@ -301,7 +301,7 @@ const { data, error } = await supabase.storage
 Files are organized by order in Supabase Storage:
 
 ```
-File storage/
+storage/
 ├── orders/
 │   ├── ORD-20250108-001/
 │   │   ├── 1704712345-abc123.stl
@@ -356,7 +356,7 @@ SELECT
   MIN(created_at) as oldest_file,
   MAX(created_at) as newest_file
 FROM storage.objects
-WHERE bucket_id = 'File storage';
+WHERE bucket_id = 'storage';
 ```
 
 ### Clean Old Files (if needed)
@@ -375,7 +375,7 @@ WHERE bucket_id = 'File storage'
 If you encounter issues:
 
 1. **Check this guide** - Common solutions in Troubleshooting section
-2. **Verify bucket name** - Must be exactly `File storage`
+2. **Verify bucket name** - Must be exactly `storage`
 3. **Check RLS policies** - Run verification queries
 4. **Check env variables** - Ensure `.env.local` has correct keys
 5. **Review logs** - Check browser console and Supabase logs
