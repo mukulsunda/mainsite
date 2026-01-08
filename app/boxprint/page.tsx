@@ -72,123 +72,57 @@ export default function BoxPrintPage() {
 
   return (
     <main className="pt-[72px] md:pt-[80px] bg-white min-h-screen">
-      {/* Hero Section - Enhanced */}
-      <section className="relative bg-gradient-to-br from-neo-black via-gray-900 to-neo-black text-white overflow-hidden">
-        {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `linear-gradient(rgba(255,214,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,214,0,0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
-          }} />
-        </div>
+      {/* Hero Section */}
+      <section className="relative bg-neo-black text-white overflow-hidden">
+        <div className="absolute inset-0 grid-bg-dark opacity-30" />
         
-        {/* Glowing orbs */}
-        <div className="absolute top-10 right-[15%] w-40 h-40 bg-neo-yellow/30 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-0 left-[10%] w-60 h-60 bg-neo-yellow/20 rounded-full blur-[120px]" />
-        <div className="absolute top-1/2 right-[5%] w-24 h-24 bg-blue-500/20 rounded-full blur-[60px]" />
+        {/* Floating elements */}
+        <div className="absolute top-20 right-[10%] w-20 h-20 bg-neo-yellow/20 rounded-full blur-2xl" />
+        <div className="absolute bottom-10 left-[5%] w-32 h-32 bg-neo-yellow/10 rounded-full blur-3xl" />
         
-        {/* 3D geometric shapes */}
-        <div className="absolute top-16 right-[20%] w-16 h-16 border-2 border-neo-yellow/30 rotate-45 animate-spin" style={{ animationDuration: '20s' }} />
-        <div className="absolute bottom-20 right-[30%] w-8 h-8 bg-neo-yellow/20 rotate-12" />
-        <div className="absolute top-1/3 left-[8%] w-6 h-6 border border-white/20 rounded-full" />
-        
-        <div className="container relative z-10 py-16 md:py-20 lg:py-24">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
-            <div className="max-w-2xl">
-              {/* Brand Badge with glow */}
-              <div className="inline-flex items-center gap-3 mb-6 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-                <div className="w-10 h-10 bg-gradient-to-br from-neo-yellow to-yellow-500 rounded-lg flex items-center justify-center shadow-lg shadow-neo-yellow/30">
-                  <Printer size={22} className="text-neo-black" />
+        <div className="container relative z-10 py-8 md:py-12">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              {/* Brand Badge */}
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-9 h-9 bg-neo-yellow rounded-lg flex items-center justify-center">
+                  <Printer size={20} className="text-neo-black" />
                 </div>
-                <span className="font-black text-2xl tracking-tight">
+                <span className="font-black text-xl tracking-tight">
                   Box<span className="text-neo-yellow">Print</span>
                 </span>
-                <span className="ml-2 px-2 py-0.5 bg-neo-yellow/20 text-neo-yellow text-xs font-bold rounded-full">
-                  3D PRINTING
-                </span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-[1.1]">
-                Transform Your Ideas Into
-                <span className="block mt-2 bg-gradient-to-r from-neo-yellow via-yellow-400 to-neo-yellow bg-clip-text text-transparent">
-                  Reality
-                </span>
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-black mb-3 tracking-tight max-w-xl text-white">
+                Professional 3D Printing, <span className="text-neo-yellow">Made Simple</span>
               </h1>
-              
-              <p className="text-white/70 text-base md:text-lg max-w-lg mb-8 leading-relaxed">
-                Professional-grade 3D printing made accessible. Upload your model, 
-                customize materials & finishes, and receive high-quality prints at your doorstep.
+              <p className="text-white/60 text-sm max-w-lg">
+                Upload your model, choose your material, and get an instant quote. 
+                High-quality prints delivered to your door.
               </p>
-              
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4">
-                <a 
-                  href="#upload-section"
-                  className="inline-flex items-center gap-2 bg-neo-yellow text-neo-black px-6 py-3 rounded-xl font-bold hover:bg-yellow-400 transition-all hover:scale-105 hover:shadow-lg hover:shadow-neo-yellow/30"
-                >
-                  <Upload size={20} />
-                  Upload Model
-                </a>
-                <Link 
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-xl font-bold border border-white/20 hover:bg-white/20 transition-all"
-                >
-                  Get a Quote
-                  <ArrowRight size={18} />
-                </Link>
-              </div>
             </div>
             
-            {/* Stats Cards */}
-            <div className="grid grid-cols-3 gap-4 lg:gap-6">
+            {/* Stats */}
+            <div className="flex gap-4 md:gap-6">
               {[
-                { value: '0.1mm', label: 'Layer Precision', icon: Layers },
-                { value: '4+', label: 'Premium Materials', icon: Palette },
-                { value: '48hr', label: 'Fast Turnaround', icon: Clock },
+                { value: '0.1mm', label: 'Layer precision' },
+                { value: '4+', label: 'Materials' },
+                { value: '48hr', label: 'Turnaround' },
               ].map((stat, i) => (
-                <div 
-                  key={i} 
-                  className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 text-center hover:bg-white/10 hover:border-neo-yellow/30 transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-neo-yellow/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-                  <stat.icon size={24} className="mx-auto mb-2 text-neo-yellow/70 group-hover:text-neo-yellow transition-colors" />
-                  <span className="block text-2xl md:text-3xl font-black text-neo-yellow font-mono">
+                <div key={i} className="text-center">
+                  <span className="block text-xl md:text-2xl font-black text-neo-yellow font-mono">
                     {stat.value}
                   </span>
-                  <span className="text-[10px] md:text-xs text-white/50 uppercase tracking-wider mt-1 block">
-                    {stat.label}
-                  </span>
+                  <span className="text-[10px] text-white/40 uppercase tracking-wider">{stat.label}</span>
                 </div>
               ))}
-            </div>
-          </div>
-          
-          {/* Trust indicators */}
-          <div className="mt-12 pt-8 border-t border-white/10">
-            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 text-white/40 text-sm">
-              <div className="flex items-center gap-2">
-                <CheckCircle size={16} className="text-green-400" />
-                <span>Quality Guaranteed</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star size={16} className="text-neo-yellow" />
-                <span>Expert Support</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield size={16} className="text-blue-400" />
-                <span>Secure Uploads</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Truck size={16} className="text-purple-400" />
-                <span>Pan-India Delivery</span>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section id="upload-section" className="py-8 md:py-12">
+      <section id="upload-section" className="py-6 md:py-10">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             
