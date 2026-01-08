@@ -40,14 +40,14 @@ export default function FileDownloadButton({ fileName, filePath, className = '' 
       } else {
         // Create signed URL for private bucket access
         const { data, error } = await supabase.storage
-          .from('File storage')
+          .from('storage')
           .createSignedUrl(filePath, 60); // 60 seconds expiry
         
         if (error) {
           console.error('Signed URL error:', error);
           // Fallback to public URL
           const { data: publicData } = supabase.storage
-            .from('File storage')
+            .from('storage')
             .getPublicUrl(filePath);
           
           if (publicData?.publicUrl) {

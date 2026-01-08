@@ -31,10 +31,10 @@ export default function FileDownloadLink({ fileName, filePath, variant = 'icon' 
         link.click();
         document.body.removeChild(link);
       } else {
-        // Get public URL from Supabase Storage
+        // Get public URL from Supabase Storage as fallback
         const supabase = createClient();
         const { data } = supabase.storage
-          .from('File storage')
+          .from('storage')
           .getPublicUrl(filePath);
         
         if (data?.publicUrl) {

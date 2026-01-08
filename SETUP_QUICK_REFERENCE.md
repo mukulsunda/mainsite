@@ -19,7 +19,7 @@ Error: 42501: must be owner of table objects
 ### Step 1: Create Bucket (Dashboard) - 5 min
 ```
 Supabase > Storage > New bucket
-Name: "File storage" (case-sensitive)
+Name: "storage" (case-sensitive)
 Public: ✅ Yes
 Click: Create
 ```
@@ -28,34 +28,34 @@ Click: Create
 Copy **ONLY** these 6 CREATE POLICY statements from `supabase_storage_setup.sql`:
 
 ```sql
-CREATE POLICY "Public read access for File storage"
+CREATE POLICY "Public read access for storage"
 ON storage.objects FOR SELECT
-USING (bucket_id = 'File storage');
+USING (bucket_id = 'storage');
 
-CREATE POLICY "Authenticated users can upload to File storage"
+CREATE POLICY "Authenticated users can upload to storage"
 ON storage.objects FOR INSERT
 TO authenticated
-WITH CHECK (bucket_id = 'File storage' AND auth.role() = 'authenticated');
+WITH CHECK (bucket_id = 'storage' AND auth.role() = 'authenticated');
 
-CREATE POLICY "Service role can upload to File storage"
+CREATE POLICY "Service role can upload to storage"
 ON storage.objects FOR INSERT
 TO service_role
-WITH CHECK (bucket_id = 'File storage' AND auth.role() = 'service_role');
+WITH CHECK (bucket_id = 'storage' AND auth.role() = 'service_role');
 
-CREATE POLICY "Service role can read File storage"
+CREATE POLICY "Service role can read storage"
 ON storage.objects FOR SELECT
 TO service_role
-USING (bucket_id = 'File storage');
+USING (bucket_id = 'storage');
 
-CREATE POLICY "Service role can manage File storage"
+CREATE POLICY "Service role can manage storage"
 ON storage.objects FOR UPDATE
 TO service_role
-USING (bucket_id = 'File storage');
+USING (bucket_id = 'storage');
 
-CREATE POLICY "Service role can delete from File storage"
+CREATE POLICY "Service role can delete from storage"
 ON storage.objects FOR DELETE
 TO service_role
-USING (bucket_id = 'File storage');
+USING (bucket_id = 'storage');
 ```
 
 ### Step 3: Test - 5 min
@@ -86,7 +86,7 @@ User uploads file on /boxprint
          ↓
 File validated (format, size)
          ↓
-File stored in "File storage" bucket
+File stored in "storage" bucket
          ↓
 File path: orders/ORD-123/12345-abc.stl
          ↓
@@ -110,16 +110,16 @@ Admin can download from orders page ✅
 
 ```sql
 -- Check bucket exists:
-SELECT * FROM storage.buckets WHERE id = 'File storage';
+SELECT * FROM storage.buckets WHERE id = 'storage';
 
 -- Check policies created:
 SELECT COUNT(*) FROM pg_policies 
-WHERE tablename = 'objects' AND policyname LIKE '%File storage%';
+WHERE tablename = 'objects' AND policyname LIKE '%storage%';
 -- Result: 6
 
 -- Check files uploaded:
 SELECT name, size, created_at FROM storage.objects 
-WHERE bucket_id = 'File storage' LIMIT 5;
+WHERE bucket_id = 'storage' LIMIT 5;
 ```
 
 ---
