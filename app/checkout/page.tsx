@@ -193,6 +193,11 @@ export default function CheckoutPage() {
       if (!form.billing.pincode.trim()) newErrors['billing.pincode'] = 'Pincode is required';
       else if (!/^\d{6}$/.test(form.billing.pincode)) newErrors['billing.pincode'] = 'Invalid pincode';
     }
+
+    // Address label validation (required when saving address)
+    if (form.saveAddress && !form.addressLabel.trim()) {
+      newErrors['addressLabel'] = 'Address label is required to save';
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -609,19 +614,29 @@ export default function CheckoutPage() {
                         <input
                           type="checkbox"
                           checked={form.saveAddress}
-                          onChange={(e) => setForm(prev => ({ ...prev, saveAddress: e.target.checked }))}
-                          className="w-4 h-4 rounded border-neo-black/30"
+                          onChange={(e) => setForm(prev => ({ ...prev, saveAddress: e.target.checked, addressLabel: e.target.checked ? prev.addressLabel : '' }))}
+                          className="w-4 h-4 rounded border-neo-black/30 accent-neo-yellow"
                         />
-                        <span className="text-sm">Save this address for future orders</span>
+                        <span className="text-sm font-medium">Save this address for future orders</span>
                       </label>
                       {form.saveAddress && (
-                        <input
-                          type="text"
-                          value={form.addressLabel}
-                          onChange={(e) => setForm(prev => ({ ...prev, addressLabel: e.target.value }))}
-                          placeholder="Label (e.g., Home, Office)"
-                          className="mt-2 w-full px-4 py-2 border border-neo-black/20 rounded-lg text-sm"
-                        />
+                        <div className="mt-3">
+                          <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Address Label *</label>
+                          <input
+                            type="text"
+                            value={form.addressLabel}
+                            onChange={(e) => {
+                              setForm(prev => ({ ...prev, addressLabel: e.target.value }));
+                              if (errors['addressLabel']) setErrors(prev => ({ ...prev, addressLabel: '' }));
+                            }}
+                            placeholder="e.g., Home, Office, Parents' House"
+                            className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
+                              errors['addressLabel'] ? 'border-red-500' : 'border-neo-black/20'
+                            }`}
+                          />
+                          {errors['addressLabel'] && <p className="text-red-500 text-xs mt-1">{errors['addressLabel']}</p>}
+                          <p className="text-xs text-neo-black/50 mt-1">This label helps you identify the address later</p>
+                        </div>
                       )}
                     </div>
                   )}
