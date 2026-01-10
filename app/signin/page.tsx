@@ -170,48 +170,48 @@ function SignInForm() {
 
       <main className="min-h-screen bg-white flex">
         {/* Left Side - Form */}
-        <div className="flex-1 flex items-center justify-center p-6 md:p-12">
-        <div className="w-full max-w-md">
-          {/* Logo */}
-          <Link href="/" className="inline-flex items-center gap-2 mb-10">
+        <div className="flex-1 flex flex-col min-h-screen md:justify-center p-5 md:p-12 pt-20 md:pt-12 safe-area-inset">
+        <div className="w-full max-w-md mx-auto">
+          {/* Logo - Mobile optimized */}
+          <Link href="/" className="inline-flex items-center gap-2 mb-6 md:mb-10">
             <Image 
               src="/logo.png" 
               alt="BoxPox Logo" 
-              width={50} 
-              height={50} 
-              className="h-12 w-auto"
+              width={40} 
+              height={40} 
+              className="h-10 md:h-12 w-auto"
             />
           </Link>
 
-          <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tight text-neo-black">Welcome back</h1>
-          <p className="text-neo-black/60 mb-8">
+          <h1 className="text-2xl md:text-4xl font-black mb-1.5 tracking-tight text-neo-black">Welcome back</h1>
+          <p className="text-neo-black/60 text-sm md:text-base mb-6 md:mb-8">
             Sign in to continue to your account
           </p>
 
           {/* Success Message */}
           {successMessage && (
-            <div className="mb-6 p-4 bg-green-50 border-2 border-green-200 rounded-xl flex items-start gap-3">
-              <CheckCircle size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
+            <div className="mb-5 p-3.5 md:p-4 bg-green-50 border border-green-200 rounded-xl flex items-start gap-3">
+              <CheckCircle size={18} className="text-green-600 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-green-800">{successMessage}</p>
             </div>
           )}
 
           {/* Error Message */}
           {errors.general && (
-            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3">
-              <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+            <div className="mb-5 p-3.5 md:p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+              <AlertCircle size={18} className="text-red-600 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-red-800">{errors.general}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-bold mb-2 text-neo-black">
+              <label htmlFor="email" className="block text-sm font-semibold mb-1.5 text-neo-black">
                 Email address
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neo-black/30" />
                 <input
                   id="email"
                   type="email"
@@ -220,23 +220,24 @@ function SignInForm() {
                     setFormData({ ...formData, email: e.target.value });
                     if (errors.email) setErrors({ ...errors, email: undefined });
                   }}
-                  className={`w-full pl-11 pr-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                    errors.email ? 'border-red-500 focus:border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
+                  className={`w-full pl-10 pr-4 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base ${
+                    errors.email ? 'border-red-400 focus:border-red-500 bg-red-50/50' : 'border-neo-black/10 focus:border-neo-yellow bg-neo-light-gray/50 focus:bg-white'
                   }`}
                   placeholder="you@example.com"
                   disabled={isLoading}
+                  autoComplete="email"
                 />
               </div>
-              {errors.email && <p className="mt-1.5 text-sm text-red-500">{errors.email}</p>}
+              {errors.email && <p className="mt-1.5 text-xs text-red-500 font-medium">{errors.email}</p>}
             </div>
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-bold mb-2 text-neo-black">
+              <label htmlFor="password" className="block text-sm font-semibold mb-1.5 text-neo-black">
                 Password
               </label>
               <div className="relative">
-                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neo-black/30" />
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -245,27 +246,28 @@ function SignInForm() {
                     setFormData({ ...formData, password: e.target.value });
                     if (errors.password) setErrors({ ...errors, password: undefined });
                   }}
-                  className={`w-full pl-11 pr-12 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                    errors.password ? 'border-red-500 focus:border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
+                  className={`w-full pl-10 pr-12 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base ${
+                    errors.password ? 'border-red-400 focus:border-red-500 bg-red-50/50' : 'border-neo-black/10 focus:border-neo-yellow bg-neo-light-gray/50 focus:bg-white'
                   }`}
                   placeholder="Enter your password"
                   disabled={isLoading}
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-neo-black/40 hover:text-neo-black transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neo-black/40 hover:text-neo-black transition-colors p-1"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
-              {errors.password && <p className="mt-1.5 text-sm text-red-500">{errors.password}</p>}
+              {errors.password && <p className="mt-1.5 text-xs text-red-500 font-medium">{errors.password}</p>}
             </div>
 
             {/* Remember & Forgot */}
             <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2.5 cursor-pointer group">
-                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
                   formData.remember ? 'bg-neo-yellow border-neo-yellow' : 'border-neo-black/20 group-hover:border-neo-black/40'
                 }`}>
                   {formData.remember && <Check size={14} className="text-neo-black" />}
@@ -281,7 +283,7 @@ function SignInForm() {
               <button 
                 type="button"
                 onClick={handleForgotPassword}
-                className="text-sm font-bold text-neo-black hover:text-neo-yellow transition-colors"
+                className="text-sm font-semibold text-neo-black hover:text-neo-yellow transition-colors"
               >
                 Forgot password?
               </button>
@@ -291,7 +293,7 @@ function SignInForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full py-3.5 md:py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-neo-black/20"
             >
               {isLoading ? (
                 <span className="flex items-center gap-2">
@@ -308,11 +310,11 @@ function SignInForm() {
           </form>
 
           {/* Divider */}
-          <div className="relative my-6">
+          <div className="relative my-5 md:my-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-neo-black/10"></div>
             </div>
-            <div className="relative flex justify-center text-sm">
+            <div className="relative flex justify-center text-xs md:text-sm">
               <span className="px-4 bg-white text-neo-black/50">or continue with</span>
             </div>
           </div>
@@ -322,7 +324,7 @@ function SignInForm() {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full py-4 bg-white border-2 border-neo-black/10 font-bold rounded-xl hover:border-neo-black/30 hover:bg-neo-light-gray transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-3.5 md:py-4 bg-white border-2 border-neo-black/10 font-semibold rounded-xl hover:border-neo-black/30 hover:bg-neo-light-gray active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <svg width="20" height="20" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -333,14 +335,14 @@ function SignInForm() {
             Continue with Google
           </button>
 
-          {/* Sign Up Link - Always visible */}
-          <div className="mt-6 pt-6 border-t border-neo-black/10">
+          {/* Sign Up Link - Mobile friendly */}
+          <div className="mt-6 pt-5 border-t border-neo-black/10">
             <p className="text-center text-sm text-neo-black/60 mb-3">
               Don&apos;t have an account?
             </p>
             <Link 
               href="/signup" 
-              className="w-full py-3 border-2 border-neo-black text-neo-black font-bold rounded-xl hover:bg-neo-black hover:text-white transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 md:py-3.5 border-2 border-neo-black text-neo-black font-bold rounded-xl hover:bg-neo-black hover:text-white active:scale-[0.98] transition-all flex items-center justify-center gap-2"
             >
               Create Account Free
               <ArrowRight size={18} />
@@ -349,7 +351,7 @@ function SignInForm() {
         </div>
       </div>
 
-      {/* Right Side - Branding */}
+      {/* Right Side - Branding (Desktop only) */}
       <div className="hidden lg:flex flex-1 bg-neo-black items-center justify-center p-12 relative overflow-hidden">
         <div className="absolute inset-0 grid-bg-dark opacity-30" />
         

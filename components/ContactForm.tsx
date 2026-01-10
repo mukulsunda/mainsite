@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Loader2, CheckCircle } from 'lucide-react';
 
 export default function ContactForm() {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -19,16 +19,17 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         <div>
           <label htmlFor="name" className="block text-xs font-bold text-neo-black mb-1.5">
             Full Name <span className="text-neo-yellow">*</span>
           </label>
           <input 
             type="text" 
-            id="name" 
-            className="w-full px-3 py-2.5 bg-neo-light-gray border border-neo-black/10 rounded-lg text-sm focus:outline-none focus:border-neo-black transition-colors" 
+            id="name"
+            autoComplete="name"
+            className="w-full px-3 py-2.5 md:py-3 bg-neo-light-gray/70 border border-neo-black/10 rounded-xl text-sm focus:outline-none focus:border-neo-black focus:bg-white transition-all" 
             placeholder="John Doe" 
             required 
           />
@@ -39,8 +40,9 @@ export default function ContactForm() {
           </label>
           <input 
             type="email" 
-            id="email" 
-            className="w-full px-3 py-2.5 bg-neo-light-gray border border-neo-black/10 rounded-lg text-sm focus:outline-none focus:border-neo-black transition-colors" 
+            id="email"
+            autoComplete="email"
+            className="w-full px-3 py-2.5 md:py-3 bg-neo-light-gray/70 border border-neo-black/10 rounded-xl text-sm focus:outline-none focus:border-neo-black focus:bg-white transition-all" 
             placeholder="john@example.com" 
             required 
           />
@@ -51,7 +53,11 @@ export default function ContactForm() {
         <label htmlFor="subject" className="block text-xs font-bold text-neo-black mb-1.5">
           Subject <span className="text-neo-yellow">*</span>
         </label>
-        <select id="subject" className="w-full px-3 py-2.5 bg-neo-light-gray border border-neo-black/10 rounded-lg text-sm focus:outline-none focus:border-neo-black transition-colors" required>
+        <select 
+          id="subject" 
+          className="w-full px-3 py-2.5 md:py-3 bg-neo-light-gray/70 border border-neo-black/10 rounded-xl text-sm focus:outline-none focus:border-neo-black focus:bg-white transition-all appearance-none cursor-pointer" 
+          required
+        >
           <option value="">Select a topic</option>
           <option value="general">General Inquiry</option>
           <option value="support">Product Support</option>
@@ -68,28 +74,28 @@ export default function ContactForm() {
         </label>
         <textarea 
           id="message" 
-          rows={5} 
-          className="w-full px-3 py-2.5 bg-neo-light-gray border border-neo-black/10 rounded-lg text-sm focus:outline-none focus:border-neo-black transition-colors resize-none" 
+          rows={4} 
+          className="w-full px-3 py-2.5 md:py-3 bg-neo-light-gray/70 border border-neo-black/10 rounded-xl text-sm focus:outline-none focus:border-neo-black focus:bg-white transition-all resize-none" 
           placeholder="Tell us how we can help..."
           required
         />
       </div>
 
-      <div className="flex items-start gap-2">
+      <div className="flex items-start gap-2.5">
         <input 
           type="checkbox" 
           id="consent" 
-          className="w-4 h-4 mt-0.5 accent-neo-yellow"
+          className="w-4 h-4 mt-0.5 accent-neo-yellow rounded"
           required
         />
-        <label htmlFor="consent" className="text-xs text-neo-black/70">
+        <label htmlFor="consent" className="text-xs text-neo-black/70 leading-relaxed">
           I agree to the processing of my personal data in accordance with the Privacy Policy.
         </label>
       </div>
 
       <button 
         type="submit" 
-        className="w-full bg-neo-black text-white py-2.5 px-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:bg-neo-black/90 transition-colors disabled:opacity-50"
+        className="w-full bg-neo-black text-white py-3 md:py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-neo-black/90 active:scale-[0.98] transition-all disabled:opacity-50 shadow-lg shadow-neo-black/20"
         disabled={formStatus === 'sending'}
       >
         {formStatus === 'idle' && (
@@ -101,18 +107,20 @@ export default function ContactForm() {
         {formStatus === 'sending' && (
           <>
             Sending...
-            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <Loader2 size={16} className="animate-spin" />
           </>
         )}
         {formStatus === 'success' && (
           <>
-            Message Sent ✓
+            <CheckCircle size={16} />
+            Message Sent!
           </>
         )}
       </button>
 
       {formStatus === 'success' && (
-        <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-green-800 text-center text-sm">
+        <div className="p-3 bg-green-50 border border-green-200 rounded-xl text-green-800 text-center text-sm flex items-center justify-center gap-2">
+          <CheckCircle size={16} />
           Thank you! We&apos;ll respond within 24 hours.
         </div>
       )}

@@ -189,105 +189,108 @@ export default function SignUp() {
       </div>
 
       {/* Right Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-6 md:p-12">
-        <div className="w-full max-w-md">
+      <div className="flex-1 flex flex-col min-h-screen md:justify-center p-5 md:p-12 pt-16 md:pt-12 safe-area-inset">
+        <div className="w-full max-w-md mx-auto">
           {/* Logo */}
-          <Link href="/" className="inline-flex items-center gap-2 mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 mb-6 md:mb-8">
             <Image 
               src="/logo.png" 
               alt="BoxPox Logo" 
               width={50} 
               height={50} 
-              className="h-12 w-auto"
+              className="h-10 md:h-12 w-auto"
             />
           </Link>
 
           {/* Progress Indicator */}
-          <div className="flex items-center gap-2 mb-8">
-            <div className={`flex-1 h-1.5 rounded-full ${currentStep >= 1 ? 'bg-neo-yellow' : 'bg-neo-black/10'}`} />
-            <div className={`flex-1 h-1.5 rounded-full ${currentStep >= 2 ? 'bg-neo-yellow' : 'bg-neo-black/10'}`} />
+          <div className="flex items-center gap-2 mb-6 md:mb-8">
+            <div className={`flex-1 h-1.5 rounded-full transition-colors ${currentStep >= 1 ? 'bg-neo-yellow' : 'bg-neo-black/10'}`} />
+            <div className={`flex-1 h-1.5 rounded-full transition-colors ${currentStep >= 2 ? 'bg-neo-yellow' : 'bg-neo-black/10'}`} />
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tight text-neo-black">
+          <h1 className="text-2xl md:text-4xl font-black mb-1 md:mb-2 tracking-tight text-neo-black">
             {currentStep === 1 ? 'Create account' : 'Set your password'}
           </h1>
-          <p className="text-neo-black/60 mb-8">
+          <p className="text-neo-black/60 mb-6 md:mb-8 text-sm md:text-base">
             {currentStep === 1 ? 'Join the BoxPox community today' : 'Choose a strong password to secure your account'}
           </p>
 
           {/* General Error Message */}
           {generalError && (
-            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3">
-              <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+            <div className="mb-5 md:mb-6 p-3 md:p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3">
+              <AlertCircle size={18} className="text-red-600 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-red-800">{generalError}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
             {currentStep === 1 ? (
               <>
                 {/* Name Fields */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-bold mb-2 text-neo-black">
+                    <label htmlFor="firstName" className="block text-sm font-bold mb-1.5 md:mb-2 text-neo-black">
                       First name
                     </label>
                     <div className="relative">
-                      <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                      <User size={18} className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
                       <input
                         id="firstName"
                         type="text"
+                        autoComplete="given-name"
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        className={`w-full pl-11 pr-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
+                        className={`w-full pl-10 md:pl-11 pr-3 md:pr-4 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base bg-neo-light-gray/50 focus:bg-white ${
                           errors.firstName ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
                         }`}
                         placeholder="John"
                       />
                     </div>
-                    {errors.firstName && <p className="mt-1 text-sm text-red-500">{errors.firstName}</p>}
+                    {errors.firstName && <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>}
                   </div>
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-bold mb-2 text-neo-black">
+                    <label htmlFor="lastName" className="block text-sm font-bold mb-1.5 md:mb-2 text-neo-black">
                       Last name
                     </label>
                     <input
                       id="lastName"
                       type="text"
+                      autoComplete="family-name"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className={`w-full px-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
+                      className={`w-full px-3 md:px-4 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base bg-neo-light-gray/50 focus:bg-white ${
                         errors.lastName ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
                       }`}
                       placeholder="Doe"
                     />
-                    {errors.lastName && <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>}
+                    {errors.lastName && <p className="mt-1 text-xs text-red-500">{errors.lastName}</p>}
                   </div>
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-bold mb-2 text-neo-black">
+                  <label htmlFor="email" className="block text-sm font-bold mb-1.5 md:mb-2 text-neo-black">
                     Email address
                   </label>
                   <div className="relative">
-                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                    <Mail size={18} className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
                     <input
                       id="email"
                       type="email"
+                      autoComplete="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={`w-full pl-11 pr-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
+                      className={`w-full pl-10 md:pl-11 pr-3 md:pr-4 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base bg-neo-light-gray/50 focus:bg-white ${
                         errors.email ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
                       }`}
                       placeholder="you@example.com"
                     />
                   </div>
-                  {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+                  {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
                 </div>
 
                 {/* Newsletter Opt-in */}
-                <label className="flex items-start gap-3 cursor-pointer p-4 bg-neo-light-gray rounded-xl border border-neo-black/5">
+                <label className="flex items-start gap-3 cursor-pointer p-3 md:p-4 bg-neo-light-gray/70 rounded-xl border border-neo-black/5 active:scale-[0.99] transition-transform">
                   <div className={`w-5 h-5 mt-0.5 rounded-md border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
                     formData.newsletter ? 'bg-neo-yellow border-neo-yellow' : 'border-neo-black/20'
                   }`}>
@@ -309,7 +312,7 @@ export default function SignUp() {
                   type="button"
                   onClick={handleNextStep}
                   disabled={isLoading}
-                  className="w-full py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full py-3.5 md:py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-neo-black/20"
                 >
                   Continue
                   <ArrowRight size={18} />
@@ -319,17 +322,18 @@ export default function SignUp() {
               <>
                 {/* Password */}
                 <div>
-                  <label htmlFor="password" className="block text-sm font-bold mb-2 text-neo-black">
+                  <label htmlFor="password" className="block text-sm font-bold mb-1.5 md:mb-2 text-neo-black">
                     Password
                   </label>
                   <div className="relative">
-                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                    <Lock size={18} className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
                     <input
                       id="password"
                       type={showPassword ? 'text' : 'password'}
+                      autoComplete="new-password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className={`w-full pl-11 pr-12 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
+                      className={`w-full pl-10 md:pl-11 pr-12 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base bg-neo-light-gray/50 focus:bg-white ${
                         errors.password ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
                       }`}
                       placeholder="Create a password"
@@ -337,7 +341,7 @@ export default function SignUp() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-neo-black/40 hover:text-neo-black"
+                      className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-neo-black/40 hover:text-neo-black p-1"
                     >
                       {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
@@ -345,13 +349,13 @@ export default function SignUp() {
                   
                   {/* Password Requirements */}
                   {formData.password.length > 0 && (
-                    <div className="mt-3 grid grid-cols-2 gap-2">
+                    <div className="mt-3 grid grid-cols-2 gap-1.5 md:gap-2">
                       {passwordRequirements.map((req, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs">
-                          <div className={`w-4 h-4 rounded-full flex items-center justify-center ${
+                        <div key={i} className="flex items-center gap-1.5 md:gap-2 text-[11px] md:text-xs">
+                          <div className={`w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center ${
                             req.met ? 'bg-green-500' : 'bg-neo-black/10'
                           }`}>
-                            {req.met && <Check size={10} className="text-white" />}
+                            {req.met && <Check size={8} className="text-white" />}
                           </div>
                           <span className={req.met ? 'text-green-600' : 'text-neo-black/50'}>{req.label}</span>
                         </div>
@@ -362,30 +366,31 @@ export default function SignUp() {
 
                 {/* Confirm Password */}
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-bold mb-2 text-neo-black">
+                  <label htmlFor="confirmPassword" className="block text-sm font-bold mb-1.5 md:mb-2 text-neo-black">
                     Confirm password
                   </label>
                   <div className="relative">
-                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                    <Lock size={18} className="absolute left-3.5 md:left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
                     <input
                       id="confirmPassword"
                       type={showPassword ? 'text' : 'password'}
+                      autoComplete="new-password"
                       value={formData.confirmPassword}
                       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                      className={`w-full pl-11 pr-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
+                      className={`w-full pl-10 md:pl-11 pr-10 md:pr-4 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base bg-neo-light-gray/50 focus:bg-white ${
                         errors.confirmPassword ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
                       }`}
                       placeholder="Confirm your password"
                     />
                     {formData.confirmPassword && formData.password === formData.confirmPassword && (
-                      <Check size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500" />
+                      <Check size={18} className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-green-500" />
                     )}
                   </div>
-                  {errors.confirmPassword && <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>}
+                  {errors.confirmPassword && <p className="mt-1 text-xs text-red-500">{errors.confirmPassword}</p>}
                 </div>
 
                 {/* Terms */}
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex items-start gap-3 cursor-pointer active:opacity-80 transition-opacity">
                   <div className={`w-5 h-5 mt-0.5 rounded-md border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
                     formData.terms ? 'bg-neo-yellow border-neo-yellow' : errors.terms ? 'border-red-500' : 'border-neo-black/20'
                   }`}>
@@ -408,21 +413,21 @@ export default function SignUp() {
                     </Link>
                   </span>
                 </label>
-                {errors.terms && <p className="text-sm text-red-500">{errors.terms}</p>}
+                {errors.terms && <p className="text-xs text-red-500">{errors.terms}</p>}
 
                 {/* Buttons */}
                 <div className="flex gap-3">
                   <button
                     type="button"
                     onClick={() => setCurrentStep(1)}
-                    className="px-6 py-4 border-2 border-neo-black/10 text-neo-black font-bold rounded-xl hover:border-neo-black/30 transition-all"
+                    className="px-5 md:px-6 py-3 md:py-4 border-2 border-neo-black/10 text-neo-black font-bold rounded-xl hover:border-neo-black/30 active:scale-[0.98] transition-all"
                   >
                     Back
                   </button>
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="flex-1 py-3 md:py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-neo-black/20"
                   >
                     {isLoading ? (
                       <span className="flex items-center gap-2">
@@ -444,7 +449,7 @@ export default function SignUp() {
           {/* Social Sign Up - Only show on step 1 */}
           {currentStep === 1 && (
             <>
-              <div className="relative my-8">
+              <div className="relative my-6 md:my-8">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full h-px bg-neo-black/10"></div>
                 </div>
@@ -456,7 +461,7 @@ export default function SignUp() {
               <button 
                 onClick={handleGoogleSignUp}
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2.5 px-4 py-3.5 border-2 border-neo-black/10 rounded-xl font-bold text-sm hover:border-neo-black/30 hover:bg-neo-light-gray transition-all disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2.5 px-4 py-3 md:py-3.5 border-2 border-neo-black/10 rounded-xl font-bold text-sm hover:border-neo-black/30 hover:bg-neo-light-gray active:scale-[0.98] transition-all disabled:opacity-50"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -470,13 +475,13 @@ export default function SignUp() {
           )}
 
           {/* Sign In Link - Always visible with prominent button */}
-          <div className="mt-6 pt-6 border-t border-neo-black/10">
+          <div className="mt-5 md:mt-6 pt-5 md:pt-6 border-t border-neo-black/10">
             <p className="text-center text-sm text-neo-black/60 mb-3">
               Already have an account?
             </p>
             <Link 
               href="/signin" 
-              className="w-full py-3 border-2 border-neo-black text-neo-black font-bold rounded-xl hover:bg-neo-black hover:text-white transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 border-2 border-neo-black text-neo-black font-bold rounded-xl hover:bg-neo-black hover:text-white active:scale-[0.98] transition-all flex items-center justify-center gap-2"
             >
               Sign In
               <ArrowRight size={18} />
