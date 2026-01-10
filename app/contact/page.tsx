@@ -15,7 +15,7 @@ export default function Contact() {
       icon: <Headphones size={20} />,
       title: "Phone Support",
       desc: "Mon-Fri, 9AM-6PM IST",
-      action: "+91 788 860 1710"
+      action: "+91 7888601710"
     },
     {
       icon: <FileQuestion size={20} />,
@@ -35,8 +35,8 @@ export default function Contact() {
     {
       icon: <Phone size={18} />,
       label: "Phone",
-      value: "+91 788 860 1710",
-      subtext: "Mon-Fri, 9AM-6PM IST"
+      value: "+91 7888601710",
+      subtext: "+91 9835502288 (Alt)"
     },
     {
       icon: <Mail size={18} />,
