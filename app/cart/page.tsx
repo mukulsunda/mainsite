@@ -44,25 +44,25 @@ export default function Cart() {
   const allItems = [...printItems, ...productItems];
 
   return (
-    <main className="pt-[72px] md:pt-[80px] min-h-screen bg-white">
-      <div className="container py-6 md:py-12">
+    <main className="pt-[72px] md:pt-[80px] min-h-screen bg-neo-light-gray pb-24 md:pb-0">
+      <div className="container py-4 md:py-12 px-4">
         {/* Page Header */}
-        <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-4xl font-black tracking-tight mb-2">Shopping Cart</h1>
-          <p className="text-neo-black/60 text-sm md:text-base">
+        <div className="mb-4 md:mb-8">
+          <h1 className="text-xl md:text-4xl font-black tracking-tight mb-0.5 md:mb-2">Shopping Cart</h1>
+          <p className="text-neo-black/60 text-xs md:text-base">
             {getCartCount()} {getCartCount() === 1 ? 'item' : 'items'} in your cart
           </p>
         </div>
 
         {allItems.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
             {/* Cart Items */}
-            <div className="lg:col-span-2 space-y-4">
+            <div className="lg:col-span-2 space-y-3 md:space-y-4">
               {/* Print Items */}
               {printItems.length > 0 && (
-                <div className="space-y-3">
-                  <h2 className="text-sm font-bold text-neo-black/60 uppercase tracking-wider flex items-center gap-2">
-                    <Printer size={16} />
+                <div className="space-y-2 md:space-y-3">
+                  <h2 className="text-xs font-bold text-neo-black/60 uppercase tracking-wider flex items-center gap-2">
+                    <Printer size={14} />
                     3D Print Orders ({printItems.length})
                   </h2>
                   {printItems.map((item) => (
@@ -79,9 +79,9 @@ export default function Cart() {
 
               {/* Product Items */}
               {productItems.length > 0 && (
-                <div className="space-y-3">
-                  <h2 className="text-sm font-bold text-neo-black/60 uppercase tracking-wider flex items-center gap-2">
-                    <Box size={16} />
+                <div className="space-y-2 md:space-y-3">
+                  <h2 className="text-xs font-bold text-neo-black/60 uppercase tracking-wider flex items-center gap-2">
+                    <Box size={14} />
                     Products ({productItems.length})
                   </h2>
                   {productItems.map((item) => (
@@ -97,9 +97,9 @@ export default function Cart() {
               )}
             </div>
 
-            {/* Order Summary */}
-            <div className="lg:col-span-1">
-              <div className="bg-neo-light-gray rounded-xl p-5 md:p-6 sticky top-[100px]">
+            {/* Order Summary - Desktop */}
+            <div className="lg:col-span-1 hidden md:block">
+              <div className="bg-white rounded-2xl p-5 md:p-6 sticky top-[100px] border border-neo-black/10 shadow-lg">
                 <h2 className="text-lg md:text-xl font-bold mb-5 md:mb-6">Order Summary</h2>
 
                 <div className="space-y-3 mb-5 md:mb-6">
@@ -109,25 +109,27 @@ export default function Cart() {
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-neo-black/60">Shipping</span>
-                    <span className="font-semibold">
+                    <span className={`font-semibold ${shipping === 0 ? 'text-green-600' : ''}`}>
                       {shipping === 0 ? 'FREE' : formatPrice(shipping)}
                     </span>
                   </div>
                   {shipping > 0 && subtotal > 0 && (
-                    <p className="text-xs text-neo-black/50">
-                      Add {formatPrice(500 - subtotal)} more for free shipping
-                    </p>
+                    <div className="bg-neo-yellow/10 rounded-lg p-2.5">
+                      <p className="text-xs text-neo-black/70">
+                        Add <span className="font-bold">{formatPrice(500 - subtotal)}</span> more for free shipping
+                      </p>
+                    </div>
                   )}
                   <div className="h-px bg-neo-black/10 my-4"></div>
-                  <div className="flex justify-between">
-                    <span className="font-bold">Total</span>
-                    <span className="text-xl md:text-2xl font-black">{formatPrice(total)}</span>
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-base">Total</span>
+                    <span className="text-2xl font-black">{formatPrice(total)}</span>
                   </div>
                 </div>
 
                 <button 
                   onClick={() => router.push('/checkout')}
-                  className="w-full neo-btn justify-center mb-4"
+                  className="w-full neo-btn justify-center mb-4 py-3.5 text-base shadow-lg"
                 >
                   Proceed to Checkout
                   <ArrowRight size={18} />
@@ -137,22 +139,28 @@ export default function Cart() {
                   href="/boxprint" 
                   className="block text-center text-sm font-semibold text-neo-black/60 hover:text-neo-black transition-colors"
                 >
-                  Add more prints
+                  + Add more prints
                 </Link>
 
                 {/* Trust Badges */}
-                <div className="mt-5 md:mt-6 pt-5 md:pt-6 border-t border-neo-black/10 grid grid-cols-3 gap-2">
+                <div className="mt-6 pt-6 border-t border-neo-black/10 grid grid-cols-3 gap-2">
                   <div className="text-center">
-                    <Truck size={18} className="mx-auto mb-1 text-neo-black/60" />
-                    <span className="text-[9px] md:text-[10px] text-neo-black/50 block leading-tight">Free Ship ₹500+</span>
+                    <div className="w-9 h-9 mx-auto mb-1.5 bg-neo-light-gray rounded-lg flex items-center justify-center">
+                      <Truck size={16} className="text-neo-black/70" />
+                    </div>
+                    <span className="text-[10px] text-neo-black/50 block leading-tight">Free Ship ₹500+</span>
                   </div>
                   <div className="text-center">
-                    <Shield size={18} className="mx-auto mb-1 text-neo-black/60" />
-                    <span className="text-[9px] md:text-[10px] text-neo-black/50 block leading-tight">Secure Pay</span>
+                    <div className="w-9 h-9 mx-auto mb-1.5 bg-neo-light-gray rounded-lg flex items-center justify-center">
+                      <Shield size={16} className="text-neo-black/70" />
+                    </div>
+                    <span className="text-[10px] text-neo-black/50 block leading-tight">Secure Pay</span>
                   </div>
                   <div className="text-center">
-                    <RotateCcw size={18} className="mx-auto mb-1 text-neo-black/60" />
-                    <span className="text-[9px] md:text-[10px] text-neo-black/50 block leading-tight">Quality Guarantee</span>
+                    <div className="w-9 h-9 mx-auto mb-1.5 bg-neo-light-gray rounded-lg flex items-center justify-center">
+                      <RotateCcw size={16} className="text-neo-black/70" />
+                    </div>
+                    <span className="text-[10px] text-neo-black/50 block leading-tight">Quality Guarantee</span>
                   </div>
                 </div>
               </div>
@@ -160,21 +168,43 @@ export default function Cart() {
           </div>
         ) : (
           /* Empty Cart State */
-          <div className="text-center py-12 md:py-24">
-            <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 bg-neo-light-gray rounded-full flex items-center justify-center">
-              <ShoppingBag size={36} className="text-neo-black/30" />
+          <div className="text-center py-16 md:py-24 px-4">
+            <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-5 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-neo-black/5">
+              <ShoppingBag size={32} className="text-neo-black/30" />
             </div>
-            <h2 className="text-xl md:text-2xl font-bold mb-3">Your cart is empty</h2>
-            <p className="text-neo-black/60 mb-8 max-w-sm mx-auto text-sm md:text-base">
+            <h2 className="text-lg md:text-2xl font-bold mb-2">Your cart is empty</h2>
+            <p className="text-neo-black/60 mb-6 max-w-sm mx-auto text-sm">
               Looks like you haven&apos;t added anything yet. Start by getting a 3D print quote!
             </p>
-            <Link href="/boxprint" className="neo-btn inline-flex">
+            <Link href="/boxprint" className="neo-btn inline-flex shadow-lg">
               Get a Quote
               <ArrowRight size={18} />
             </Link>
           </div>
         )}
       </div>
+
+      {/* Mobile Fixed Bottom Bar */}
+      {allItems.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-neo-black/10 p-4 md:hidden safe-area-inset-bottom shadow-2xl">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-xs text-neo-black/60">Total ({getCartCount()} items)</p>
+              <p className="text-xl font-black">{formatPrice(total)}</p>
+            </div>
+            {shipping === 0 && (
+              <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">Free Shipping</span>
+            )}
+          </div>
+          <button 
+            onClick={() => router.push('/checkout')}
+            className="w-full neo-btn justify-center py-3.5 text-base shadow-lg active:scale-[0.98] transition-transform"
+          >
+            Checkout
+            <ArrowRight size={18} />
+          </button>
+        </div>
+      )}
     </main>
   );
 }
