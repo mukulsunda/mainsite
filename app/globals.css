@@ -162,11 +162,11 @@
 
   /* Robot.com Style - Section Padding */
   .section-padding {
-    @apply py-20 md:py-32 lg:py-40;
+    @apply py-16 md:py-24 lg:py-32;
   }
 
   .section-padding-sm {
-    @apply py-16 md:py-24;
+    @apply py-12 md:py-20;
   }
 
   /* Robot.com Style - Divider */
@@ -176,16 +176,25 @@
 
   /* Robot.com Style - Navigation Link */
   .nav-link {
-    @apply font-medium text-white/70 hover:text-white transition-colors duration-300 text-sm;
+    @apply font-medium text-white/70 hover:text-white transition-colors duration-300 text-sm relative;
+  }
+  
+  .nav-link::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-neo-yellow transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    @apply w-full;
   }
 
   /* Robot.com Style - Feature Card */
   .feature-card {
-    @apply relative p-8 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 transition-all duration-500;
+    @apply relative p-6 lg:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 transition-all duration-500;
   }
 
   .feature-card:hover {
-    @apply border-neo-yellow/30 bg-white/5;
+    @apply border-neo-yellow/30 bg-white/5 -translate-y-1;
   }
 
   /* Robot.com Style - Product Card */

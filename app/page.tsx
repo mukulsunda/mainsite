@@ -78,12 +78,12 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Stats Grid - Horizontal scroll on mobile */}
-          <div className="mobile-card-scroll lg:grid lg:grid-cols-4 lg:gap-8 max-w-4xl mx-auto lg:overflow-visible lg:px-0">
+          {/* Stats Grid - Centered grid on all screens */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 lg:gap-8 max-w-4xl mx-auto px-4">
             {stats.map((stat, i) => (
-              <div key={i} className="text-center w-[140px] lg:w-auto flex-shrink-0">
-                <span className="text-4xl lg:text-6xl xl:text-7xl font-black text-white tracking-tighter block">{stat.number}</span>
-                <span className="stat-label block text-xs lg:text-sm">{stat.label}</span>
+              <div key={i} className="text-center p-4 rounded-2xl bg-white/5 lg:bg-transparent">
+                <span className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-black text-white tracking-tighter block">{stat.number}</span>
+                <span className="stat-label block text-[10px] sm:text-xs lg:text-sm mt-1">{stat.label}</span>
               </div>
             ))}
           </div>
@@ -121,8 +121,8 @@ export default function Home() {
         <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
             {/* Left - Content */}
-            <div className="order-2 lg:order-1">
-              <span className="section-label">
+            <div className="order-2 lg:order-1 text-center lg:text-left">
+              <span className="section-label mx-auto lg:mx-0">
                 <Sparkles size={14} />
                 3D PRINTING SERVICE
               </span>
@@ -132,28 +132,28 @@ export default function Home() {
                 <span className="text-neo-yellow">ideas</span> to life
               </h2>
               
-              <p className="text-white/60 text-base lg:text-lg xl:text-xl mb-8 lg:mb-10 leading-relaxed max-w-lg">
+              <p className="text-white/60 text-base lg:text-lg xl:text-xl mb-8 lg:mb-10 leading-relaxed max-w-lg mx-auto lg:mx-0">
                 Upload your 3D model, choose your material, and we&apos;ll deliver precision-crafted prints right to your doorstep.
               </p>
 
-              {/* Features List - Horizontal scroll on mobile */}
-              <div className="mobile-card-scroll lg:space-y-4 lg:mb-10 lg:overflow-visible lg:flex-col lg:px-0 mb-8">
+              {/* Features List - Grid on mobile, vertical on desktop */}
+              <div className="grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:gap-4 mb-8 lg:mb-10">
                 {[
                   { icon: Upload, text: 'Upload STL, OBJ, or GLTF files' },
                   { icon: Sparkles, text: 'Get instant pricing in seconds' },
                   { icon: Clock, text: '48-hour dispatch guarantee' },
                   { icon: CheckCircle, text: 'Quality guaranteed or money back' },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 lg:gap-4 bg-white/5 lg:bg-transparent rounded-2xl p-3 lg:p-0 min-w-[200px] lg:min-w-0 flex-shrink-0">
+                  <div key={i} className="flex flex-col lg:flex-row items-center lg:items-center gap-2 lg:gap-4 bg-white/5 lg:bg-transparent rounded-2xl p-4 lg:p-0">
                     <div className="w-10 h-10 rounded-full bg-neo-yellow/10 flex items-center justify-center flex-shrink-0">
                       <item.icon size={18} className="text-neo-yellow" />
                     </div>
-                    <span className="text-white/70 text-sm lg:text-base whitespace-nowrap lg:whitespace-normal">{item.text}</span>
+                    <span className="text-white/70 text-xs lg:text-base text-center lg:text-left">{item.text}</span>
                   </div>
                 ))}
               </div>
 
-              <Link href="/boxprint" className="robot-btn w-full sm:w-auto justify-center">
+              <Link href="/boxprint" className="robot-btn w-full sm:w-auto justify-center mx-auto lg:mx-0">
                 <Printer size={20} />
                 Start Your Project
                 <ArrowRight size={18} />
@@ -202,14 +202,14 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Mobile: Horizontal scroll, Desktop: Grid */}
-          <div className="mobile-card-scroll lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0">
+          {/* Grid on all screens */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {services.map((service, i) => (
-              <div key={i} className="feature-card w-[280px] lg:w-auto flex-shrink-0">
-                <div className="absolute top-6 right-6 text-5xl font-black text-white/5">
+              <div key={i} className="feature-card text-center lg:text-left">
+                <div className="absolute top-4 right-4 lg:top-6 lg:right-6 text-4xl lg:text-5xl font-black text-white/5">
                   {service.number}
                 </div>
-                <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-neo-yellow flex items-center justify-center text-neo-black mb-4 lg:mb-6">
+                <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-neo-yellow flex items-center justify-center text-neo-black mb-4 lg:mb-6 mx-auto lg:mx-0">
                   {service.icon}
                 </div>
                 <h3 className="text-lg lg:text-xl font-bold text-white mb-2 lg:mb-3">{service.title}</h3>
