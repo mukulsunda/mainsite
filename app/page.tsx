@@ -38,59 +38,59 @@ export default function Home() {
   return (
     <main className="bg-neo-black">
       {/* Hero Section */}
-      <section className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-20">
+      <section className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-16 lg:pt-20">
         {/* Background Elements */}
         <div className="absolute inset-0 dot-pattern-animated opacity-20" />
         <div className="absolute top-1/4 -left-40 w-96 h-96 bg-neo-yellow/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 -right-40 w-96 h-96 bg-neo-yellow/5 rounded-full blur-[120px]" />
         
-        <div className="container relative z-10 py-20">
+        <div className="container relative z-10 py-12 lg:py-20">
           {/* Status Badge */}
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full">
-              <span className="relative flex h-2.5 w-2.5">
+          <div className="flex justify-center mb-6 lg:mb-8">
+            <div className="inline-flex items-center gap-3 px-4 lg:px-5 py-2 lg:py-2.5 bg-white/5 border border-white/10 rounded-full">
+              <span className="relative flex h-2 w-2 lg:h-2.5 lg:w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 lg:h-2.5 lg:w-2.5 bg-green-500"></span>
               </span>
-              <span className="text-white/70 text-sm font-medium">Now Shipping Pan-India</span>
+              <span className="text-white/70 text-xs lg:text-sm font-medium">Now Shipping Pan-India</span>
             </div>
           </div>
 
           {/* Main Headline */}
-          <div className="text-center max-w-5xl mx-auto mb-12">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[120px] font-black leading-[0.9] tracking-tight mb-8">
+          <div className="text-center max-w-5xl mx-auto mb-8 lg:mb-12">
+            <h1 className="text-[44px] sm:text-5xl md:text-7xl lg:text-8xl xl:text-[120px] font-black leading-[0.9] tracking-tight mb-6 lg:mb-8">
               <span className="text-white block">Ideas into</span>
               <span className="text-neo-yellow block">Reality.</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/60 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-white/60 max-w-2xl mx-auto leading-relaxed px-2">
               Professional 3D printing services that transform your designs into precision-crafted physical products.
             </p>
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-            <Link href="/boxprint" className="robot-btn text-lg px-10 py-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 lg:gap-4 mb-12 lg:mb-20 px-2">
+            <Link href="/boxprint" className="robot-btn text-base lg:text-lg px-8 lg:px-10 py-4 lg:py-5 w-full sm:w-auto justify-center">
               Get Instant Quote
-              <ArrowRight size={20} />
+              <ArrowRight size={18} />
             </Link>
-            <Link href="/products" className="robot-btn-outline text-lg px-10 py-5">
+            <Link href="/products" className="robot-btn-outline text-base lg:text-lg px-8 lg:px-10 py-4 lg:py-5 w-full sm:w-auto justify-center">
               Browse Products
             </Link>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto">
+          {/* Stats Grid - Horizontal scroll on mobile */}
+          <div className="mobile-card-scroll lg:grid lg:grid-cols-4 lg:gap-8 max-w-4xl mx-auto lg:overflow-visible lg:px-0">
             {stats.map((stat, i) => (
-              <div key={i} className="text-center">
-                <span className="stat-number block">{stat.number}</span>
-                <span className="stat-label block">{stat.label}</span>
+              <div key={i} className="text-center w-[140px] lg:w-auto flex-shrink-0">
+                <span className="text-4xl lg:text-6xl xl:text-7xl font-black text-white tracking-tighter block">{stat.number}</span>
+                <span className="stat-label block text-xs lg:text-sm">{stat.label}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+        {/* Scroll Indicator - Hidden on mobile */}
+        <div className="hidden lg:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-3">
           <span className="text-xs text-white/40 uppercase tracking-widest">Scroll</span>
           <div className="scroll-indicator">
             <div className="scroll-dot" />
@@ -115,45 +115,45 @@ export default function Home() {
       </section>
 
       {/* BoxPrint CTA Section */}
-      <section className="section-padding relative overflow-hidden">
+      <section className="py-16 lg:section-padding relative overflow-hidden">
         <div className="absolute inset-0 grid-pattern" />
         
         <div className="container relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
             {/* Left - Content */}
-            <div>
+            <div className="order-2 lg:order-1">
               <span className="section-label">
                 <Sparkles size={14} />
                 3D PRINTING SERVICE
               </span>
               
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-[0.95]">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 lg:mb-6 leading-[0.95]">
                 Bring your<br />
                 <span className="text-neo-yellow">ideas</span> to life
               </h2>
               
-              <p className="text-white/60 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
+              <p className="text-white/60 text-base lg:text-lg xl:text-xl mb-8 lg:mb-10 leading-relaxed max-w-lg">
                 Upload your 3D model, choose your material, and we&apos;ll deliver precision-crafted prints right to your doorstep.
               </p>
 
-              {/* Features List */}
-              <div className="space-y-4 mb-10">
+              {/* Features List - Horizontal scroll on mobile */}
+              <div className="mobile-card-scroll lg:space-y-4 lg:mb-10 lg:overflow-visible lg:flex-col lg:px-0 mb-8">
                 {[
                   { icon: Upload, text: 'Upload STL, OBJ, or GLTF files' },
                   { icon: Sparkles, text: 'Get instant pricing in seconds' },
                   { icon: Clock, text: '48-hour dispatch guarantee' },
                   { icon: CheckCircle, text: 'Quality guaranteed or money back' },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-neo-yellow/10 flex items-center justify-center">
+                  <div key={i} className="flex items-center gap-3 lg:gap-4 bg-white/5 lg:bg-transparent rounded-2xl p-3 lg:p-0 min-w-[200px] lg:min-w-0 flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-neo-yellow/10 flex items-center justify-center flex-shrink-0">
                       <item.icon size={18} className="text-neo-yellow" />
                     </div>
-                    <span className="text-white/70">{item.text}</span>
+                    <span className="text-white/70 text-sm lg:text-base whitespace-nowrap lg:whitespace-normal">{item.text}</span>
                   </div>
                 ))}
               </div>
 
-              <Link href="/boxprint" className="robot-btn">
+              <Link href="/boxprint" className="robot-btn w-full sm:w-auto justify-center">
                 <Printer size={20} />
                 Start Your Project
                 <ArrowRight size={18} />
@@ -161,23 +161,24 @@ export default function Home() {
             </div>
 
             {/* Right - Visual */}
-            <div className="relative">
+            <div className="relative order-1 lg:order-2">
               <div className="aspect-square rounded-3xl bg-gradient-to-br from-neo-gray to-neo-black border border-white/10 flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 dot-pattern-animated opacity-20" />
-                <div className="relative z-10 text-center p-8">
-                  <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-neo-yellow flex items-center justify-center animate-float">
-                    <Printer size={56} className="text-neo-black" />
+                <div className="relative z-10 text-center p-6 lg:p-8">
+                  <div className="w-24 h-24 lg:w-32 lg:h-32 mx-auto mb-6 lg:mb-8 rounded-full bg-neo-yellow flex items-center justify-center animate-float">
+                    <Printer size={40} className="lg:hidden text-neo-black" />
+                    <Printer size={56} className="hidden lg:block text-neo-black" />
                   </div>
-                  <p className="text-white font-bold text-2xl mb-2">Starting from</p>
-                  <p className="text-neo-yellow font-black text-5xl mb-2">₹199</p>
-                  <p className="text-white/50">Quality Guaranteed</p>
+                  <p className="text-white font-bold text-xl lg:text-2xl mb-2">Starting from</p>
+                  <p className="text-neo-yellow font-black text-4xl lg:text-5xl mb-2">₹199</p>
+                  <p className="text-white/50 text-sm lg:text-base">Quality Guaranteed</p>
                 </div>
               </div>
               
               {/* Floating Badge */}
-              <div className="absolute -bottom-6 -right-6 px-6 py-4 bg-neo-yellow rounded-2xl shadow-lg glow-yellow">
-                <p className="text-neo-black font-bold text-lg">Free Shipping</p>
-                <p className="text-neo-black/70 text-sm">On orders ₹500+</p>
+              <div className="absolute -bottom-4 -right-2 lg:-bottom-6 lg:-right-6 px-4 lg:px-6 py-3 lg:py-4 bg-neo-yellow rounded-xl lg:rounded-2xl shadow-lg glow-yellow">
+                <p className="text-neo-black font-bold text-sm lg:text-lg">Free Shipping</p>
+                <p className="text-neo-black/70 text-xs lg:text-sm">On orders ₹500+</p>
               </div>
             </div>
           </div>
@@ -187,31 +188,32 @@ export default function Home() {
       {/* Services Section */}
       <section className="section-padding bg-neo-gray/50">
         <div className="container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 lg:mb-16">
             <span className="section-label">
               <Cpu size={14} />
               HOW WE BUILD
             </span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 lg:mb-6">
               Engineered for<br />
               <span className="text-neo-yellow">excellence</span>
             </h2>
-            <p className="text-white/60 text-lg">
+            <p className="text-white/60 text-base lg:text-lg px-2">
               Every print is crafted with precision, passion, and the latest technology.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          {/* Mobile: Horizontal scroll, Desktop: Grid */}
+          <div className="mobile-card-scroll lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0">
             {services.map((service, i) => (
-              <div key={i} className="feature-card">
+              <div key={i} className="feature-card w-[280px] lg:w-auto flex-shrink-0">
                 <div className="absolute top-6 right-6 text-5xl font-black text-white/5">
                   {service.number}
                 </div>
-                <div className="w-14 h-14 rounded-2xl bg-neo-yellow flex items-center justify-center text-neo-black mb-6">
+                <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-neo-yellow flex items-center justify-center text-neo-black mb-4 lg:mb-6">
                   {service.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
-                <p className="text-white/60 leading-relaxed">{service.desc}</p>
+                <h3 className="text-lg lg:text-xl font-bold text-white mb-2 lg:mb-3">{service.title}</h3>
+                <p className="text-white/60 leading-relaxed text-sm lg:text-base">{service.desc}</p>
               </div>
             ))}
           </div>
