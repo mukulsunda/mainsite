@@ -71,10 +71,10 @@ export default function BoxPrintPage() {
   // Steps removed as per user request
 
   return (
-    <main className="pt-[72px] md:pt-[80px] bg-white min-h-screen">
+    <main className="pt-[72px] md:pt-[80px] bg-neo-black min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-neo-black text-white overflow-hidden">
-        <div className="absolute inset-0 grid-bg-dark opacity-30" />
+      <section className="relative bg-neo-black text-white overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 dot-pattern-animated opacity-30" />
         
         {/* Floating elements */}
         <div className="absolute top-20 right-[10%] w-20 h-20 bg-neo-yellow/20 rounded-full blur-2xl" />
@@ -109,7 +109,7 @@ export default function BoxPrintPage() {
                 { value: '4+', label: 'Materials' },
                 { value: '48hr', label: 'Turnaround' },
               ].map((stat, i) => (
-                <div key={i} className="text-center flex-shrink-0 bg-white/5 md:bg-transparent rounded-lg px-3 py-2 md:p-0">
+                <div key={i} className="text-center flex-shrink-0 bg-white/5 rounded-lg px-3 py-2 md:p-0 md:bg-transparent">
                   <span className="block text-lg md:text-2xl font-black text-neo-yellow font-mono">
                     {stat.value}
                   </span>
@@ -130,8 +130,8 @@ export default function BoxPrintPage() {
             <div className="lg:col-span-2 space-y-4 md:space-y-6">
               {/* File Uploader */}
               {!modelFile && (
-                <div className="bg-white rounded-xl border border-neo-black/10 p-4 md:p-6">
-                  <h2 className="text-base md:text-lg font-bold text-neo-black mb-3 md:mb-4 flex items-center gap-2">
+                <div className="robot-card p-4 md:p-6">
+                  <h2 className="text-base md:text-lg font-bold text-white mb-3 md:mb-4 flex items-center gap-2">
                     <Upload size={18} className="text-neo-yellow" />
                     Upload Your Model
                   </h2>
@@ -141,15 +141,15 @@ export default function BoxPrintPage() {
 
               {/* Model Viewer */}
               {modelFile && (
-                <div className="bg-white rounded-xl border border-neo-black/10 p-4 md:p-6 h-[400px] md:h-[600px] flex flex-col">
+                <div className="robot-card p-4 md:p-6 h-[400px] md:h-[600px] flex flex-col">
                   <div className="flex items-center justify-between mb-3 md:mb-4 shrink-0">
-                    <h2 className="text-base md:text-lg font-bold text-neo-black flex items-center gap-2">
+                    <h2 className="text-base md:text-lg font-bold text-white flex items-center gap-2">
                       <Box size={18} className="text-neo-yellow" />
                       Model Preview
                     </h2>
                     <button
                       onClick={() => setModelFile(null)}
-                      className="text-sm text-neo-black/60 hover:text-neo-black active:opacity-70 transition-all px-2 py-1"
+                      className="text-sm text-white/60 hover:text-white active:opacity-70 transition-all px-2 py-1"
                     >
                       Change file
                     </button>
@@ -166,8 +166,8 @@ export default function BoxPrintPage() {
 
               {/* Configuration Panel */}
               {modelFile && (
-                <div className="bg-white rounded-xl border border-neo-black/10 p-4 md:p-6">
-                  <h2 className="text-base md:text-lg font-bold text-neo-black mb-4 md:mb-6 flex items-center gap-2">
+                <div className="robot-card p-4 md:p-6">
+                  <h2 className="text-base md:text-lg font-bold text-white mb-4 md:mb-6 flex items-center gap-2">
                     <Layers size={18} className="text-neo-yellow" />
                     Configure Your Print
                   </h2>
@@ -215,15 +215,15 @@ export default function BoxPrintPage() {
                     { icon: Truck, label: 'Free Shipping 500+' },
                     { icon: Clock, label: '48hr Turnaround' },
                   ].map((badge, i) => (
-                    <div key={i} className="text-center p-2.5 md:p-3 bg-neo-light-gray rounded-xl">
-                      <badge.icon size={18} className="mx-auto text-neo-black/60 mb-1" />
-                      <span className="text-[9px] md:text-[10px] text-neo-black/60 leading-tight block">{badge.label}</span>
+                    <div key={i} className="text-center p-2.5 md:p-3 bg-white/5 rounded-xl border border-white/10">
+                      <badge.icon size={18} className="mx-auto text-white/60 mb-1" />
+                      <span className="text-[9px] md:text-[10px] text-white/60 leading-tight block">{badge.label}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Help Card */}
-                <div className="mt-4 md:mt-6 p-3.5 md:p-4 bg-neo-black rounded-xl text-white">
+                <div className="mt-4 md:mt-6 p-3.5 md:p-4 bg-neo-gray border border-white/10 rounded-xl text-white">
                   <h4 className="font-bold text-sm md:text-base mb-1.5 md:mb-2">Need help choosing?</h4>
                   <p className="text-xs md:text-sm text-white/60 mb-2.5 md:mb-3">
                     Our experts can help you select the right material and settings.
@@ -245,13 +245,13 @@ export default function BoxPrintPage() {
       <MaterialGuide />
 
       {/* Features Section */}
-      <section className="py-12 md:py-24 bg-white border-t border-neo-black/10">
+      <section className="py-12 md:py-24 bg-neo-gray border-t border-white/10">
         <div className="container px-4">
           <div className="text-center max-w-2xl mx-auto mb-8 md:mb-12">
-            <span className="inline-block px-3 py-1 bg-neo-yellow text-neo-black text-xs font-bold uppercase tracking-wider rounded mb-3 md:mb-4">
+            <span className="section-label mb-3 md:mb-4">
               Why BoxPrint
             </span>
-            <h2 className="text-2xl md:text-4xl font-black mb-3 md:mb-4 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-black text-white mb-3 md:mb-4 tracking-tight">
               Professional Quality, <span className="text-neo-yellow">Hassle-Free</span>
             </h2>
           </div>
@@ -281,12 +281,12 @@ export default function BoxPrintPage() {
                   desc: 'Most orders ship within 48 hours. Express options available.'
                 }
               ].map((feature, i) => (
-                <div key={i} className="p-4 bg-neo-light-gray rounded-xl w-[220px] flex-shrink-0 active:scale-[0.98] transition-transform">
+                <div key={i} className="p-4 bg-white/5 border border-white/10 rounded-xl w-[220px] flex-shrink-0 active:scale-[0.98] transition-transform">
                   <div className="w-10 h-10 bg-neo-yellow rounded-lg flex items-center justify-center text-neo-black mb-3">
                     {feature.icon}
                   </div>
-                  <h3 className="font-bold text-base text-neo-black mb-1.5">{feature.title}</h3>
-                  <p className="text-xs text-neo-black/60">{feature.desc}</p>
+                  <h3 className="font-bold text-base text-white mb-1.5">{feature.title}</h3>
+                  <p className="text-xs text-white/60">{feature.desc}</p>
                 </div>
               ))}
             </div>
@@ -315,12 +315,12 @@ export default function BoxPrintPage() {
                 desc: 'Most orders ship within 48 hours. Express options available.'
               }
             ].map((feature, i) => (
-              <div key={i} className="p-6 bg-neo-light-gray rounded-xl">
+              <div key={i} className="p-6 bg-white/5 border border-white/10 rounded-2xl">
                 <div className="w-12 h-12 bg-neo-yellow rounded-lg flex items-center justify-center text-neo-black mb-4">
                   {feature.icon}
                 </div>
-                <h3 className="font-bold text-lg text-neo-black mb-2">{feature.title}</h3>
-                <p className="text-sm text-neo-black/60">{feature.desc}</p>
+                <h3 className="font-bold text-lg text-white mb-2">{feature.title}</h3>
+                <p className="text-sm text-white/60">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -329,13 +329,13 @@ export default function BoxPrintPage() {
 
       {/* Success Toast */}
       {showSuccess && (
-        <div className="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:w-auto bg-neo-black text-white px-4 md:px-6 py-3 md:py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-4 z-50">
+        <div className="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:w-auto bg-neo-gray border border-white/10 text-white px-4 md:px-6 py-3 md:py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-4 z-50">
           <CheckCircle size={22} className="text-green-400 flex-shrink-0" />
           <div className="flex-1 min-w-0">
             <p className="font-bold text-sm md:text-base">Added to cart!</p>
             <p className="text-xs md:text-sm text-white/60 truncate">Your print order is ready for checkout.</p>
           </div>
-          <Link href="/cart" className="ml-2 md:ml-4 px-3 md:px-4 py-2 bg-neo-yellow text-neo-black rounded-lg font-bold text-sm whitespace-nowrap active:scale-95 transition-transform">
+          <Link href="/cart" className="ml-2 md:ml-4 px-3 md:px-4 py-2 bg-neo-yellow text-neo-black rounded-full font-bold text-sm whitespace-nowrap active:scale-95 transition-transform">
             View Cart
           </Link>
         </div>

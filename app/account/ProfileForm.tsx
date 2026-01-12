@@ -124,25 +124,25 @@ export default function ProfileForm({ user, initialProfile }: ProfileFormProps) 
   const initials = (formData.first_name?.[0] || user.email[0] || '?').toUpperCase();
 
   return (
-    <div className="bg-white border-2 border-neo-black rounded-xl overflow-hidden shadow-neo">
+    <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
       {/* Profile Header */}
-      <div className="bg-neo-black p-6 text-white">
+      <div className="bg-neo-yellow p-6">
         <div className="flex items-center gap-6">
           <div className="relative">
-            <div className="w-24 h-24 bg-neo-yellow rounded-full flex items-center justify-center border-4 border-white">
-              <span className="text-4xl font-black text-neo-black">{initials}</span>
+            <div className="w-24 h-24 bg-neo-black rounded-full flex items-center justify-center border-4 border-white">
+              <span className="text-4xl font-black text-neo-yellow">{initials}</span>
             </div>
-            <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center border-2 border-neo-black hover:bg-neo-yellow transition-colors">
+            <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center border-2 border-neo-black hover:bg-neo-black hover:text-white transition-colors">
               <Camera size={16} className="text-neo-black" />
             </button>
           </div>
           <div>
-            <h2 className="text-2xl font-black mb-1">
+            <h2 className="text-2xl font-black mb-1 text-neo-black">
               {formData.first_name || formData.last_name 
                 ? `${formData.first_name} ${formData.last_name}`.trim() 
                 : 'Set up your profile'}
             </h2>
-            <p className="text-white/70">{user.email}</p>
+            <p className="text-neo-black/70">{user.email}</p>
           </div>
         </div>
       </div>
@@ -153,14 +153,14 @@ export default function ProfileForm({ user, initialProfile }: ProfileFormProps) 
         {message && (
           <div className={`p-4 rounded-xl flex items-start gap-3 ${
             message.type === 'success' 
-              ? 'bg-green-50 border-2 border-green-200' 
-              : 'bg-red-50 border-2 border-red-200'
+              ? 'bg-green-500/10 border border-green-500/30' 
+              : 'bg-red-500/10 border border-red-500/30'
           }`}>
             {message.type === 'success' 
-              ? <CheckCircle size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
-              : <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+              ? <CheckCircle size={20} className="text-green-400 flex-shrink-0 mt-0.5" />
+              : <AlertCircle size={20} className="text-red-400 flex-shrink-0 mt-0.5" />
             }
-            <p className={`text-sm ${message.type === 'success' ? 'text-green-800' : 'text-red-800'}`}>
+            <p className={`text-sm ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
               {message.text}
             </p>
           </div>
@@ -168,31 +168,31 @@ export default function ProfileForm({ user, initialProfile }: ProfileFormProps) 
 
         {/* Personal Information */}
         <div>
-          <h3 className="text-lg font-bold text-neo-black mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <User size={20} />
             Personal Information
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold mb-2 text-neo-black">First Name</label>
+              <label className="form-label">First Name</label>
               <div className="relative">
-                <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                 <input
                   type="text"
                   value={formData.first_name}
                   onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                  className="w-full pl-11 pr-4 py-3 border-2 border-neo-black/10 rounded-xl focus:outline-none focus:border-neo-yellow transition-colors"
+                  className="robot-input pl-11"
                   placeholder="John"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-bold mb-2 text-neo-black">Last Name</label>
+              <label className="form-label">Last Name</label>
               <input
                 type="text"
                 value={formData.last_name}
                 onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                className="w-full px-4 py-3 border-2 border-neo-black/10 rounded-xl focus:outline-none focus:border-neo-yellow transition-colors"
+                className="robot-input"
                 placeholder="Doe"
               />
             </div>
@@ -201,33 +201,33 @@ export default function ProfileForm({ user, initialProfile }: ProfileFormProps) 
 
         {/* Contact Information */}
         <div>
-          <h3 className="text-lg font-bold text-neo-black mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <Phone size={20} />
             Contact Information
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold mb-2 text-neo-black">Email</label>
+              <label className="form-label">Email</label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                 <input
                   type="email"
                   value={user.email}
                   disabled
-                  className="w-full pl-11 pr-4 py-3 border-2 border-neo-black/10 rounded-xl bg-neo-light-gray text-neo-black/60 cursor-not-allowed"
+                  className="w-full pl-11 pr-4 py-3 border border-white/10 rounded-xl bg-white/5 text-white/60 cursor-not-allowed"
                 />
               </div>
-              <p className="text-xs text-neo-black/50 mt-1">Email cannot be changed</p>
+              <p className="text-xs text-white/50 mt-1">Email cannot be changed</p>
             </div>
             <div>
-              <label className="block text-sm font-bold mb-2 text-neo-black">Phone</label>
+              <label className="form-label">Phone</label>
               <div className="relative">
-                <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full pl-11 pr-4 py-3 border-2 border-neo-black/10 rounded-xl focus:outline-none focus:border-neo-yellow transition-colors"
+                  className="robot-input pl-11"
                   placeholder="+91 98765 43210"
                 />
               </div>
@@ -237,57 +237,57 @@ export default function ProfileForm({ user, initialProfile }: ProfileFormProps) 
 
         {/* Address */}
         <div>
-          <h3 className="text-lg font-bold text-neo-black mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <MapPin size={20} />
             Address
           </h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-bold mb-2 text-neo-black">Street Address</label>
+              <label className="form-label">Street Address</label>
               <div className="relative">
-                <MapPin size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                <MapPin size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                 <input
                   type="text"
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full pl-11 pr-4 py-3 border-2 border-neo-black/10 rounded-xl focus:outline-none focus:border-neo-yellow transition-colors"
+                  className="robot-input pl-11"
                   placeholder="123 Main Street, Apt 4B"
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-bold mb-2 text-neo-black">City</label>
+                <label className="form-label">City</label>
                 <div className="relative">
-                  <Building size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                  <Building size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                   <input
                     type="text"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="w-full pl-11 pr-4 py-3 border-2 border-neo-black/10 rounded-xl focus:outline-none focus:border-neo-yellow transition-colors"
+                    className="robot-input pl-11"
                     placeholder="Mumbai"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-bold mb-2 text-neo-black">State</label>
+                <label className="form-label">State</label>
                 <input
                   type="text"
                   value={formData.state}
                   onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-neo-black/10 rounded-xl focus:outline-none focus:border-neo-yellow transition-colors"
+                  className="robot-input"
                   placeholder="Maharashtra"
                 />
               </div>
               <div className="col-span-2 md:col-span-1">
-                <label className="block text-sm font-bold mb-2 text-neo-black">ZIP Code</label>
+                <label className="form-label">ZIP Code</label>
                 <div className="relative">
-                  <Hash size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                  <Hash size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                   <input
                     type="text"
                     value={formData.zip_code}
                     onChange={(e) => setFormData({ ...formData, zip_code: e.target.value })}
-                    className="w-full pl-11 pr-4 py-3 border-2 border-neo-black/10 rounded-xl focus:outline-none focus:border-neo-yellow transition-colors"
+                    className="robot-input pl-11"
                     placeholder="400001"
                   />
                 </div>
@@ -297,11 +297,11 @@ export default function ProfileForm({ user, initialProfile }: ProfileFormProps) 
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end pt-4 border-t border-neo-black/10">
+        <div className="flex justify-end pt-4 border-t border-white/10">
           <button
             type="submit"
             disabled={isLoading}
-            className="px-8 py-3 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="robot-btn disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>

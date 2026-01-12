@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { Plus, Minus, HelpCircle } from 'lucide-react';
+import Link from 'next/link';
 
 const faqs = [
   {
@@ -29,72 +30,74 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-16 md:py-24 bg-neo-light-gray">
+    <section id="faq" className="section-padding bg-neo-black">
       <div className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
           {/* Left Column - Header */}
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-28">
-              <span className="inline-block px-3 py-1 bg-neo-black text-white text-xs font-bold uppercase tracking-wider rounded mb-4">
+              <span className="section-label">
+                <HelpCircle size={14} />
                 FAQ
               </span>
-              <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tight">
+              <h2 className="text-4xl md:text-5xl font-black mb-6 leading-[0.95]">
                 Questions?<br />
                 <span className="text-neo-yellow">Answered.</span>
               </h2>
-              <p className="text-neo-black/60 leading-relaxed mb-6 text-sm md:text-base">
+              <p className="text-white/60 leading-relaxed mb-8 text-lg">
                 Everything you need to know about BoxPox products and services.
               </p>
-              <a 
+              <Link 
                 href="/contact" 
-                className="inline-flex items-center gap-2 text-neo-black font-semibold hover:text-neo-yellow transition-colors text-sm"
+                className="robot-btn-outline py-3 px-6"
               >
-                Contact Support →
-              </a>
+                Contact Support
+              </Link>
             </div>
           </div>
 
           {/* Right Column - FAQ Items */}
           <div className="lg:col-span-8">
-            <div className="space-y-3">
+            <div className="space-y-4">
               {faqs.map((faq, index) => (
                 <div 
                   key={index} 
-                  className={`bg-white border-2 rounded-xl overflow-hidden ${
+                  className={`rounded-2xl overflow-hidden transition-all ${
                     openIndex === index 
-                      ? 'border-neo-black' 
-                      : 'border-neo-black/10 hover:border-neo-black/30'
+                      ? 'bg-white/10 border border-neo-yellow/30' 
+                      : 'bg-white/5 border border-white/10 hover:border-white/20'
                   }`}
                 >
                   <button
                     onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                    className="w-full px-5 py-4 md:px-6 md:py-5 flex justify-between items-center text-left gap-3"
+                    className="w-full px-6 py-5 flex justify-between items-center text-left gap-4"
                   >
-                    <span className="flex items-center gap-3">
-                      <span className={`font-mono text-xs font-bold ${
-                        openIndex === index ? 'text-neo-yellow' : 'text-neo-black/30'
+                    <span className="flex items-center gap-4">
+                      <span className={`font-mono text-sm font-bold ${
+                        openIndex === index ? 'text-neo-yellow' : 'text-white/30'
                       }`}>
                         {String(index + 1).padStart(2, '0')}
                       </span>
-                      <span className="text-base md:text-lg font-bold text-neo-black">
+                      <span className="text-lg font-semibold text-white">
                         {faq.question}
                       </span>
                     </span>
-                    <ChevronDown 
-                      size={20} 
-                      className={`flex-shrink-0 text-neo-black/50 transition-transform duration-200 ${
-                        openIndex === index ? 'rotate-180' : ''
-                      }`}
-                    />
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
+                      openIndex === index ? 'bg-neo-yellow text-neo-black' : 'bg-white/10 text-white'
+                    }`}>
+                      {openIndex === index ? <Minus size={16} /> : <Plus size={16} />}
+                    </div>
                   </button>
                   
-                  {openIndex === index && (
-                    <div className="px-5 pb-5 md:px-6 md:pb-6">
-                      <p className="pl-8 md:pl-9 text-neo-black/70 leading-relaxed text-sm md:text-base border-l-2 border-neo-yellow/30">
+                  <div className={`overflow-hidden transition-all duration-300 ${
+                    openIndex === index ? 'max-h-48' : 'max-h-0'
+                  }`}>
+                    <div className="px-6 pb-6">
+                      <p className="pl-10 text-white/60 leading-relaxed border-l-2 border-neo-yellow/30">
                         {faq.answer}
                       </p>
                     </div>
-                  )}
+                  </div>
                 </div>
               ))}
             </div>

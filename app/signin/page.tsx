@@ -156,19 +156,19 @@ function SignInForm() {
     <>
       {/* Full-screen loading overlay */}
       {isLoading && (
-        <div className="fixed inset-0 bg-white/95 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-neo-black/95 backdrop-blur-sm z-50 flex items-center justify-center">
           <div className="flex flex-col items-center justify-center text-center">
             <div className="relative mb-6 w-16 h-16 mx-auto">
               <div className="absolute inset-0 w-16 h-16 border-4 border-neo-yellow/30 rounded-full"></div>
               <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-neo-yellow rounded-full animate-spin"></div>
             </div>
-            <h3 className="text-xl font-bold text-neo-black mb-2">Signing you in...</h3>
-            <p className="text-neo-black/60 text-sm">Please wait a moment</p>
+            <h3 className="text-xl font-bold text-white mb-2">Signing you in...</h3>
+            <p className="text-white/60 text-sm">Please wait a moment</p>
           </div>
         </div>
       )}
 
-      <main className="min-h-screen bg-white flex">
+      <main className="min-h-screen bg-neo-black flex">
         {/* Left Side - Form */}
         <div className="flex-1 flex flex-col min-h-screen md:justify-center p-5 md:p-12 pt-20 md:pt-12 safe-area-inset">
         <div className="w-full max-w-md mx-auto">
@@ -183,35 +183,35 @@ function SignInForm() {
             />
           </Link>
 
-          <h1 className="text-2xl md:text-4xl font-black mb-1.5 tracking-tight text-neo-black">Welcome back</h1>
-          <p className="text-neo-black/60 text-sm md:text-base mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-4xl font-black mb-1.5 tracking-tight text-white">Welcome back</h1>
+          <p className="text-white/60 text-sm md:text-base mb-6 md:mb-8">
             Sign in to continue to your account
           </p>
 
           {/* Success Message */}
           {successMessage && (
-            <div className="mb-5 p-3.5 md:p-4 bg-green-50 border border-green-200 rounded-xl flex items-start gap-3">
-              <CheckCircle size={18} className="text-green-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-green-800">{successMessage}</p>
+            <div className="mb-5 p-3.5 md:p-4 bg-green-500/10 border border-green-500/30 rounded-2xl flex items-start gap-3">
+              <CheckCircle size={18} className="text-green-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-green-400">{successMessage}</p>
             </div>
           )}
 
           {/* Error Message */}
           {errors.general && (
-            <div className="mb-5 p-3.5 md:p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
-              <AlertCircle size={18} className="text-red-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-800">{errors.general}</p>
+            <div className="mb-5 p-3.5 md:p-4 bg-red-500/10 border border-red-500/30 rounded-2xl flex items-start gap-3">
+              <AlertCircle size={18} className="text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-400">{errors.general}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold mb-1.5 text-neo-black">
+              <label htmlFor="email" className="form-label">
                 Email address
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                 <input
                   id="email"
                   type="email"
@@ -220,24 +220,22 @@ function SignInForm() {
                     setFormData({ ...formData, email: e.target.value });
                     if (errors.email) setErrors({ ...errors, email: undefined });
                   }}
-                  className={`w-full pl-10 pr-4 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base ${
-                    errors.email ? 'border-red-400 focus:border-red-500 bg-red-50/50' : 'border-neo-black/10 focus:border-neo-yellow bg-neo-light-gray/50 focus:bg-white'
-                  }`}
+                  className={`robot-input pl-12 ${errors.email ? 'border-red-500 focus:border-red-500' : ''}`}
                   placeholder="you@example.com"
                   disabled={isLoading}
                   autoComplete="email"
                 />
               </div>
-              {errors.email && <p className="mt-1.5 text-xs text-red-500 font-medium">{errors.email}</p>}
+              {errors.email && <p className="mt-1.5 text-xs text-red-400 font-medium">{errors.email}</p>}
             </div>
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold mb-1.5 text-neo-black">
+              <label htmlFor="password" className="form-label">
                 Password
               </label>
               <div className="relative">
-                <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -246,9 +244,7 @@ function SignInForm() {
                     setFormData({ ...formData, password: e.target.value });
                     if (errors.password) setErrors({ ...errors, password: undefined });
                   }}
-                  className={`w-full pl-10 pr-12 py-3 md:py-3.5 border-2 rounded-xl focus:outline-none transition-all text-base ${
-                    errors.password ? 'border-red-400 focus:border-red-500 bg-red-50/50' : 'border-neo-black/10 focus:border-neo-yellow bg-neo-light-gray/50 focus:bg-white'
-                  }`}
+                  className={`robot-input pl-12 pr-12 ${errors.password ? 'border-red-500 focus:border-red-500' : ''}`}
                   placeholder="Enter your password"
                   disabled={isLoading}
                   autoComplete="current-password"
@@ -256,19 +252,19 @@ function SignInForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neo-black/40 hover:text-neo-black transition-colors p-1"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors p-1"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
-              {errors.password && <p className="mt-1.5 text-xs text-red-500 font-medium">{errors.password}</p>}
+              {errors.password && <p className="mt-1.5 text-xs text-red-400 font-medium">{errors.password}</p>}
             </div>
 
             {/* Remember & Forgot */}
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 cursor-pointer group">
-                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all ${
-                  formData.remember ? 'bg-neo-yellow border-neo-yellow' : 'border-neo-black/20 group-hover:border-neo-black/40'
+                <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all ${
+                  formData.remember ? 'bg-neo-yellow border-neo-yellow' : 'border-white/20 group-hover:border-white/40'
                 }`}>
                   {formData.remember && <Check size={14} className="text-neo-black" />}
                 </div>
@@ -278,12 +274,12 @@ function SignInForm() {
                   onChange={(e) => setFormData({ ...formData, remember: e.target.checked })}
                   className="sr-only"
                 />
-                <span className="text-sm text-neo-black/70">Remember me</span>
+                <span className="text-sm text-white/70">Remember me</span>
               </label>
               <button 
                 type="button"
                 onClick={handleForgotPassword}
-                className="text-sm font-semibold text-neo-black hover:text-neo-yellow transition-colors"
+                className="text-sm font-semibold text-white hover:text-neo-yellow transition-colors"
               >
                 Forgot password?
               </button>
@@ -293,7 +289,7 @@ function SignInForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 md:py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-neo-black/20"
+              className="robot-btn w-full justify-center"
             >
               {isLoading ? (
                 <span className="flex items-center gap-2">
@@ -310,12 +306,12 @@ function SignInForm() {
           </form>
 
           {/* Divider */}
-          <div className="relative my-5 md:my-6">
+          <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-neo-black/10"></div>
+              <div className="w-full border-t border-white/10"></div>
             </div>
             <div className="relative flex justify-center text-xs md:text-sm">
-              <span className="px-4 bg-white text-neo-black/50">or continue with</span>
+              <span className="px-4 bg-neo-black text-white/50">or continue with</span>
             </div>
           </div>
 
@@ -324,7 +320,7 @@ function SignInForm() {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full py-3.5 md:py-4 bg-white border-2 border-neo-black/10 font-semibold rounded-xl hover:border-neo-black/30 hover:bg-neo-light-gray active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-white/5 border border-white/10 font-semibold rounded-full hover:bg-white/10 transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <svg width="20" height="20" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -336,13 +332,13 @@ function SignInForm() {
           </button>
 
           {/* Sign Up Link - Mobile friendly */}
-          <div className="mt-6 pt-5 border-t border-neo-black/10">
-            <p className="text-center text-sm text-neo-black/60 mb-3">
+          <div className="mt-6 pt-5 border-t border-white/10">
+            <p className="text-center text-sm text-white/60 mb-3">
               Don&apos;t have an account?
             </p>
             <Link 
               href="/signup" 
-              className="w-full py-3 md:py-3.5 border-2 border-neo-black text-neo-black font-bold rounded-xl hover:bg-neo-black hover:text-white active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+              className="robot-btn-outline w-full justify-center"
             >
               Create Account Free
               <ArrowRight size={18} />
@@ -352,8 +348,8 @@ function SignInForm() {
       </div>
 
       {/* Right Side - Branding (Desktop only) */}
-      <div className="hidden lg:flex flex-1 bg-neo-black items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute inset-0 grid-bg-dark opacity-30" />
+      <div className="hidden lg:flex flex-1 bg-neo-gray items-center justify-center p-12 relative overflow-hidden">
+        <div className="dot-pattern-animated" />
         
         {/* Decorative elements */}
         <div className="absolute top-20 right-20 w-32 h-32 bg-neo-yellow/20 rounded-full blur-3xl" />
@@ -371,7 +367,7 @@ function SignInForm() {
           {/* Features */}
           <div className="space-y-4 text-left">
             {features.map((feature, i) => (
-              <div key={i} className="flex items-center gap-3 bg-white/5 rounded-xl px-4 py-3 border border-white/10">
+              <div key={i} className="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3 border border-white/10">
                 <div className="w-6 h-6 bg-neo-yellow rounded-full flex items-center justify-center flex-shrink-0">
                   <Check size={14} className="text-neo-black" />
                 </div>
@@ -389,8 +385,8 @@ function SignInForm() {
 export default function SignIn() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <Loader2 size={32} className="animate-spin text-neo-black" />
+      <div className="min-h-screen bg-neo-black flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-neo-yellow" />
       </div>
     }>
       <SignInForm />

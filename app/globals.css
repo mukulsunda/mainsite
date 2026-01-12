@@ -22,31 +22,27 @@
   }
   
   body {
-    @apply bg-neo-white text-neo-black font-sans overflow-x-hidden;
-    background-image: 
-      linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
-    background-size: 32px 32px;
+    @apply bg-neo-black text-white font-sans overflow-x-hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-black leading-[1.1] text-neo-black tracking-tight;
+    @apply font-black leading-[0.95] text-white tracking-tight;
   }
   
   h1 {
-    @apply text-5xl md:text-6xl lg:text-7xl;
+    @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl;
   }
   
   h2 {
-    @apply text-4xl md:text-5xl;
+    @apply text-4xl md:text-5xl lg:text-6xl;
   }
   
   h3 {
-    @apply text-2xl md:text-3xl;
+    @apply text-2xl md:text-3xl lg:text-4xl;
   }
   
   p {
-    @apply font-medium leading-relaxed text-neo-black/80;
+    @apply font-normal leading-relaxed text-white/70;
   }
 
   ::selection {
@@ -56,175 +52,314 @@
 
 @layer components {
   .container {
-    @apply max-w-[1400px] mx-auto px-5 md:px-8 w-full;
+    @apply max-w-[1400px] mx-auto px-6 md:px-8 lg:px-12 w-full;
   }
 
-  /* Premium Card System */
-  .neo-card {
-    @apply bg-white border-2 border-neo-black rounded-xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] relative overflow-hidden;
-    box-shadow: 4px 4px 0px 0px #0A0A0A;
+  /* Robot.com Style - Dark Cards */
+  .robot-card {
+    @apply bg-neo-gray rounded-3xl p-8 md:p-10 transition-all duration-500 relative overflow-hidden;
   }
 
-  .neo-card:hover {
-    box-shadow: 6px 6px 0px 0px #0A0A0A;
-    transform: translate(-2px, -2px);
+  .robot-card:hover {
+    @apply bg-neo-gray/80;
+    transform: translateY(-4px);
   }
 
-  .neo-card-flat {
-    @apply bg-white border-2 border-neo-black rounded-xl transition-all duration-300;
+  /* Robot.com Style - Buttons */
+  .robot-btn {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-neo-yellow text-neo-black font-bold text-base rounded-full cursor-pointer transition-all duration-300 no-underline;
   }
 
-  /* Button System */
-  .neo-btn {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-neo-black text-white font-bold uppercase tracking-wider text-sm border-2 border-neo-black rounded-lg cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] no-underline;
-    box-shadow: 4px 4px 0px 0px #FFD058;
+  .robot-btn:hover {
+    @apply bg-yellow-400 scale-105;
   }
 
-  .neo-btn:hover {
-    @apply bg-neo-yellow text-neo-black;
-    box-shadow: 6px 6px 0px 0px #0A0A0A;
-    transform: translate(-2px, -2px);
+  .robot-btn-outline {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent text-white font-bold text-base border-2 border-white/20 rounded-full cursor-pointer transition-all duration-300 no-underline;
   }
 
-  .neo-btn:active {
-    box-shadow: 0px 0px 0px 0px #0A0A0A;
-    transform: translate(4px, 4px);
+  .robot-btn-outline:hover {
+    @apply border-neo-yellow text-neo-yellow;
   }
 
-  .neo-btn-outline {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-transparent text-neo-black font-bold uppercase tracking-wider text-sm border-2 border-neo-black rounded-lg cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] no-underline;
+  .robot-btn-dark {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-neo-black text-white font-bold text-base rounded-full cursor-pointer transition-all duration-300 no-underline border-2 border-white/10;
   }
 
-  .neo-btn-outline:hover {
-    @apply bg-neo-black text-white;
+  .robot-btn-dark:hover {
+    @apply bg-neo-gray border-white/20;
   }
 
-  /* Input System */
-  .neo-input {
-    @apply w-full p-4 bg-white border-2 border-neo-black rounded-lg font-medium outline-none transition-all duration-200;
-    box-shadow: 2px 2px 0px 0px #0A0A0A;
+  /* Robot.com Style - Inputs */
+  .robot-input {
+    @apply w-full px-6 py-4 bg-neo-gray text-white border-2 border-white/10 rounded-2xl font-medium outline-none transition-all duration-300;
   }
 
-  .neo-input:focus {
-    @apply border-neo-yellow bg-neo-yellow/5;
-    box-shadow: 4px 4px 0px 0px #FFD058;
+  .robot-input:focus {
+    @apply border-neo-yellow bg-neo-gray/80;
   }
 
-  .neo-input::placeholder {
-    @apply text-neo-black/40;
+  .robot-input::placeholder {
+    @apply text-white/40;
   }
 
-  /* Navigation Links */
-  .nav-link {
-    @apply font-semibold uppercase text-sm tracking-wide relative text-neo-black no-underline transition-colors duration-200;
+  /* Robot.com Style - Section Headers */
+  .section-header {
+    @apply text-center mb-16 md:mb-20;
   }
 
-  .nav-link::after {
-    content: '';
-    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-neo-yellow transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)];
+  .section-label {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-neo-yellow/10 text-neo-yellow text-xs font-bold uppercase tracking-widest rounded-full mb-6;
   }
 
-  .nav-link:hover {
-    @apply text-neo-black;
+  /* Robot.com Style - Stats */
+  .stat-number {
+    @apply text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter;
   }
 
-  .nav-link:hover::after {
-    @apply w-full;
+  .stat-label {
+    @apply text-sm md:text-base text-white/50 uppercase tracking-wider font-medium mt-2;
   }
 
-  /* Badge System */
-  .badge {
-    @apply inline-flex items-center px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full border-2 border-neo-black;
+  /* Robot.com Style - Floating Elements */
+  .float-element {
+    @apply absolute transition-all duration-700 ease-out;
   }
 
-  .badge-yellow {
-    @apply bg-neo-yellow text-neo-black;
+  /* Robot.com Style - Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-neo-yellow via-yellow-300 to-neo-yellow bg-clip-text text-transparent;
   }
 
-  .badge-black {
-    @apply bg-neo-black text-white;
+  /* Robot.com Style - Dot Pattern Background */
+  .dot-pattern-animated {
+    background-image: radial-gradient(rgba(255, 208, 88, 0.15) 1px, transparent 1px);
+    background-size: 32px 32px;
+    animation: dotMove 20s linear infinite;
   }
 
-  .badge-white {
-    @apply bg-white text-neo-black;
+  @keyframes dotMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 32px 32px; }
   }
 
-  /* Section Utilities */
+  /* Robot.com Style - Grid Pattern */
+  .grid-pattern {
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  /* Robot.com Style - Glow Effects */
+  .glow-yellow {
+    box-shadow: 0 0 60px rgba(255, 208, 88, 0.3);
+  }
+
+  .glow-soft {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Robot.com Style - Section Padding */
   .section-padding {
-    @apply py-20 md:py-32;
+    @apply py-20 md:py-32 lg:py-40;
   }
 
   .section-padding-sm {
-    @apply py-12 md:py-20;
+    @apply py-16 md:py-24;
   }
 
-  /* Hardware-inspired UI Elements */
-  .hardware-border {
-    @apply border-2 border-neo-black relative;
-  }
-
-  .hardware-border::before {
-    content: '';
-    @apply absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-neo-black;
-  }
-
-  .hardware-border::after {
-    content: '';
-    @apply absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-neo-black;
-  }
-
-  /* Industrial Grid Pattern */
-  .grid-bg {
-    background-image: 
-      linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-
-  .grid-bg-dark {
-    background-image: 
-      linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-
-  /* Dot Pattern */
-  .dot-pattern {
-    background-image: radial-gradient(#0A0A0A 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  .dot-pattern-light {
-    background-image: radial-gradient(rgba(0,0,0,0.08) 1.5px, transparent 1.5px);
-    background-size: 24px 24px;
-  }
-
-  /* Status Indicator */
-  .status-dot {
-    @apply w-2 h-2 rounded-full bg-green-500 animate-pulse;
-  }
-
-  /* Divider */
+  /* Robot.com Style - Divider */
   .divider {
-    @apply h-px bg-neo-black/10 w-full;
+    @apply h-px bg-white/10 w-full;
   }
 
-  .divider-thick {
-    @apply h-0.5 bg-neo-black w-full;
+  /* Robot.com Style - Navigation Link */
+  .nav-link {
+    @apply font-medium text-white/70 hover:text-white transition-colors duration-300 text-sm;
+  }
+
+  /* Robot.com Style - Feature Card */
+  .feature-card {
+    @apply relative p-8 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 transition-all duration-500;
+  }
+
+  .feature-card:hover {
+    @apply border-neo-yellow/30 bg-white/5;
+  }
+
+  /* Robot.com Style - Product Card */
+  .product-card {
+    @apply relative rounded-3xl overflow-hidden bg-neo-gray transition-all duration-500 group;
+  }
+
+  .product-card:hover {
+    @apply scale-[1.02];
+  }
+
+  .product-card-image {
+    @apply aspect-[4/3] w-full object-cover transition-transform duration-700;
+  }
+
+  .product-card:hover .product-card-image {
+    @apply scale-110;
+  }
+
+  /* Robot.com Style - Marquee */
+  .marquee-container {
+    @apply overflow-hidden whitespace-nowrap;
+  }
+
+  .marquee-content {
+    @apply inline-flex gap-8 animate-marquee;
+  }
+
+  /* Robot.com Style - Badge */
+  .robot-badge {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 bg-neo-yellow text-neo-black text-xs font-bold uppercase tracking-wider rounded-full;
+  }
+
+  .robot-badge-outline {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 bg-transparent text-white border border-white/20 text-xs font-medium rounded-full;
+  }
+
+  /* Robot.com Style - List */
+  .robot-list {
+    @apply space-y-4;
+  }
+
+  .robot-list-item {
+    @apply flex items-start gap-4 text-white/70;
+  }
+
+  .robot-list-icon {
+    @apply w-6 h-6 flex items-center justify-center rounded-full bg-neo-yellow/20 text-neo-yellow flex-shrink-0 mt-0.5;
+  }
+
+  /* Robot.com Style - Accordion */
+  .robot-accordion {
+    @apply border-b border-white/10;
+  }
+
+  .robot-accordion-trigger {
+    @apply w-full flex items-center justify-between py-6 text-left font-semibold text-lg text-white hover:text-neo-yellow transition-colors;
+  }
+
+  .robot-accordion-content {
+    @apply pb-6 text-white/60 leading-relaxed;
+  }
+
+  /* Light Section Override */
+  .section-light {
+    @apply bg-white text-neo-black;
+  }
+
+  .section-light h1,
+  .section-light h2,
+  .section-light h3,
+  .section-light h4 {
+    @apply text-neo-black;
+  }
+
+  .section-light p {
+    @apply text-neo-black/70;
+  }
+
+  /* Form Styles */
+  .form-label {
+    @apply block text-sm font-medium text-white/70 mb-2;
+  }
+
+  .form-error {
+    @apply text-red-400 text-sm mt-1;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    @apply w-6 h-10 rounded-full border-2 border-white/30 flex items-center justify-center;
+  }
+
+  .scroll-dot {
+    @apply w-1 h-3 bg-white/50 rounded-full animate-bounce;
   }
 }
 
-/* Custom Scrollbar - Premium */
+/* Animations */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+/* Stagger animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Custom Scrollbar - Dark Theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5F5F5;
+  background: #0A0A0A;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0A0A0A;
+  background: #333;
   border-radius: 4px;
 }
 
@@ -232,42 +367,22 @@
   background: #FFD058;
 }
 
-/* Marquee Animation */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-  width: max-content;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-/* Smooth Focus States */
+/* Focus States */
 *:focus-visible {
-  @apply outline-none ring-2 ring-neo-yellow ring-offset-2 ring-offset-white;
+  @apply outline-none ring-2 ring-neo-yellow ring-offset-2 ring-offset-neo-black;
 }
 
-/* Loading States */
+/* Loading skeleton */
 .skeleton {
-  @apply bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-pulse;
+  @apply bg-gradient-to-r from-white/5 via-white/10 to-white/5 bg-[length:200%_100%] animate-pulse rounded-lg;
 }
 
-/* Text Gradient */
-.text-gradient {
-  @apply bg-gradient-to-r from-neo-yellow via-neo-accent to-neo-yellow bg-clip-text text-transparent;
+/* Glass effect */
+.glass-dark {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10;
 }
 
-/* Glass Effect */
-.glass {
-  @apply bg-white/80 backdrop-blur-lg border border-white/20;
-}
-
-/* Hide scrollbar utility */
+/* Hide scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -277,13 +392,34 @@
   scrollbar-width: none;
 }
 
-/* Responsive text utilities */
+/* Mobile-first responsive utilities */
 @media (max-width: 640px) {
-  .text-responsive-xl {
+  h1 {
     @apply text-4xl;
   }
   
-  .text-responsive-2xl {
-    @apply text-5xl;
+  h2 {
+    @apply text-3xl;
+  }
+  
+  h3 {
+    @apply text-xl;
+  }
+  
+  .container {
+    @apply px-5;
   }
 }
+
+/* Safe area padding for mobile */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+

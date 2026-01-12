@@ -20,9 +20,9 @@ function Loader() {
   const { progress } = useProgress();
   return (
     <Html center>
-      <div className="text-center bg-white/90 px-6 py-4 rounded-xl shadow-lg backdrop-blur-sm border border-neo-black/10">
-        <div className="w-10 h-10 border-3 border-neo-black/10 border-t-neo-yellow rounded-full animate-spin mx-auto mb-2" />
-        <p className="text-sm text-neo-black/60 font-medium">Loading Model... {progress.toFixed(0)}%</p>
+      <div className="text-center bg-neo-gray/90 px-6 py-4 rounded-xl shadow-lg backdrop-blur-sm border border-white/10">
+        <div className="w-10 h-10 border-3 border-white/10 border-t-neo-yellow rounded-full animate-spin mx-auto mb-2" />
+        <p className="text-sm text-white/60 font-medium">Loading Model... {progress.toFixed(0)}%</p>
       </div>
     </Html>
   );
@@ -32,10 +32,10 @@ function Loader() {
 function ErrorFallback({ error }: { error: Error }) {
   return (
     <Html center>
-      <div className="text-center bg-red-50 px-6 py-4 rounded-xl shadow-lg border border-red-100 max-w-xs">
-        <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-2" />
-        <p className="text-sm text-red-600 font-medium">Failed to load model</p>
-        <p className="text-xs text-red-400 mt-1">{error.message}</p>
+      <div className="text-center bg-red-500/10 px-6 py-4 rounded-xl shadow-lg border border-red-500/30 max-w-xs">
+        <AlertCircle className="w-8 h-8 text-red-400 mx-auto mb-2" />
+        <p className="text-sm text-red-400 font-medium">Failed to load model</p>
+        <p className="text-xs text-red-400/70 mt-1">{error.message}</p>
       </div>
     </Html>
   );
@@ -272,20 +272,20 @@ export default function ModelViewer({ modelFile, materialColor, onDimensionsCalc
   const [autoRotate, setAutoRotate] = useState(true);
 
   return (
-    <div className="w-full h-full bg-neo-white rounded-xl border-2 border-neo-black overflow-hidden relative flex flex-col">
+    <div className="w-full h-full bg-neo-gray rounded-xl border border-white/10 overflow-hidden relative flex flex-col">
       {/* Toolbar */}
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
         <button
           onClick={() => setViewMode(viewMode === 'solid' ? 'wireframe' : 'solid')}
-          className="p-2 bg-white border-2 border-neo-black rounded-lg shadow-neo-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+          className="p-2 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-all"
           title="Toggle Wireframe"
         >
-          {viewMode === 'solid' ? <Box className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+          {viewMode === 'solid' ? <Box className="w-5 h-5 text-white" /> : <Eye className="w-5 h-5 text-white" />}
         </button>
         <button
           onClick={() => setShowGrid(!showGrid)}
-          className={`p-2 border-2 border-neo-black rounded-lg shadow-neo-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${
-            showGrid ? 'bg-neo-yellow' : 'bg-white'
+          className={`p-2 border border-white/10 rounded-lg hover:bg-white/10 transition-all ${
+            showGrid ? 'bg-neo-yellow text-neo-black' : 'bg-white/5 text-white'
           }`}
           title="Toggle Grid"
         >
@@ -293,8 +293,8 @@ export default function ModelViewer({ modelFile, materialColor, onDimensionsCalc
         </button>
         <button
           onClick={() => setAutoRotate(!autoRotate)}
-          className={`p-2 border-2 border-neo-black rounded-lg shadow-neo-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${
-            autoRotate ? 'bg-neo-yellow' : 'bg-white'
+          className={`p-2 border border-white/10 rounded-lg hover:bg-white/10 transition-all ${
+            autoRotate ? 'bg-neo-yellow text-neo-black' : 'bg-white/5 text-white'
           }`}
           title="Auto Rotate"
         >
@@ -331,7 +331,7 @@ export default function ModelViewer({ modelFile, materialColor, onDimensionsCalc
                   cellThickness={0.5}
                   sectionThickness={1}
                   sectionColor="#555555" 
-                  cellColor="#cccccc" 
+                  cellColor="#333333" 
                   position={[0, -0.5, 0]} 
                 />
               )}
@@ -350,9 +350,9 @@ export default function ModelViewer({ modelFile, materialColor, onDimensionsCalc
 
       {/* File Info Overlay */}
       {modelFile && (
-        <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur p-4 rounded-xl border-2 border-neo-black shadow-neo-sm max-w-xs">
-          <p className="font-bold text-neo-black truncate">{modelFile.name}</p>
-          <p className="text-xs text-neo-black/60 mt-1">
+        <div className="absolute bottom-4 left-4 bg-neo-gray/90 backdrop-blur p-4 rounded-xl border border-white/10 max-w-xs">
+          <p className="font-bold text-white truncate">{modelFile.name}</p>
+          <p className="text-xs text-white/60 mt-1">
             {(modelFile.size / (1024 * 1024)).toFixed(2)} MB • {modelFile.format}
           </p>
         </div>

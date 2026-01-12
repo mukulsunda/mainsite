@@ -24,12 +24,12 @@ export default function MaterialSelector({
 
   const PropertyBar = ({ value, max = 5, label }: { value: number; max?: number; label: string }) => (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-neo-black/60 w-20">{label}</span>
+      <span className="text-xs text-white/60 w-20">{label}</span>
       <div className="flex-1 flex gap-0.5">
         {Array.from({ length: max }).map((_, i) => (
           <div
             key={i}
-            className={`h-1.5 flex-1 rounded-full ${i < value ? 'bg-neo-yellow' : 'bg-neo-black/10'}`}
+            className={`h-1.5 flex-1 rounded-full ${i < value ? 'bg-neo-yellow' : 'bg-white/10'}`}
           />
         ))}
       </div>
@@ -40,7 +40,7 @@ export default function MaterialSelector({
     <div className="space-y-4">
       {/* Material Selection */}
       <div>
-        <label className="block text-sm font-bold text-neo-black mb-3">
+        <label className="block text-sm font-bold text-white mb-3">
           Material
         </label>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -60,24 +60,24 @@ export default function MaterialSelector({
                 className={`
                   relative p-3 rounded-lg border-2 transition-all text-left
                   ${isSelected 
-                    ? 'border-neo-black bg-neo-yellow/10' 
-                    : 'border-neo-black/10 hover:border-neo-black/30'
+                    ? 'border-neo-yellow bg-neo-yellow/10' 
+                    : 'border-white/10 hover:border-white/30'
                   }
                 `}
               >
                 {isSelected && (
-                  <div className="absolute top-2 right-2 w-5 h-5 bg-neo-black rounded-full flex items-center justify-center">
-                    <Check size={12} className="text-white" />
+                  <div className="absolute top-2 right-2 w-5 h-5 bg-neo-yellow rounded-full flex items-center justify-center">
+                    <Check size={12} className="text-neo-black" />
                   </div>
                 )}
-                <span className="font-bold text-sm text-neo-black block text-center">{matId}</span>
-                <span className="block text-xs text-neo-black/60 mt-0.5 text-center">₹{mat.pricePerGram}/g</span>
+                <span className="font-bold text-sm text-white block text-center">{matId}</span>
+                <span className="block text-xs text-white/60 mt-0.5 text-center">₹{mat.pricePerGram}/g</span>
                 <div className="flex justify-center mt-2">
                   <span className={`
                     inline-block px-1.5 py-0.5 rounded text-[10px] font-medium uppercase
-                    ${mat.difficulty === 'beginner' ? 'bg-green-100 text-green-700' : ''}
-                    ${mat.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-700' : ''}
-                    ${mat.difficulty === 'advanced' ? 'bg-red-100 text-red-700' : ''}
+                    ${mat.difficulty === 'beginner' ? 'bg-green-500/20 text-green-400' : ''}
+                    ${mat.difficulty === 'intermediate' ? 'bg-yellow-500/20 text-yellow-400' : ''}
+                    ${mat.difficulty === 'advanced' ? 'bg-red-500/20 text-red-400' : ''}
                   `}>
                     {mat.difficulty}
                   </span>
@@ -91,7 +91,7 @@ export default function MaterialSelector({
       {/* Material Details Toggle */}
       <button
         onClick={() => setShowDetails(!showDetails)}
-        className="flex items-center gap-2 text-sm text-neo-black/60 hover:text-neo-black transition-colors"
+        className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
       >
         <Info size={14} />
         <span>Material details</span>
@@ -100,10 +100,10 @@ export default function MaterialSelector({
 
       {/* Material Details Panel */}
       {showDetails && (
-        <div className="p-4 bg-neo-light-gray rounded-lg space-y-4">
+        <div className="p-4 bg-white/5 rounded-lg space-y-4">
           <div>
-            <h4 className="font-bold text-sm text-neo-black mb-1">{material.name}</h4>
-            <p className="text-xs text-neo-black/60">{material.description}</p>
+            <h4 className="font-bold text-sm text-white mb-1">{material.name}</h4>
+            <p className="text-xs text-white/60">{material.description}</p>
           </div>
           
           <div className="space-y-2">
@@ -115,20 +115,20 @@ export default function MaterialSelector({
 
           <div className="flex gap-4 text-xs">
             <div>
-              <span className="text-neo-black/40">Print Temp</span>
-              <p className="font-mono text-neo-black">{material.printTemp}</p>
+              <span className="text-white/40">Print Temp</span>
+              <p className="font-mono text-white">{material.printTemp}</p>
             </div>
             <div>
-              <span className="text-neo-black/40">Bed Temp</span>
-              <p className="font-mono text-neo-black">{material.bedTemp}</p>
+              <span className="text-white/40">Bed Temp</span>
+              <p className="font-mono text-white">{material.bedTemp}</p>
             </div>
           </div>
 
           <div>
-            <span className="text-xs text-neo-black/40">Best for:</span>
+            <span className="text-xs text-white/40">Best for:</span>
             <div className="flex flex-wrap gap-1 mt-1">
               {material.bestFor.slice(0, 3).map((use, i) => (
-                <span key={i} className="px-2 py-0.5 bg-white rounded text-xs text-neo-black/70">
+                <span key={i} className="px-2 py-0.5 bg-white/10 rounded text-xs text-white/70">
                   {use}
                 </span>
               ))}
@@ -139,7 +139,7 @@ export default function MaterialSelector({
 
       {/* Color Selection */}
       <div>
-        <label className="block text-sm font-bold text-neo-black mb-3">
+        <label className="block text-sm font-bold text-white mb-3">
           Color
         </label>
         <div className="flex flex-wrap gap-2">
@@ -152,7 +152,7 @@ export default function MaterialSelector({
                 disabled={!color.available}
                 className={`
                   relative w-10 h-10 rounded-lg border-2 transition-all
-                  ${isSelected ? 'border-neo-black scale-110' : 'border-transparent'}
+                  ${isSelected ? 'border-neo-yellow scale-110' : 'border-transparent'}
                   ${!color.available ? 'opacity-40 cursor-not-allowed' : 'hover:scale-105'}
                 `}
                 style={{ backgroundColor: color.hex }}
@@ -165,28 +165,28 @@ export default function MaterialSelector({
                 )}
                 {!color.available && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-full h-0.5 bg-neo-black/40 rotate-45" />
+                    <div className="w-full h-0.5 bg-white/40 rotate-45" />
                   </div>
                 )}
               </button>
             );
           })}
         </div>
-        <p className="text-xs text-neo-black/40 mt-2">
+        <p className="text-xs text-white/40 mt-2">
           Selected: {material.colors.find(c => c.hex === selectedColor)?.name || 'None'}
         </p>
       </div>
 
       {/* Weight & Cost Preview */}
       {estimatedWeight && (
-        <div className="p-3 bg-neo-black rounded-lg flex items-center justify-between">
+        <div className="p-3 bg-neo-yellow rounded-lg flex items-center justify-between">
           <div>
-            <span className="text-xs text-white/60">Estimated material</span>
-            <p className="font-bold text-white">{estimatedWeight.toFixed(1)}g</p>
+            <span className="text-xs text-neo-black/60">Estimated material</span>
+            <p className="font-bold text-neo-black">{estimatedWeight.toFixed(1)}g</p>
           </div>
           <div className="text-right">
-            <span className="text-xs text-white/60">Material cost</span>
-            <p className="font-bold text-neo-yellow">₹{(estimatedWeight * material.pricePerGram).toFixed(2)}</p>
+            <span className="text-xs text-neo-black/60">Material cost</span>
+            <p className="font-bold text-neo-black">₹{(estimatedWeight * material.pricePerGram).toFixed(2)}</p>
           </div>
         </div>
       )}
