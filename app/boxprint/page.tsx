@@ -71,7 +71,7 @@ export default function BoxPrintPage() {
   // Steps removed as per user request
 
   return (
-    <main className="pt-[72px] md:pt-[80px] bg-neo-black min-h-screen">
+    <main className="pt-16 lg:pt-20 bg-neo-black min-h-screen">
       {/* Hero Section */}
       <section className="relative bg-neo-black text-white overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 dot-pattern-animated opacity-30" />

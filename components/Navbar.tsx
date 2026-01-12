@@ -66,20 +66,20 @@ export default function Navbar() {
           : 'bg-transparent'
       }`}>
         <div className="container">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <Link href="/" className="relative z-10 flex items-center gap-3">
-              <div className="w-10 h-10 bg-neo-yellow rounded-full flex items-center justify-center">
+            <Link href="/" className="relative z-10 flex items-center gap-2 lg:gap-3">
+              <div className="w-9 h-9 lg:w-10 lg:h-10 bg-neo-yellow rounded-full flex items-center justify-center">
                 <Image 
                   src="/logo.png" 
                   alt="BoxPox" 
                   width={32} 
                   height={32} 
-                  className="w-6 h-6 object-contain"
+                  className="w-5 h-5 lg:w-6 lg:h-6 object-contain"
                   priority
                 />
               </div>
-              <span className="text-white font-bold text-xl tracking-tight hidden sm:block">BoxPox</span>
+              <span className="text-white font-bold text-lg lg:text-xl tracking-tight">BoxPox</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -136,91 +136,119 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button 
-              className="lg:hidden relative z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors" 
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label={isOpen ? 'Close menu' : 'Open menu'}
-            >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            {/* Mobile Actions */}
+            <div className="flex lg:hidden items-center gap-2">
+              <Link 
+                href="/cart" 
+                className="relative w-10 h-10 rounded-full bg-white/10 flex items-center justify-center active:scale-95 transition-transform"
+              >
+                <ShoppingBag size={18} className="text-white" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-neo-yellow text-neo-black rounded-full text-[10px] font-bold flex items-center justify-center">
+                    {cartCount > 9 ? '9+' : cartCount}
+                  </span>
+                )}
+              </Link>
+              
+              <button 
+                className="relative z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white active:scale-95 transition-transform" 
+                onClick={() => setIsOpen(!isOpen)}
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              >
+                {isOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`fixed inset-0 z-[999] lg:hidden transition-all duration-500 ${
+      <div className={`fixed inset-0 z-[999] lg:hidden transition-all duration-300 ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}>
         {/* Backdrop */}
         <div 
-          className="absolute inset-0 bg-neo-black/95 backdrop-blur-xl"
+          className="absolute inset-0 bg-neo-black/98 backdrop-blur-xl"
           onClick={() => setIsOpen(false)}
         />
         
         {/* Menu Content */}
-        <div className={`relative h-full flex flex-col pt-24 px-6 transition-all duration-500 ${
-          isOpen ? 'translate-y-0' : '-translate-y-8'
+        <div className={`relative h-full flex flex-col pt-20 px-5 transition-all duration-300 ${
+          isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
         }`}>
-          <nav className="space-y-2 flex-1">
+          {/* User Profile Section */}
+          <div className="mb-6 pb-6 border-b border-white/10">
+            {user ? (
+              <Link 
+                href="/account" 
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-4"
+              >
+                <div className="w-14 h-14 rounded-full bg-neo-yellow flex items-center justify-center">
+                  <User size={24} className="text-neo-black" />
+                </div>
+                <div>
+                  <p className="text-white font-bold text-lg">
+                    {user.user_metadata?.first_name || 'Welcome back'}
+                  </p>
+                  <p className="text-white/50 text-sm">{user.email}</p>
+                </div>
+              </Link>
+            ) : (
+              <div className="flex gap-3">
+                <Link 
+                  href="/signin" 
+                  onClick={() => setIsOpen(false)}
+                  className="flex-1 py-4 rounded-2xl bg-neo-yellow text-neo-black font-bold text-center active:scale-[0.98] transition-transform"
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  href="/signup" 
+                  onClick={() => setIsOpen(false)}
+                  className="flex-1 py-4 rounded-2xl bg-white/10 text-white font-bold text-center active:scale-[0.98] transition-transform"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="flex-1 space-y-1">
             {navLinks.map((link, i) => (
               <Link 
                 key={link.href}
                 href={link.href} 
                 onClick={() => setIsOpen(false)} 
-                className={`block text-4xl font-black text-white hover:text-neo-yellow transition-colors py-3 animate-fade-in-up`}
-                style={{ animationDelay: `${i * 0.1}s` }}
+                className={`flex items-center justify-between p-4 rounded-2xl text-lg font-semibold transition-all active:scale-[0.98] ${
+                  isOpen ? 'animate-fade-in-up' : ''
+                } hover:bg-white/5`}
+                style={{ animationDelay: `${i * 0.05}s` }}
               >
-                {link.label}
+                <span className="text-white">{link.label}</span>
+                <ArrowRight size={18} className="text-white/30" />
               </Link>
             ))}
           </nav>
 
-          {/* Mobile Actions */}
-          <div className="py-8 space-y-4 border-t border-white/10">
+          {/* Quick Actions */}
+          <div className="py-6 space-y-3 border-t border-white/10">
             <Link 
               href="/boxprint" 
               onClick={() => setIsOpen(false)} 
-              className="robot-btn w-full justify-center"
+              className="robot-btn w-full justify-center py-5 text-base"
             >
               Get 3D Print Quote
-              <ArrowRight size={18} />
+              <ArrowRight size={20} />
             </Link>
-            
-            <div className="flex gap-3">
-              <Link 
-                href="/cart" 
-                onClick={() => setIsOpen(false)} 
-                className="flex-1 py-4 rounded-full bg-white/10 text-white font-semibold text-center flex items-center justify-center gap-2"
-              >
-                <ShoppingBag size={18} />
-                Cart {cartCount > 0 && `(${cartCount})`}
-              </Link>
-              
-              {user ? (
-                <Link 
-                  href="/account" 
-                  onClick={() => setIsOpen(false)} 
-                  className="flex-1 py-4 rounded-full bg-white/10 text-white font-semibold text-center flex items-center justify-center gap-2"
-                >
-                  <User size={18} />
-                  Account
-                </Link>
-              ) : (
-                <Link 
-                  href="/signin" 
-                  onClick={() => setIsOpen(false)} 
-                  className="flex-1 py-4 rounded-full bg-white/10 text-white font-semibold text-center"
-                >
-                  Sign In
-                </Link>
-              )}
-            </div>
           </div>
 
           {/* Bottom Info */}
-          <div className="py-6 text-center text-sm text-white/40">
-            <span>© 2026 BoxPox • info@boxpox.in</span>
+          <div className="pb-6 flex items-center justify-center gap-4 text-sm text-white/30">
+            <a href="tel:+917888601710" className="hover:text-white/50">+91 7888601710</a>
+            <span>•</span>
+            <a href="mailto:info@boxpox.in" className="hover:text-white/50">info@boxpox.in</a>
           </div>
         </div>
       </div>
