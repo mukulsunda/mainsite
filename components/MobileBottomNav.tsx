@@ -76,8 +76,8 @@ export default function MobileBottomNav() {
       <div className="absolute inset-x-0 -top-6 h-6 bg-gradient-to-t from-neo-black to-transparent pointer-events-none" />
       
       {/* Navigation bar */}
-      <div className="bg-neo-black/95 backdrop-blur-xl border-t border-white/10 safe-bottom">
-        <div className="flex items-center justify-around px-2 py-2">
+      <div className="bg-neo-black/98 backdrop-blur-xl border-t border-white/10 safe-bottom">
+        <div className="flex items-center justify-evenly px-1 py-2 max-w-md mx-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             
@@ -86,12 +86,12 @@ export default function MobileBottomNav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative -mt-6"
+                  className="relative -mt-5 flex flex-col items-center"
                 >
-                  <div className="w-14 h-14 rounded-full bg-neo-yellow flex items-center justify-center shadow-lg shadow-neo-yellow/30 active:scale-95 transition-transform">
-                    <Icon size={24} className="text-neo-black" strokeWidth={2.5} />
+                  <div className="w-[52px] h-[52px] rounded-full bg-neo-yellow flex items-center justify-center shadow-lg shadow-neo-yellow/30 active:scale-95 transition-transform border-4 border-neo-black">
+                    <Icon size={22} className="text-neo-black" strokeWidth={2.5} />
                   </div>
-                  <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[10px] font-medium text-neo-yellow whitespace-nowrap">
+                  <span className="text-[10px] font-semibold text-neo-yellow mt-1">
                     {item.label}
                   </span>
                 </Link>
@@ -102,26 +102,23 @@ export default function MobileBottomNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all active:scale-95 ${
+                className={`relative flex flex-col items-center justify-center w-16 py-1.5 rounded-xl transition-all active:scale-95 ${
                   item.isActive 
-                    ? 'text-neo-yellow' 
+                    ? 'text-neo-yellow bg-neo-yellow/10' 
                     : 'text-white/50'
                 }`}
               >
                 <div className="relative">
-                  <Icon size={22} strokeWidth={item.isActive ? 2.5 : 2} />
+                  <Icon size={20} strokeWidth={item.isActive ? 2.5 : 1.5} />
                   {item.badge !== undefined && (
-                    <span className="absolute -top-1 -right-2 min-w-[18px] h-[18px] bg-neo-yellow text-neo-black rounded-full text-[10px] font-bold flex items-center justify-center px-1">
+                    <span className="absolute -top-1.5 -right-2.5 min-w-[16px] h-[16px] bg-neo-yellow text-neo-black rounded-full text-[9px] font-bold flex items-center justify-center px-1">
                       {item.badge > 9 ? '9+' : item.badge}
                     </span>
                   )}
                 </div>
-                <span className={`text-[10px] font-medium ${item.isActive ? 'text-neo-yellow' : 'text-white/40'}`}>
+                <span className={`text-[9px] font-semibold mt-0.5 ${item.isActive ? 'text-neo-yellow' : 'text-white/40'}`}>
                   {item.label}
                 </span>
-                {item.isActive && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-neo-yellow" />
-                )}
               </Link>
             );
           })}
