@@ -86,7 +86,7 @@ function ResetPasswordForm() {
   };
 
   return (
-    <main className="min-h-screen bg-white flex items-center justify-center p-6">
+    <main className="min-h-screen bg-neo-black flex items-center justify-center p-6">
       <div className="w-full max-w-md">
         {/* Logo */}
         <Link href="/" className="inline-flex items-center gap-2 mb-8">
@@ -102,7 +102,7 @@ function ResetPasswordForm() {
         {/* Back to Sign In */}
         <Link 
           href="/signin" 
-          className="inline-flex items-center gap-2 text-sm text-neo-black/60 hover:text-neo-black mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white mb-6 transition-colors"
         >
           <ArrowLeft size={16} />
           Back to Sign In
@@ -112,8 +112,8 @@ function ResetPasswordForm() {
           <KeyRound size={32} className="text-neo-black" />
         </div>
 
-        <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tight text-neo-black">Reset Password</h1>
-        <p className="text-neo-black/60 mb-8">
+        <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">Reset Password</h1>
+        <p className="text-white/60 mb-8">
           Enter your new password below. Make sure it&apos;s strong and secure.
         </p>
 
@@ -121,14 +121,14 @@ function ResetPasswordForm() {
         {message && (
           <div className={`mb-6 p-4 rounded-xl flex items-start gap-3 ${
             message.type === 'success' 
-              ? 'bg-green-50 border-2 border-green-200' 
-              : 'bg-red-50 border-2 border-red-200'
+              ? 'bg-green-500/10 border border-green-500/30' 
+              : 'bg-red-500/10 border border-red-500/30'
           }`}>
             {message.type === 'success' 
-              ? <CheckCircle size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
-              : <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
+              ? <CheckCircle size={20} className="text-green-400 flex-shrink-0 mt-0.5" />
+              : <AlertCircle size={20} className="text-red-400 flex-shrink-0 mt-0.5" />
             }
-            <p className={`text-sm ${message.type === 'success' ? 'text-green-800' : 'text-red-800'}`}>
+            <p className={`text-sm ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
               {message.text}
             </p>
           </div>
@@ -137,18 +137,18 @@ function ResetPasswordForm() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* New Password */}
           <div>
-            <label htmlFor="password" className="block text-sm font-bold mb-2 text-neo-black">
+            <label htmlFor="password" className="form-label">
               New Password
             </label>
             <div className="relative">
-              <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+              <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className={`w-full pl-11 pr-12 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                  errors.password ? 'border-red-500 focus:border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
+                className={`robot-input pl-11 pr-12 ${
+                  errors.password ? 'border-red-500' : ''
                 }`}
                 placeholder="Enter new password"
                 disabled={isLoading || message?.type === 'success'}
@@ -156,12 +156,12 @@ function ResetPasswordForm() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-neo-black/40 hover:text-neo-black transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
-            {errors.password && <p className="mt-1.5 text-sm text-red-500">{errors.password}</p>}
+            {errors.password && <p className="mt-1.5 text-sm text-red-400">{errors.password}</p>}
 
             {/* Password Requirements */}
             {formData.password.length > 0 && (
@@ -169,11 +169,11 @@ function ResetPasswordForm() {
                 {passwordRequirements.map((req, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs">
                     <div className={`w-4 h-4 rounded-full flex items-center justify-center ${
-                      req.met ? 'bg-green-500' : 'bg-neo-black/10'
+                      req.met ? 'bg-green-500' : 'bg-white/10'
                     }`}>
                       {req.met && <Check size={10} className="text-white" />}
                     </div>
-                    <span className={req.met ? 'text-green-600' : 'text-neo-black/50'}>{req.label}</span>
+                    <span className={req.met ? 'text-green-400' : 'text-white/50'}>{req.label}</span>
                   </div>
                 ))}
               </div>
@@ -182,18 +182,18 @@ function ResetPasswordForm() {
 
           {/* Confirm Password */}
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-bold mb-2 text-neo-black">
+            <label htmlFor="confirmPassword" className="form-label">
               Confirm New Password
             </label>
             <div className="relative">
-              <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+              <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
               <input
                 id="confirmPassword"
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className={`w-full pl-11 pr-12 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                  errors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
+                className={`robot-input pl-11 pr-12 ${
+                  errors.confirmPassword ? 'border-red-500' : ''
                 }`}
                 placeholder="Confirm new password"
                 disabled={isLoading || message?.type === 'success'}
@@ -201,22 +201,22 @@ function ResetPasswordForm() {
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-neo-black/40 hover:text-neo-black transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors"
               >
                 {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
               {formData.confirmPassword && formData.password === formData.confirmPassword && (
-                <Check size={20} className="absolute right-12 top-1/2 -translate-y-1/2 text-green-500" />
+                <Check size={20} className="absolute right-12 top-1/2 -translate-y-1/2 text-green-400" />
               )}
             </div>
-            {errors.confirmPassword && <p className="mt-1.5 text-sm text-red-500">{errors.confirmPassword}</p>}
+            {errors.confirmPassword && <p className="mt-1.5 text-sm text-red-400">{errors.confirmPassword}</p>}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading || message?.type === 'success'}
-            className="w-full py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full robot-btn justify-center disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
@@ -241,8 +241,8 @@ function ResetPasswordForm() {
 export default function ResetPassword() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <Loader2 size={32} className="animate-spin text-neo-black" />
+      <div className="min-h-screen bg-neo-black flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-neo-yellow" />
       </div>
     }>
       <ResetPasswordForm />

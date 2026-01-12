@@ -32,7 +32,7 @@ function OrderSuccessContent() {
   }, []);
 
   return (
-    <main className="pt-[72px] md:pt-[80px] min-h-screen bg-white">
+    <main className="pt-[72px] md:pt-[80px] min-h-screen bg-neo-black">
       {showConfetti && windowSize.width > 0 && (
         <Confetti
           width={windowSize.width}
@@ -47,39 +47,39 @@ function OrderSuccessContent() {
       <div className="container py-10 md:py-16">
         <div className="max-w-2xl mx-auto text-center">
           {/* Success Icon */}
-          <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center animate-bounce-once">
-            <CheckCircle size={48} className="text-green-500" />
+          <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 bg-green-500/20 rounded-full flex items-center justify-center animate-bounce-once">
+            <CheckCircle size={48} className="text-green-400" />
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-3xl md:text-4xl font-black mb-3 tracking-tight">
-            Order Placed <span className="text-green-500">Successfully!</span>
+          <h1 className="text-3xl md:text-4xl font-black mb-3 tracking-tight text-white">
+            Order Placed <span className="text-green-400">Successfully!</span>
           </h1>
           
-          <p className="text-neo-black/60 mb-6 text-sm md:text-base">
+          <p className="text-white/60 mb-6 text-sm md:text-base">
             Thank you for your order. We&apos;ve received your 3D print request and will begin processing it shortly.
           </p>
 
           {/* Order Numbers */}
           {orderNumbers.length > 0 && (
-            <div className="bg-neo-light-gray rounded-xl p-4 md:p-6 mb-8">
-              <p className="text-sm text-neo-black/60 mb-2">Your Order {orderNumbers.length > 1 ? 'Numbers' : 'Number'}</p>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4 md:p-6 mb-8">
+              <p className="text-sm text-white/60 mb-2">Your Order {orderNumbers.length > 1 ? 'Numbers' : 'Number'}</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {orderNumbers.map((num, i) => (
-                  <span key={i} className="inline-block px-4 py-2 bg-neo-black text-white font-mono text-sm md:text-lg rounded-lg">
+                  <span key={i} className="inline-block px-4 py-2 bg-neo-yellow text-neo-black font-mono text-sm md:text-lg rounded-lg font-bold">
                     {num}
                   </span>
                 ))}
               </div>
-              <p className="text-xs text-neo-black/40 mt-3">
+              <p className="text-xs text-white/40 mt-3">
                 Save these for tracking your order status
               </p>
             </div>
           )}
 
           {/* What's Next Timeline */}
-          <div className="bg-white border border-neo-black/10 rounded-xl p-5 md:p-6 mb-8 text-left">
-            <h2 className="text-lg font-bold mb-4 text-center">What happens next?</h2>
+          <div className="bg-white/5 border border-white/10 rounded-xl p-5 md:p-6 mb-8 text-left">
+            <h2 className="text-lg font-bold mb-4 text-center text-white">What happens next?</h2>
             <div className="space-y-4">
               {[
                 {
@@ -109,15 +109,15 @@ function OrderSuccessContent() {
               ].map((step, i) => (
                 <div key={i} className="flex gap-4">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    step.status === 'done' ? 'bg-green-100 text-green-600' :
+                    step.status === 'done' ? 'bg-green-500/20 text-green-400' :
                     step.status === 'next' ? 'bg-neo-yellow text-neo-black' :
-                    'bg-neo-light-gray text-neo-black/40'
+                    'bg-white/5 text-white/40'
                   }`}>
                     <step.icon size={20} />
                   </div>
-                  <div className="flex-1 pb-4 border-b border-neo-black/5 last:border-0">
-                    <p className="font-semibold text-sm">{step.title}</p>
-                    <p className="text-xs text-neo-black/50">{step.desc}</p>
+                  <div className="flex-1 pb-4 border-b border-white/10 last:border-0">
+                    <p className="font-semibold text-sm text-white">{step.title}</p>
+                    <p className="text-xs text-white/50">{step.desc}</p>
                   </div>
                 </div>
               ))}
@@ -125,11 +125,11 @@ function OrderSuccessContent() {
           </div>
 
           {/* Estimated Delivery */}
-          <div className="flex items-center justify-center gap-3 mb-8 p-4 bg-blue-50 rounded-xl">
-            <Clock size={20} className="text-blue-600" />
+          <div className="flex items-center justify-center gap-3 mb-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+            <Clock size={20} className="text-blue-400" />
             <div className="text-left">
-              <p className="text-sm font-semibold text-blue-900">Estimated Delivery</p>
-              <p className="text-xs text-blue-600">
+              <p className="text-sm font-semibold text-blue-400">Estimated Delivery</p>
+              <p className="text-xs text-blue-300">
                 {getEstimatedDeliveryDate()} (5-7 business days)
               </p>
             </div>
@@ -137,21 +137,21 @@ function OrderSuccessContent() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/account" className="neo-btn justify-center">
+            <Link href="/account" className="robot-btn justify-center">
               <Package size={18} />
               Track Orders
             </Link>
-            <Link href="/" className="neo-btn-outline justify-center">
+            <Link href="/" className="robot-btn-outline justify-center">
               <Home size={18} />
               Back to Home
             </Link>
           </div>
 
           {/* Need Help */}
-          <div className="mt-10 pt-6 border-t border-neo-black/10">
-            <p className="text-sm text-neo-black/60">
+          <div className="mt-10 pt-6 border-t border-white/10">
+            <p className="text-sm text-white/60">
               Need help with your order?{' '}
-              <Link href="/contact" className="text-neo-black font-semibold hover:underline">
+              <Link href="/contact" className="text-neo-yellow font-semibold hover:underline">
                 Contact us
               </Link>
             </p>
@@ -175,9 +175,9 @@ function getEstimatedDeliveryDate(): string {
 export default function OrderSuccessPage() {
   return (
     <Suspense fallback={
-      <main className="pt-[72px] md:pt-[80px] min-h-screen bg-white">
+      <main className="pt-[72px] md:pt-[80px] min-h-screen bg-neo-black">
         <div className="container py-16 text-center">
-          <div className="w-12 h-12 border-4 border-neo-black/10 border-t-neo-yellow rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-4 border-white/10 border-t-neo-yellow rounded-full animate-spin mx-auto" />
         </div>
       </main>
     }>

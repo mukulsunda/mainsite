@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Loader2, CheckCircle } from 'lucide-react';
 
 export default function ContactForm() {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -19,28 +19,30 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label htmlFor="name" className="block text-xs font-bold text-neo-black mb-1.5">
+          <label htmlFor="name" className="form-label">
             Full Name <span className="text-neo-yellow">*</span>
           </label>
           <input 
             type="text" 
-            id="name" 
-            className="w-full px-3 py-2.5 bg-neo-light-gray border border-neo-black/10 rounded-lg text-sm focus:outline-none focus:border-neo-black transition-colors" 
+            id="name"
+            autoComplete="name"
+            className="robot-input" 
             placeholder="John Doe" 
             required 
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-xs font-bold text-neo-black mb-1.5">
+          <label htmlFor="email" className="form-label">
             Email Address <span className="text-neo-yellow">*</span>
           </label>
           <input 
             type="email" 
-            id="email" 
-            className="w-full px-3 py-2.5 bg-neo-light-gray border border-neo-black/10 rounded-lg text-sm focus:outline-none focus:border-neo-black transition-colors" 
+            id="email"
+            autoComplete="email"
+            className="robot-input" 
             placeholder="john@example.com" 
             required 
           />
@@ -48,10 +50,14 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="subject" className="block text-xs font-bold text-neo-black mb-1.5">
+        <label htmlFor="subject" className="form-label">
           Subject <span className="text-neo-yellow">*</span>
         </label>
-        <select id="subject" className="w-full px-3 py-2.5 bg-neo-light-gray border border-neo-black/10 rounded-lg text-sm focus:outline-none focus:border-neo-black transition-colors" required>
+        <select 
+          id="subject" 
+          className="robot-input appearance-none cursor-pointer" 
+          required
+        >
           <option value="">Select a topic</option>
           <option value="general">General Inquiry</option>
           <option value="support">Product Support</option>
@@ -63,56 +69,58 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-xs font-bold text-neo-black mb-1.5">
+        <label htmlFor="message" className="form-label">
           Message <span className="text-neo-yellow">*</span>
         </label>
         <textarea 
           id="message" 
           rows={5} 
-          className="w-full px-3 py-2.5 bg-neo-light-gray border border-neo-black/10 rounded-lg text-sm focus:outline-none focus:border-neo-black transition-colors resize-none" 
+          className="robot-input resize-none" 
           placeholder="Tell us how we can help..."
           required
         />
       </div>
 
-      <div className="flex items-start gap-2">
+      <div className="flex items-start gap-3">
         <input 
           type="checkbox" 
           id="consent" 
-          className="w-4 h-4 mt-0.5 accent-neo-yellow"
+          className="w-5 h-5 mt-0.5 accent-neo-yellow rounded"
           required
         />
-        <label htmlFor="consent" className="text-xs text-neo-black/70">
+        <label htmlFor="consent" className="text-sm text-white/60 leading-relaxed">
           I agree to the processing of my personal data in accordance with the Privacy Policy.
         </label>
       </div>
 
       <button 
         type="submit" 
-        className="w-full bg-neo-black text-white py-2.5 px-4 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:bg-neo-black/90 transition-colors disabled:opacity-50"
+        className="robot-btn w-full justify-center"
         disabled={formStatus === 'sending'}
       >
         {formStatus === 'idle' && (
           <>
             Send Message
-            <Send size={16} />
+            <Send size={18} />
           </>
         )}
         {formStatus === 'sending' && (
           <>
             Sending...
-            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <Loader2 size={18} className="animate-spin" />
           </>
         )}
         {formStatus === 'success' && (
           <>
-            Message Sent ✓
+            <CheckCircle size={18} />
+            Message Sent!
           </>
         )}
       </button>
 
       {formStatus === 'success' && (
-        <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-green-800 text-center text-sm">
+        <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-2xl text-green-400 text-center text-sm flex items-center justify-center gap-2">
+          <CheckCircle size={18} />
           Thank you! We&apos;ll respond within 24 hours.
         </div>
       )}

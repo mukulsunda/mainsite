@@ -146,7 +146,7 @@ export default function SignUp() {
   ];
 
   return (
-    <main className="min-h-screen bg-white flex">
+    <main className="min-h-screen bg-neo-black flex">
       {/* Left Side - Branding (Hidden on mobile) */}
       <div className="hidden lg:flex flex-1 bg-neo-yellow items-center justify-center p-12 relative overflow-hidden">
         <div className="absolute inset-0 dot-pattern opacity-20" />
@@ -176,8 +176,8 @@ export default function SignUp() {
           {/* Benefits Grid */}
           <div className="grid grid-cols-2 gap-4">
             {benefits.map((benefit, i) => (
-              <div key={i} className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-neo-black/10">
-                <div className="w-10 h-10 bg-neo-black rounded-lg flex items-center justify-center text-neo-yellow mb-3">
+              <div key={i} className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 border border-neo-black/10">
+                <div className="w-10 h-10 bg-neo-black rounded-xl flex items-center justify-center text-neo-yellow mb-3">
                   {benefit.icon}
                 </div>
                 <h4 className="font-bold text-sm text-neo-black">{benefit.title}</h4>
@@ -189,107 +189,104 @@ export default function SignUp() {
       </div>
 
       {/* Right Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-6 md:p-12">
-        <div className="w-full max-w-md">
+      <div className="flex-1 flex flex-col min-h-screen md:justify-center p-5 md:p-12 pt-16 md:pt-12 safe-area-inset">
+        <div className="w-full max-w-md mx-auto">
           {/* Logo */}
-          <Link href="/" className="inline-flex items-center gap-2 mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 mb-6 md:mb-8">
             <Image 
               src="/logo.png" 
               alt="BoxPox Logo" 
               width={50} 
               height={50} 
-              className="h-12 w-auto"
+              className="h-10 md:h-12 w-auto"
             />
           </Link>
 
           {/* Progress Indicator */}
-          <div className="flex items-center gap-2 mb-8">
-            <div className={`flex-1 h-1.5 rounded-full ${currentStep >= 1 ? 'bg-neo-yellow' : 'bg-neo-black/10'}`} />
-            <div className={`flex-1 h-1.5 rounded-full ${currentStep >= 2 ? 'bg-neo-yellow' : 'bg-neo-black/10'}`} />
+          <div className="flex items-center gap-2 mb-6 md:mb-8">
+            <div className={`flex-1 h-1.5 rounded-full transition-colors ${currentStep >= 1 ? 'bg-neo-yellow' : 'bg-white/10'}`} />
+            <div className={`flex-1 h-1.5 rounded-full transition-colors ${currentStep >= 2 ? 'bg-neo-yellow' : 'bg-white/10'}`} />
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tight text-neo-black">
+          <h1 className="text-2xl md:text-4xl font-black mb-1 md:mb-2 tracking-tight text-white">
             {currentStep === 1 ? 'Create account' : 'Set your password'}
           </h1>
-          <p className="text-neo-black/60 mb-8">
+          <p className="text-white/60 mb-6 md:mb-8 text-sm md:text-base">
             {currentStep === 1 ? 'Join the BoxPox community today' : 'Choose a strong password to secure your account'}
           </p>
 
           {/* General Error Message */}
           {generalError && (
-            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3">
-              <AlertCircle size={20} className="text-red-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-800">{generalError}</p>
+            <div className="mb-5 md:mb-6 p-3.5 md:p-4 bg-red-500/10 border border-red-500/30 rounded-2xl flex items-start gap-3">
+              <AlertCircle size={18} className="text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-red-400">{generalError}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
             {currentStep === 1 ? (
               <>
                 {/* Name Fields */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-bold mb-2 text-neo-black">
+                    <label htmlFor="firstName" className="form-label">
                       First name
                     </label>
                     <div className="relative">
-                      <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                      <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                       <input
                         id="firstName"
                         type="text"
+                        autoComplete="given-name"
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        className={`w-full pl-11 pr-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                          errors.firstName ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
-                        }`}
+                        className={`robot-input pl-12 ${errors.firstName ? 'border-red-500' : ''}`}
                         placeholder="John"
                       />
                     </div>
-                    {errors.firstName && <p className="mt-1 text-sm text-red-500">{errors.firstName}</p>}
+                    {errors.firstName && <p className="mt-1 text-xs text-red-400">{errors.firstName}</p>}
                   </div>
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-bold mb-2 text-neo-black">
+                    <label htmlFor="lastName" className="form-label">
                       Last name
                     </label>
                     <input
                       id="lastName"
                       type="text"
+                      autoComplete="family-name"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className={`w-full px-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                        errors.lastName ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
-                      }`}
+                      className={`robot-input ${errors.lastName ? 'border-red-500' : ''}`}
                       placeholder="Doe"
                     />
-                    {errors.lastName && <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>}
+                    {errors.lastName && <p className="mt-1 text-xs text-red-400">{errors.lastName}</p>}
                   </div>
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-bold mb-2 text-neo-black">
+                  <label htmlFor="email" className="form-label">
                     Email address
                   </label>
                   <div className="relative">
-                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                     <input
                       id="email"
                       type="email"
+                      autoComplete="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={`w-full pl-11 pr-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                        errors.email ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
-                      }`}
+                      className={`robot-input pl-12 ${errors.email ? 'border-red-500' : ''}`}
                       placeholder="you@example.com"
                     />
                   </div>
-                  {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+                  {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
                 </div>
 
                 {/* Newsletter Opt-in */}
-                <label className="flex items-start gap-3 cursor-pointer p-4 bg-neo-light-gray rounded-xl border border-neo-black/5">
-                  <div className={`w-5 h-5 mt-0.5 rounded-md border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
-                    formData.newsletter ? 'bg-neo-yellow border-neo-yellow' : 'border-neo-black/20'
+                <label className="flex items-start gap-3 cursor-pointer p-4 bg-white/5 rounded-2xl border border-white/10 active:scale-[0.99] transition-transform">
+                  <div className={`w-5 h-5 mt-0.5 rounded-lg border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
+                    formData.newsletter ? 'bg-neo-yellow border-neo-yellow' : 'border-white/20'
                   }`}>
                     {formData.newsletter && <Check size={14} className="text-neo-black" />}
                   </div>
@@ -300,8 +297,8 @@ export default function SignUp() {
                     className="sr-only"
                   />
                   <div>
-                    <span className="text-sm font-bold text-neo-black block">Get product updates</span>
-                    <span className="text-xs text-neo-black/60">Be the first to know about new products and offers</span>
+                    <span className="text-sm font-bold text-white block">Get product updates</span>
+                    <span className="text-xs text-white/60">Be the first to know about new products and offers</span>
                   </div>
                 </label>
 
@@ -309,7 +306,7 @@ export default function SignUp() {
                   type="button"
                   onClick={handleNextStep}
                   disabled={isLoading}
-                  className="w-full py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="robot-btn w-full justify-center"
                 >
                   Continue
                   <ArrowRight size={18} />
@@ -319,25 +316,24 @@ export default function SignUp() {
               <>
                 {/* Password */}
                 <div>
-                  <label htmlFor="password" className="block text-sm font-bold mb-2 text-neo-black">
+                  <label htmlFor="password" className="form-label">
                     Password
                   </label>
                   <div className="relative">
-                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                     <input
                       id="password"
                       type={showPassword ? 'text' : 'password'}
+                      autoComplete="new-password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className={`w-full pl-11 pr-12 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                        errors.password ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
-                      }`}
+                      className={`robot-input pl-12 pr-12 ${errors.password ? 'border-red-500' : ''}`}
                       placeholder="Create a password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-neo-black/40 hover:text-neo-black"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white p-1"
                     >
                       {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
@@ -349,11 +345,11 @@ export default function SignUp() {
                       {passwordRequirements.map((req, i) => (
                         <div key={i} className="flex items-center gap-2 text-xs">
                           <div className={`w-4 h-4 rounded-full flex items-center justify-center ${
-                            req.met ? 'bg-green-500' : 'bg-neo-black/10'
+                            req.met ? 'bg-green-500' : 'bg-white/10'
                           }`}>
                             {req.met && <Check size={10} className="text-white" />}
                           </div>
-                          <span className={req.met ? 'text-green-600' : 'text-neo-black/50'}>{req.label}</span>
+                          <span className={req.met ? 'text-green-400' : 'text-white/50'}>{req.label}</span>
                         </div>
                       ))}
                     </div>
@@ -362,32 +358,31 @@ export default function SignUp() {
 
                 {/* Confirm Password */}
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-bold mb-2 text-neo-black">
+                  <label htmlFor="confirmPassword" className="form-label">
                     Confirm password
                   </label>
                   <div className="relative">
-                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neo-black/30" />
+                    <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" />
                     <input
                       id="confirmPassword"
                       type={showPassword ? 'text' : 'password'}
+                      autoComplete="new-password"
                       value={formData.confirmPassword}
                       onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                      className={`w-full pl-11 pr-4 py-3.5 border-2 rounded-xl focus:outline-none transition-colors ${
-                        errors.confirmPassword ? 'border-red-500' : 'border-neo-black/10 focus:border-neo-yellow'
-                      }`}
+                      className={`robot-input pl-12 pr-12 ${errors.confirmPassword ? 'border-red-500' : ''}`}
                       placeholder="Confirm your password"
                     />
                     {formData.confirmPassword && formData.password === formData.confirmPassword && (
-                      <Check size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500" />
+                      <Check size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-green-400" />
                     )}
                   </div>
-                  {errors.confirmPassword && <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>}
+                  {errors.confirmPassword && <p className="mt-1 text-xs text-red-400">{errors.confirmPassword}</p>}
                 </div>
 
                 {/* Terms */}
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <div className={`w-5 h-5 mt-0.5 rounded-md border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
-                    formData.terms ? 'bg-neo-yellow border-neo-yellow' : errors.terms ? 'border-red-500' : 'border-neo-black/20'
+                <label className="flex items-start gap-3 cursor-pointer active:opacity-80 transition-opacity">
+                  <div className={`w-5 h-5 mt-0.5 rounded-lg border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
+                    formData.terms ? 'bg-neo-yellow border-neo-yellow' : errors.terms ? 'border-red-500' : 'border-white/20'
                   }`}>
                     {formData.terms && <Check size={14} className="text-neo-black" />}
                   </div>
@@ -397,32 +392,32 @@ export default function SignUp() {
                     onChange={(e) => setFormData({ ...formData, terms: e.target.checked })}
                     className="sr-only"
                   />
-                  <span className="text-sm text-neo-black/70">
+                  <span className="text-sm text-white/70">
                     I agree to the{' '}
-                    <Link href="/terms" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
+                    <Link href="/terms" className="font-bold text-white hover:text-neo-yellow transition-colors">
                       Terms of Service
                     </Link>{' '}
                     and{' '}
-                    <Link href="/privacy" className="font-bold text-neo-black hover:text-neo-yellow transition-colors">
+                    <Link href="/privacy" className="font-bold text-white hover:text-neo-yellow transition-colors">
                       Privacy Policy
                     </Link>
                   </span>
                 </label>
-                {errors.terms && <p className="text-sm text-red-500">{errors.terms}</p>}
+                {errors.terms && <p className="text-xs text-red-400">{errors.terms}</p>}
 
                 {/* Buttons */}
                 <div className="flex gap-3">
                   <button
                     type="button"
                     onClick={() => setCurrentStep(1)}
-                    className="px-6 py-4 border-2 border-neo-black/10 text-neo-black font-bold rounded-xl hover:border-neo-black/30 transition-all"
+                    className="px-6 py-4 border border-white/10 text-white font-bold rounded-full hover:bg-white/5 active:scale-[0.98] transition-all"
                   >
                     Back
                   </button>
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 py-4 bg-neo-black text-white font-bold rounded-xl hover:bg-neo-black/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="robot-btn flex-1 justify-center"
                   >
                     {isLoading ? (
                       <span className="flex items-center gap-2">
@@ -444,19 +439,19 @@ export default function SignUp() {
           {/* Social Sign Up - Only show on step 1 */}
           {currentStep === 1 && (
             <>
-              <div className="relative my-8">
+              <div className="relative my-6 md:my-8">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full h-px bg-neo-black/10"></div>
+                  <div className="w-full h-px bg-white/10"></div>
                 </div>
                 <div className="relative flex justify-center">
-                  <span className="px-4 bg-white text-sm text-neo-black/50 font-medium">or sign up with</span>
+                  <span className="px-4 bg-neo-black text-sm text-white/50 font-medium">or sign up with</span>
                 </div>
               </div>
 
               <button 
                 onClick={handleGoogleSignUp}
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2.5 px-4 py-3.5 border-2 border-neo-black/10 rounded-xl font-bold text-sm hover:border-neo-black/30 hover:bg-neo-light-gray transition-all disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-2.5 px-4 py-4 bg-white/5 border border-white/10 rounded-full font-bold text-sm hover:bg-white/10 active:scale-[0.98] transition-all disabled:opacity-50"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -470,13 +465,13 @@ export default function SignUp() {
           )}
 
           {/* Sign In Link - Always visible with prominent button */}
-          <div className="mt-6 pt-6 border-t border-neo-black/10">
-            <p className="text-center text-sm text-neo-black/60 mb-3">
+          <div className="mt-5 md:mt-6 pt-5 md:pt-6 border-t border-white/10">
+            <p className="text-center text-sm text-white/60 mb-3">
               Already have an account?
             </p>
             <Link 
               href="/signin" 
-              className="w-full py-3 border-2 border-neo-black text-neo-black font-bold rounded-xl hover:bg-neo-black hover:text-white transition-all flex items-center justify-center gap-2"
+              className="robot-btn-outline w-full justify-center"
             >
               Sign In
               <ArrowRight size={18} />
