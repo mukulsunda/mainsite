@@ -1,5 +1,5 @@
 "use client";
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import NewsletterForm from './NewsletterForm';
 
 export default function Newsletter() {
