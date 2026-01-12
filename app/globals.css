@@ -18,7 +18,14 @@
   }
   
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
+  }
+  
+  /* Smooth scroll only on desktop */
+  @media (min-width: 1024px) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
   
   body {
@@ -57,12 +64,15 @@
 
   /* Robot.com Style - Dark Cards */
   .robot-card {
-    @apply bg-neo-gray rounded-3xl p-8 md:p-10 transition-all duration-500 relative overflow-hidden;
+    @apply bg-neo-gray rounded-3xl p-8 md:p-10 transition-all duration-300 relative overflow-hidden;
+    content-visibility: auto;
   }
 
-  .robot-card:hover {
-    @apply bg-neo-gray/80;
-    transform: translateY(-4px);
+  @media (min-width: 1024px) {
+    .robot-card:hover {
+      @apply bg-neo-gray/80;
+      transform: translateY(-4px);
+    }
   }
 
   /* Robot.com Style - Buttons */
@@ -190,20 +200,26 @@
 
   /* Robot.com Style - Feature Card */
   .feature-card {
-    @apply relative p-6 lg:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 transition-all duration-500;
+    @apply relative p-6 lg:p-8 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 transition-all duration-300;
+    content-visibility: auto;
   }
 
-  .feature-card:hover {
-    @apply border-neo-yellow/30 bg-white/5 -translate-y-1;
+  @media (min-width: 1024px) {
+    .feature-card:hover {
+      @apply border-neo-yellow/30 bg-white/5 -translate-y-1;
+    }
   }
 
   /* Robot.com Style - Product Card */
   .product-card {
-    @apply relative rounded-3xl overflow-hidden bg-neo-gray transition-all duration-500 group;
+    @apply relative rounded-3xl overflow-hidden bg-neo-gray transition-all duration-300 group;
+    content-visibility: auto;
   }
 
-  .product-card:hover {
-    @apply scale-[1.02];
+  @media (min-width: 1024px) {
+    .product-card:hover {
+      @apply scale-[1.02];
+    }
   }
 
   .product-card-image {
@@ -440,10 +456,10 @@
     -webkit-tap-highlight-color: transparent;
   }
   
-  /* Smooth touch scrolling */
+  /* Fast touch scrolling */
   .scroll-smooth-touch {
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
   
   /* Touch-friendly tap targets */
@@ -457,6 +473,8 @@
 .mobile-card-scroll {
   @apply flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-5 px-5;
   -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto;
+  will-change: scroll-position;
 }
 
 .mobile-card-scroll::-webkit-scrollbar {
@@ -589,6 +607,37 @@
   @apply bg-neo-black/80;
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* Mobile Performance Optimizations */
+@media (max-width: 1024px) {
+  /* Disable expensive animations on mobile */
+  .dot-pattern-animated,
+  .animate-float {
+    animation: none !important;
+  }
+  
+  /* Optimize rendering performance */
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+  }
+  
+  /* Faster transitions on mobile */
+  .robot-card,
+  .feature-card,
+  .product-card {
+    transition-duration: 200ms !important;
+  }
+  
+  /* Reduce motion if preferred */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 
