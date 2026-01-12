@@ -69,9 +69,9 @@ export default function ComingSoonProducts() {
   ];
 
   return (
-    <main className="bg-neo-black min-h-screen pt-20">
+    <main className="bg-neo-black min-h-screen pt-16 lg:pt-20">
       {/* Hero Section */}
-      <section className="relative overflow-hidden section-padding">
+      <section className="relative overflow-hidden py-12 lg:section-padding">
         <div className="dot-pattern-animated" />
         
         {/* Animated Background Elements */}
@@ -81,18 +81,19 @@ export default function ComingSoonProducts() {
         <div className="container relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             {/* Badge */}
-            <div className="section-label inline-flex items-center gap-2 mb-6 md:mb-8">
-              <Rocket size={16} />
+            <div className="section-label inline-flex items-center gap-2 mb-5 lg:mb-8">
+              <Rocket size={14} className="lg:hidden" />
+              <Rocket size={16} className="hidden lg:block" />
               Coming Soon
             </div>
             
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight leading-[0.95]">
+            <h1 className="text-[32px] sm:text-4xl md:text-6xl lg:text-7xl font-black mb-4 lg:mb-6 tracking-tight leading-[0.95]">
               Something<br />
               <span className="text-neo-yellow">Amazing</span> is<br />
               Brewing
             </h1>
             
-            <p className="text-base md:text-xl text-white/60 max-w-xl mx-auto mb-10 md:mb-12">
+            <p className="text-sm sm:text-base md:text-xl text-white/60 max-w-xl mx-auto mb-8 lg:mb-12 px-2">
               We&apos;re working hard to bring you innovative products that will transform your everyday life. Be the first to know when we launch.
             </p>
 

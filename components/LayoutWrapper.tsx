@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import MobileBottomNav from '@/components/MobileBottomNav';
 
 interface LayoutWrapperProps {
   children: React.ReactNode;
@@ -23,8 +24,11 @@ export default function LayoutWrapper({ children }: LayoutWrapperProps) {
   return (
     <>
       {!hideNavbar && <Navbar />}
-      {children}
+      <div className="lg:pb-0 pb-20">
+        {children}
+      </div>
       {!hideFooter && <Footer />}
+      {!isAdminPage && <MobileBottomNav />}
     </>
   );
 }

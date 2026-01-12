@@ -27,9 +27,18 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     title: "BoxPox",
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     capable: true,
   },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover",
+  },
+  themeColor: "#0A0A0A",
+  manifest: "/manifest.json",
   openGraph: {
     title: "BoxPox — Box of Possibility",
     description: "Consumer-focused innovation. Hardware and software products engineered for the future.",
