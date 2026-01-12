@@ -187,16 +187,16 @@ export default function OrderTrackingPage() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      confirmed: 'bg-blue-100 text-blue-800 border-blue-200',
-      processing: 'bg-purple-100 text-purple-800 border-purple-200',
-      printing: 'bg-indigo-100 text-indigo-800 border-indigo-200',
-      quality_check: 'bg-cyan-100 text-cyan-800 border-cyan-200',
-      shipped: 'bg-orange-100 text-orange-800 border-orange-200',
-      delivered: 'bg-green-100 text-green-800 border-green-200',
-      cancelled: 'bg-red-100 text-red-800 border-red-200',
+      pending: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+      confirmed: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+      processing: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+      printing: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
+      quality_check: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+      shipped: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+      delivered: 'bg-green-500/20 text-green-400 border-green-500/30',
+      cancelled: 'bg-red-500/20 text-red-400 border-red-500/30',
     };
-    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-200';
+    return colors[status] || 'bg-white/10 text-white/60 border-white/20';
   };
 
   if (!mounted) {
@@ -205,10 +205,10 @@ export default function OrderTrackingPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-neo-light-gray pt-24 pb-12 px-4 flex items-center justify-center">
+      <main className="min-h-screen bg-neo-black pt-24 pb-12 px-4 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 size={40} className="animate-spin text-neo-black mx-auto mb-4" />
-          <p className="text-neo-black/60">Loading order details...</p>
+          <Loader2 size={40} className="animate-spin text-neo-yellow mx-auto mb-4" />
+          <p className="text-white/60">Loading order details...</p>
         </div>
       </main>
     );
@@ -216,22 +216,22 @@ export default function OrderTrackingPage() {
 
   if (error || !order) {
     return (
-      <main className="min-h-screen bg-neo-light-gray pt-24 pb-12 px-4">
+      <main className="min-h-screen bg-neo-black pt-24 pb-12 px-4">
         <div className="container max-w-2xl mx-auto">
-          <div className="bg-white border-2 border-neo-black rounded-xl p-8 shadow-neo text-center">
-            <AlertCircle size={48} className="mx-auto text-red-500 mb-4" />
-            <h1 className="text-2xl font-black mb-2">Order Not Found</h1>
-            <p className="text-neo-black/60 mb-6">{error || 'We couldn\'t find this order.'}</p>
+          <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center">
+            <AlertCircle size={48} className="mx-auto text-red-400 mb-4" />
+            <h1 className="text-2xl font-black mb-2 text-white">Order Not Found</h1>
+            <p className="text-white/60 mb-6">{error || 'We couldn\'t find this order.'}</p>
             
             <div className="space-y-4">
-              <Link href="/" className="neo-btn inline-flex">
+              <Link href="/" className="robot-btn inline-flex">
                 <ArrowLeft size={18} />
                 Back to Home
               </Link>
               
-              <p className="text-sm text-neo-black/50">
+              <p className="text-sm text-white/50">
                 Need help? Contact us at{' '}
-                <a href="mailto:support@boxpox.in" className="text-neo-black font-bold hover:text-neo-yellow">
+                <a href="mailto:support@boxpox.in" className="text-neo-yellow font-bold hover:underline">
                   support@boxpox.in
                 </a>
               </p>
@@ -245,26 +245,26 @@ export default function OrderTrackingPage() {
   const statusSteps = getStatusSteps(order.status);
 
   return (
-    <main className="min-h-screen bg-neo-light-gray pt-24 pb-12 px-4">
+    <main className="min-h-screen bg-neo-black pt-24 pb-12 px-4">
       <div className="container max-w-4xl mx-auto">
         {/* Back Button */}
         <button 
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-neo-black/60 hover:text-neo-black transition-colors mb-6"
+          className="flex items-center gap-2 text-white/60 hover:text-white transition-colors mb-6"
         >
           <ArrowLeft size={18} />
           Back
         </button>
 
         {/* Order Header */}
-        <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo mb-6">
+        <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <Package size={24} className="text-neo-yellow" />
-                <h1 className="text-2xl font-black">Order {order.order_number}</h1>
+                <h1 className="text-2xl font-black text-white">Order {order.order_number}</h1>
               </div>
-              <p className="text-sm text-neo-black/60">
+              <p className="text-sm text-white/60">
                 Placed on {formatDate(order.created_at)}
               </p>
             </div>
@@ -274,7 +274,7 @@ export default function OrderTrackingPage() {
                 {order.status.replace('_', ' ').toUpperCase()}
               </span>
               {order.payment_status === 'paid' && (
-                <span className="px-4 py-2 rounded-full text-sm font-bold bg-green-100 text-green-800 border border-green-200">
+                <span className="px-4 py-2 rounded-full text-sm font-bold bg-green-500/20 text-green-400 border border-green-500/30">
                   PAID
                 </span>
               )}
@@ -283,12 +283,12 @@ export default function OrderTrackingPage() {
         </div>
 
         {/* Progress Tracker */}
-        <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo mb-6">
-          <h2 className="text-lg font-bold mb-6">Order Progress</h2>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-6">
+          <h2 className="text-lg font-bold mb-6 text-white">Order Progress</h2>
           
           <div className="relative">
             {/* Progress Line */}
-            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-neo-black/10" />
+            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-white/10" />
             
             <div className="space-y-6">
               {statusSteps.map((step) => (
@@ -297,33 +297,33 @@ export default function OrderTrackingPage() {
                   <div className={`relative z-10 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
                     step.completed 
                       ? step.current 
-                        ? 'bg-neo-yellow border-2 border-neo-black' 
-                        : 'bg-green-500 border-2 border-green-600'
-                      : 'bg-neo-light-gray border-2 border-neo-black/20'
+                        ? 'bg-neo-yellow border-2 border-neo-yellow' 
+                        : 'bg-green-500 border-2 border-green-500'
+                      : 'bg-white/5 border-2 border-white/20'
                   }`}>
                     <step.icon 
                       size={20} 
-                      className={step.completed ? (step.current ? 'text-neo-black' : 'text-white') : 'text-neo-black/30'} 
+                      className={step.completed ? (step.current ? 'text-neo-black' : 'text-white') : 'text-white/30'} 
                     />
                   </div>
                   
                   {/* Content */}
                   <div className="flex-1 pt-2">
                     <div className="flex items-center gap-2">
-                      <h3 className={`font-bold ${step.completed ? 'text-neo-black' : 'text-neo-black/40'}`}>
+                      <h3 className={`font-bold ${step.completed ? 'text-white' : 'text-white/40'}`}>
                         {step.label}
                       </h3>
                       {step.current && (
-                        <span className="px-2 py-0.5 bg-neo-yellow text-xs font-bold rounded-full animate-pulse">
+                        <span className="px-2 py-0.5 bg-neo-yellow text-neo-black text-xs font-bold rounded-full animate-pulse">
                           CURRENT
                         </span>
                       )}
                     </div>
-                    <p className={`text-sm ${step.completed ? 'text-neo-black/60' : 'text-neo-black/30'}`}>
+                    <p className={`text-sm ${step.completed ? 'text-white/60' : 'text-white/30'}`}>
                       {step.description}
                     </p>
                     {step.date && step.completed && (
-                      <p className="text-xs text-neo-black/40 mt-1">
+                      <p className="text-xs text-white/40 mt-1">
                         {formatDate(step.date)}
                       </p>
                     )}
@@ -336,23 +336,23 @@ export default function OrderTrackingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Order Details */}
-          <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-            <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+          <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <h2 className="text-lg font-bold mb-4 flex items-center gap-2 text-white">
               <FileBox size={20} className="text-neo-yellow" />
               Print Details
             </h2>
             
             <div className="space-y-4">
-              <div className="p-4 bg-neo-light-gray rounded-xl">
-                <p className="text-sm font-bold truncate">{order.file_name}</p>
+              <div className="p-4 bg-white/5 rounded-xl">
+                <p className="text-sm font-bold truncate text-white">{order.file_name}</p>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="px-2 py-1 bg-white rounded text-xs font-medium">
+                  <span className="px-2 py-1 bg-white/10 rounded text-xs font-medium text-white">
                     {order.material}
                   </span>
-                  <span className="px-2 py-1 bg-white rounded text-xs font-medium">
+                  <span className="px-2 py-1 bg-white/10 rounded text-xs font-medium text-white">
                     {order.quality} quality
                   </span>
-                  <span className="px-2 py-1 bg-white rounded text-xs font-medium">
+                  <span className="px-2 py-1 bg-white/10 rounded text-xs font-medium text-white">
                     {order.infill}% infill
                   </span>
                 </div>
@@ -360,24 +360,24 @@ export default function OrderTrackingPage() {
               
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-neo-black/50">Quantity</p>
-                  <p className="font-bold">{order.quantity}</p>
+                  <p className="text-white/50">Quantity</p>
+                  <p className="font-bold text-white">{order.quantity}</p>
                 </div>
                 <div>
-                  <p className="text-neo-black/50">Color</p>
+                  <p className="text-white/50">Color</p>
                   <div className="flex items-center gap-2">
                     <div 
-                      className="w-4 h-4 rounded-full border border-neo-black/20"
+                      className="w-4 h-4 rounded-full border border-white/20"
                       style={{ backgroundColor: order.color }}
                     />
-                    <p className="font-bold">{order.color}</p>
+                    <p className="font-bold text-white">{order.color}</p>
                   </div>
                 </div>
                 {order.model_dimensions && (
                   <>
                     <div className="col-span-2">
-                      <p className="text-neo-black/50">Dimensions</p>
-                      <p className="font-bold font-mono">
+                      <p className="text-white/50">Dimensions</p>
+                      <p className="font-bold font-mono text-white">
                         {order.model_dimensions.x.toFixed(1)} × {order.model_dimensions.y.toFixed(1)} × {order.model_dimensions.z.toFixed(1)} mm
                       </p>
                     </div>
@@ -385,36 +385,36 @@ export default function OrderTrackingPage() {
                 )}
               </div>
               
-              <div className="pt-4 border-t border-neo-black/10">
+              <div className="pt-4 border-t border-white/10">
                 <div className="flex justify-between items-center">
-                  <p className="text-neo-black/50">Unit Price</p>
-                  <p className="font-bold">{formatPrice(order.unit_price)}</p>
+                  <p className="text-white/50">Unit Price</p>
+                  <p className="font-bold text-white">{formatPrice(order.unit_price)}</p>
                 </div>
                 <div className="flex justify-between items-center mt-2">
-                  <p className="font-bold">Total</p>
-                  <p className="text-xl font-black text-neo-black">{formatPrice(order.total_price)}</p>
+                  <p className="font-bold text-white">Total</p>
+                  <p className="text-xl font-black text-neo-yellow">{formatPrice(order.total_price)}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Shipping Details */}
-          <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-            <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+          <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+            <h2 className="text-lg font-bold mb-4 flex items-center gap-2 text-white">
               <MapPin size={20} className="text-neo-yellow" />
               Shipping Details
             </h2>
             
             {order.shipping_address ? (
               <div className="space-y-4">
-                <div className="p-4 bg-neo-light-gray rounded-xl">
-                  <p className="font-bold">{order.shipping_address.name || order.customer_name}</p>
-                  <p className="text-sm text-neo-black/70 mt-1">{order.shipping_address.address}</p>
-                  <p className="text-sm text-neo-black/70">
+                <div className="p-4 bg-white/5 rounded-xl">
+                  <p className="font-bold text-white">{order.shipping_address.name || order.customer_name}</p>
+                  <p className="text-sm text-white/70 mt-1">{order.shipping_address.address}</p>
+                  <p className="text-sm text-white/70">
                     {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.zip_code}
                   </p>
                   {order.shipping_address.phone && (
-                    <p className="text-sm text-neo-black/70 mt-2 flex items-center gap-1">
+                    <p className="text-sm text-white/70 mt-2 flex items-center gap-1">
                       <Phone size={14} />
                       {order.shipping_address.phone}
                     </p>
@@ -423,21 +423,21 @@ export default function OrderTrackingPage() {
                 
                 {order.tracking_number && (
                   <div className="p-4 bg-neo-yellow/10 rounded-xl border border-neo-yellow/30">
-                    <p className="text-sm text-neo-black/60">Tracking Number</p>
-                    <p className="font-mono font-bold text-lg">{order.tracking_number}</p>
+                    <p className="text-sm text-white/60">Tracking Number</p>
+                    <p className="font-mono font-bold text-lg text-white">{order.tracking_number}</p>
                   </div>
                 )}
                 
                 {order.estimated_delivery && (
                   <div className="flex items-center gap-2 text-sm">
-                    <Calendar size={16} className="text-neo-black/50" />
-                    <span className="text-neo-black/50">Expected Delivery:</span>
-                    <span className="font-bold">{formatDate(order.estimated_delivery)}</span>
+                    <Calendar size={16} className="text-white/50" />
+                    <span className="text-white/50">Expected Delivery:</span>
+                    <span className="font-bold text-white">{formatDate(order.estimated_delivery)}</span>
                   </div>
                 )}
               </div>
             ) : (
-              <div className="text-center py-8 text-neo-black/50">
+              <div className="text-center py-8 text-white/50">
                 <Truck size={32} className="mx-auto mb-2 opacity-30" />
                 <p>Shipping details will appear here</p>
               </div>
@@ -446,24 +446,24 @@ export default function OrderTrackingPage() {
         </div>
 
         {/* Help Section */}
-        <div className="mt-6 bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
+        <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h3 className="font-bold mb-1">Need Help?</h3>
-              <p className="text-sm text-neo-black/60">
+              <h3 className="font-bold mb-1 text-white">Need Help?</h3>
+              <p className="text-sm text-white/60">
                 Questions about your order? We&apos;re here to help.
               </p>
             </div>
             <div className="flex gap-3">
               <a 
                 href={`mailto:support@boxpox.in?subject=Order%20${order.order_number}%20Query`}
-                className="neo-btn-secondary text-sm"
+                className="robot-btn-outline text-sm"
               >
                 Email Support
               </a>
               <a 
-                href="tel:+919999999999"
-                className="neo-btn text-sm"
+                href="tel:+917888601710"
+                className="robot-btn text-sm"
               >
                 <Phone size={16} />
                 Call Us

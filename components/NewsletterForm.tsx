@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { useState } from 'react';
 
 export default function NewsletterForm() {
@@ -16,31 +16,36 @@ export default function NewsletterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      <input 
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:border-neo-yellow transition-colors text-sm md:text-base"
-        required
-      />
-      
-      <button 
-        type="submit"
-        className="w-full px-5 py-3 bg-neo-yellow text-neo-black font-bold rounded-lg hover:bg-white transition-colors flex items-center justify-center gap-2 text-sm md:text-base"
-      >
-        {status === 'success' ? (
-          'Welcome! ✓'
-        ) : (
-          <>
-            Subscribe
-            <ArrowRight size={16} />
-          </>
-        )}
-      </button>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <input 
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          className="robot-input flex-1"
+          required
+        />
+        
+        <button 
+          type="submit"
+          className="robot-btn whitespace-nowrap"
+        >
+          {status === 'success' ? (
+            <>
+              <Check size={18} />
+              Subscribed!
+            </>
+          ) : (
+            <>
+              Subscribe
+              <ArrowRight size={18} />
+            </>
+          )}
+        </button>
+      </div>
 
-      <p className="text-white/40 text-xs text-center">
+      <p className="text-white/40 text-sm">
         Join 10,000+ innovators. Unsubscribe anytime.
       </p>
     </form>

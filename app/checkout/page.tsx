@@ -393,9 +393,9 @@ export default function CheckoutPage() {
 
   if (!mounted || state.isLoading) {
     return (
-      <main className="pt-[72px] md:pt-[80px] min-h-screen bg-white">
+      <main className="pt-[72px] md:pt-[80px] min-h-screen bg-neo-black">
         <div className="container py-12 flex items-center justify-center">
-          <Loader2 size={32} className="animate-spin text-neo-black/40" />
+          <Loader2 size={32} className="animate-spin text-neo-yellow" />
         </div>
       </main>
     );
@@ -403,12 +403,12 @@ export default function CheckoutPage() {
 
   if (printItems.length === 0) {
     return (
-      <main className="pt-[72px] md:pt-[80px] min-h-screen bg-white">
+      <main className="pt-[72px] md:pt-[80px] min-h-screen bg-neo-black">
         <div className="container py-12 text-center">
-          <Box size={48} className="mx-auto text-neo-black/20 mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Your cart is empty</h1>
-          <p className="text-neo-black/60 mb-6">Add some items to checkout</p>
-          <Link href="/boxprint" className="neo-btn inline-flex">
+          <Box size={48} className="mx-auto text-white/20 mb-4" />
+          <h1 className="text-2xl font-bold text-white mb-2">Your cart is empty</h1>
+          <p className="text-white/60 mb-6">Add some items to checkout</p>
+          <Link href="/boxprint" className="robot-btn inline-flex">
             Get a Quote
           </Link>
         </div>
@@ -417,12 +417,12 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="pt-[72px] md:pt-[80px] min-h-screen bg-neo-light-gray">
+    <main className="pt-[72px] md:pt-[80px] min-h-screen bg-neo-black">
       <div className="container py-6 md:py-10">
         {/* Back Link */}
         <Link 
           href="/cart" 
-          className="inline-flex items-center gap-2 text-sm text-neo-black/60 hover:text-neo-black transition-colors mb-6"
+          className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors mb-6"
         >
           <ArrowLeft size={16} />
           Back to Cart
@@ -430,7 +430,7 @@ export default function CheckoutPage() {
 
         {/* Error Banner */}
         {orderError && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
             <strong>Error:</strong> {orderError}
           </div>
         )}
@@ -440,30 +440,30 @@ export default function CheckoutPage() {
           <div className="lg:col-span-2">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Contact Information */}
-              <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+              <div className="robot-card p-5 md:p-6">
+                <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                   <Mail size={20} className="text-neo-yellow" />
                   Contact Information
                 </h2>
                 <div>
-                  <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Email *</label>
+                  <label className="form-label">Email *</label>
                   <input
                     type="email"
                     value={form.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     placeholder="your@email.com"
-                    className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                      errors.email ? 'border-red-500' : 'border-neo-black/20'
+                    className={`robot-input ${
+                      errors.email ? 'border-red-500' : ''
                     }`}
                   />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                  {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
                 </div>
               </div>
 
               {/* Saved Addresses */}
               {savedAddresses.length > 0 && (
-                <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
-                  <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                <div className="robot-card p-5 md:p-6">
+                  <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                     <MapPin size={20} className="text-neo-yellow" />
                     Saved Addresses
                   </h2>
@@ -473,24 +473,24 @@ export default function CheckoutPage() {
                         key={addr.id}
                         type="button"
                         onClick={() => selectSavedAddress(addr)}
-                        className={`p-4 rounded-lg border-2 text-left transition-all ${
+                        className={`p-4 rounded-xl border-2 text-left transition-all ${
                           selectedAddressId === addr.id
                             ? 'border-neo-yellow bg-neo-yellow/10'
-                            : 'border-neo-black/10 hover:border-neo-black/30'
+                            : 'border-white/10 bg-white/5 hover:border-white/30'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-2">
-                          <span className="font-semibold text-sm flex items-center gap-2">
+                          <span className="font-semibold text-sm text-white flex items-center gap-2">
                             {addr.label.toLowerCase().includes('home') ? <Home size={14} /> : <Building size={14} />}
                             {addr.label}
                           </span>
                           {addr.isDefault && (
-                            <span className="text-[10px] px-2 py-0.5 bg-neo-yellow rounded-full">Default</span>
+                            <span className="text-[10px] px-2 py-0.5 bg-neo-yellow text-neo-black rounded-full font-medium">Default</span>
                           )}
                         </div>
-                        <p className="text-sm text-neo-black/70">{addr.name}</p>
-                        <p className="text-xs text-neo-black/50 mt-1 line-clamp-2">{addr.address}</p>
-                        <p className="text-xs text-neo-black/50">{addr.city}, {addr.state} - {addr.pincode}</p>
+                        <p className="text-sm text-white/70">{addr.name}</p>
+                        <p className="text-xs text-white/50 mt-1 line-clamp-2">{addr.address}</p>
+                        <p className="text-xs text-white/50">{addr.city}, {addr.state} - {addr.pincode}</p>
                       </button>
                     ))}
                     <button
@@ -500,14 +500,14 @@ export default function CheckoutPage() {
                         setShowNewAddress(true);
                         setForm(prev => ({ ...prev, shipping: { ...emptyAddress } }));
                       }}
-                      className={`p-4 rounded-lg border-2 border-dashed text-center transition-all ${
+                      className={`p-4 rounded-xl border-2 border-dashed text-center transition-all ${
                         showNewAddress && !selectedAddressId
                           ? 'border-neo-yellow bg-neo-yellow/10'
-                          : 'border-neo-black/20 hover:border-neo-black/40'
+                          : 'border-white/20 hover:border-white/40'
                       }`}
                     >
-                      <Plus size={24} className="mx-auto mb-2 text-neo-black/40" />
-                      <span className="text-sm font-medium">Add New Address</span>
+                      <Plus size={24} className="mx-auto mb-2 text-white/40" />
+                      <span className="text-sm font-medium text-white/70">Add New Address</span>
                     </button>
                   </div>
                 </div>
@@ -515,72 +515,72 @@ export default function CheckoutPage() {
 
               {/* Shipping Address Form */}
               {(showNewAddress || savedAddresses.length === 0) && (
-                <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
-                  <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                <div className="robot-card p-5 md:p-6">
+                  <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                     <Truck size={20} className="text-neo-yellow" />
                     Shipping Address
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Full Name *</label>
+                      <label className="form-label">Full Name *</label>
                       <input
                         type="text"
                         value={form.shipping.name}
                         onChange={(e) => handleInputChange('shipping.name', e.target.value)}
                         placeholder="Full name"
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                          errors['shipping.name'] ? 'border-red-500' : 'border-neo-black/20'
+                        className={`robot-input ${
+                          errors['shipping.name'] ? 'border-red-500' : ''
                         }`}
                       />
-                      {errors['shipping.name'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.name']}</p>}
+                      {errors['shipping.name'] && <p className="text-red-400 text-xs mt-1">{errors['shipping.name']}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Phone *</label>
+                      <label className="form-label">Phone *</label>
                       <input
                         type="tel"
                         value={form.shipping.phone}
                         onChange={(e) => handleInputChange('shipping.phone', e.target.value)}
                         placeholder="10-digit number"
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                          errors['shipping.phone'] ? 'border-red-500' : 'border-neo-black/20'
+                        className={`robot-input ${
+                          errors['shipping.phone'] ? 'border-red-500' : ''
                         }`}
                       />
-                      {errors['shipping.phone'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.phone']}</p>}
+                      {errors['shipping.phone'] && <p className="text-red-400 text-xs mt-1">{errors['shipping.phone']}</p>}
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Address *</label>
+                      <label className="form-label">Address *</label>
                       <input
                         type="text"
                         value={form.shipping.address}
                         onChange={(e) => handleInputChange('shipping.address', e.target.value)}
                         placeholder="House/Flat No., Building, Street"
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                          errors['shipping.address'] ? 'border-red-500' : 'border-neo-black/20'
+                        className={`robot-input ${
+                          errors['shipping.address'] ? 'border-red-500' : ''
                         }`}
                       />
-                      {errors['shipping.address'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.address']}</p>}
+                      {errors['shipping.address'] && <p className="text-red-400 text-xs mt-1">{errors['shipping.address']}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">City *</label>
+                      <label className="form-label">City *</label>
                       <input
                         type="text"
                         value={form.shipping.city}
                         onChange={(e) => handleInputChange('shipping.city', e.target.value)}
                         placeholder="City"
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                          errors['shipping.city'] ? 'border-red-500' : 'border-neo-black/20'
+                        className={`robot-input ${
+                          errors['shipping.city'] ? 'border-red-500' : ''
                         }`}
                       />
-                      {errors['shipping.city'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.city']}</p>}
+                      {errors['shipping.city'] && <p className="text-red-400 text-xs mt-1">{errors['shipping.city']}</p>}
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-neo-black/70 mb-1.5">State *</label>
+                        <label className="form-label">State *</label>
                         <select
                           value={form.shipping.state}
                           onChange={(e) => handleInputChange('shipping.state', e.target.value)}
-                          className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow bg-white ${
-                            errors['shipping.state'] ? 'border-red-500' : 'border-neo-black/20'
+                          className={`robot-input ${
+                            errors['shipping.state'] ? 'border-red-500' : ''
                           }`}
                         >
                           <option value="">Select</option>
@@ -588,40 +588,40 @@ export default function CheckoutPage() {
                             <option key={state} value={state}>{state}</option>
                           ))}
                         </select>
-                        {errors['shipping.state'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.state']}</p>}
+                        {errors['shipping.state'] && <p className="text-red-400 text-xs mt-1">{errors['shipping.state']}</p>}
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Pincode *</label>
+                        <label className="form-label">Pincode *</label>
                         <input
                           type="text"
                           value={form.shipping.pincode}
                           onChange={(e) => handleInputChange('shipping.pincode', e.target.value)}
                           placeholder="6 digits"
                           maxLength={6}
-                          className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                            errors['shipping.pincode'] ? 'border-red-500' : 'border-neo-black/20'
+                          className={`robot-input ${
+                            errors['shipping.pincode'] ? 'border-red-500' : ''
                           }`}
                         />
-                        {errors['shipping.pincode'] && <p className="text-red-500 text-xs mt-1">{errors['shipping.pincode']}</p>}
+                        {errors['shipping.pincode'] && <p className="text-red-400 text-xs mt-1">{errors['shipping.pincode']}</p>}
                       </div>
                     </div>
                   </div>
                   
                   {/* Save Address Option */}
                   {userId && (
-                    <div className="mt-4 pt-4 border-t border-neo-black/10">
+                    <div className="mt-4 pt-4 border-t border-white/10">
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={form.saveAddress}
                           onChange={(e) => setForm(prev => ({ ...prev, saveAddress: e.target.checked, addressLabel: e.target.checked ? prev.addressLabel : '' }))}
-                          className="w-4 h-4 rounded border-neo-black/30 accent-neo-yellow"
+                          className="w-4 h-4 rounded border-white/30 accent-neo-yellow"
                         />
-                        <span className="text-sm font-medium">Save this address for future orders</span>
+                        <span className="text-sm font-medium text-white">Save this address for future orders</span>
                       </label>
                       {form.saveAddress && (
                         <div className="mt-3">
-                          <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Address Label *</label>
+                          <label className="form-label">Address Label *</label>
                           <input
                             type="text"
                             value={form.addressLabel}
@@ -630,12 +630,12 @@ export default function CheckoutPage() {
                               if (errors['addressLabel']) setErrors(prev => ({ ...prev, addressLabel: '' }));
                             }}
                             placeholder="e.g., Home, Office, Parents' House"
-                            className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                              errors['addressLabel'] ? 'border-red-500' : 'border-neo-black/20'
+                            className={`robot-input text-sm ${
+                              errors['addressLabel'] ? 'border-red-500' : ''
                             }`}
                           />
-                          {errors['addressLabel'] && <p className="text-red-500 text-xs mt-1">{errors['addressLabel']}</p>}
-                          <p className="text-xs text-neo-black/50 mt-1">This label helps you identify the address later</p>
+                          {errors['addressLabel'] && <p className="text-red-400 text-xs mt-1">{errors['addressLabel']}</p>}
+                          <p className="text-xs text-white/50 mt-1">This label helps you identify the address later</p>
                         </div>
                       )}
                     </div>
@@ -644,8 +644,8 @@ export default function CheckoutPage() {
               )}
 
               {/* Billing Address */}
-              <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+              <div className="robot-card p-5 md:p-6">
+                <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                   <CreditCard size={20} className="text-neo-yellow" />
                   Billing Address
                 </h2>
@@ -654,65 +654,65 @@ export default function CheckoutPage() {
                     type="checkbox"
                     checked={form.sameAsShipping}
                     onChange={(e) => setForm(prev => ({ ...prev, sameAsShipping: e.target.checked }))}
-                    className="w-4 h-4 rounded border-neo-black/30"
+                    className="w-4 h-4 rounded border-white/30 accent-neo-yellow"
                   />
-                  <span className="text-sm font-medium">Same as shipping address</span>
+                  <span className="text-sm font-medium text-white">Same as shipping address</span>
                 </label>
                 
                 {!form.sameAsShipping && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Full Name *</label>
+                      <label className="form-label">Full Name *</label>
                       <input
                         type="text"
                         value={form.billing.name}
                         onChange={(e) => handleInputChange('billing.name', e.target.value)}
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                          errors['billing.name'] ? 'border-red-500' : 'border-neo-black/20'
+                        className={`robot-input ${
+                          errors['billing.name'] ? 'border-red-500' : ''
                         }`}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Phone *</label>
+                      <label className="form-label">Phone *</label>
                       <input
                         type="tel"
                         value={form.billing.phone}
                         onChange={(e) => handleInputChange('billing.phone', e.target.value)}
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                          errors['billing.phone'] ? 'border-red-500' : 'border-neo-black/20'
+                        className={`robot-input ${
+                          errors['billing.phone'] ? 'border-red-500' : ''
                         }`}
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Address *</label>
+                      <label className="form-label">Address *</label>
                       <input
                         type="text"
                         value={form.billing.address}
                         onChange={(e) => handleInputChange('billing.address', e.target.value)}
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                          errors['billing.address'] ? 'border-red-500' : 'border-neo-black/20'
+                        className={`robot-input ${
+                          errors['billing.address'] ? 'border-red-500' : ''
                         }`}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-neo-black/70 mb-1.5">City *</label>
+                      <label className="form-label">City *</label>
                       <input
                         type="text"
                         value={form.billing.city}
                         onChange={(e) => handleInputChange('billing.city', e.target.value)}
-                        className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow ${
-                          errors['billing.city'] ? 'border-red-500' : 'border-neo-black/20'
+                        className={`robot-input ${
+                          errors['billing.city'] ? 'border-red-500' : ''
                         }`}
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-neo-black/70 mb-1.5">State *</label>
+                        <label className="form-label">State *</label>
                         <select
                           value={form.billing.state}
                           onChange={(e) => handleInputChange('billing.state', e.target.value)}
-                          className={`w-full px-4 py-2.5 border rounded-lg bg-white ${
-                            errors['billing.state'] ? 'border-red-500' : 'border-neo-black/20'
+                          className={`robot-input ${
+                            errors['billing.state'] ? 'border-red-500' : ''
                           }`}
                         >
                           <option value="">Select</option>
@@ -722,14 +722,14 @@ export default function CheckoutPage() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neo-black/70 mb-1.5">Pincode *</label>
+                        <label className="form-label">Pincode *</label>
                         <input
                           type="text"
                           value={form.billing.pincode}
                           onChange={(e) => handleInputChange('billing.pincode', e.target.value)}
                           maxLength={6}
-                          className={`w-full px-4 py-2.5 border rounded-lg ${
-                            errors['billing.pincode'] ? 'border-red-500' : 'border-neo-black/20'
+                          className={`robot-input ${
+                            errors['billing.pincode'] ? 'border-red-500' : ''
                           }`}
                         />
                       </div>
@@ -739,14 +739,14 @@ export default function CheckoutPage() {
               </div>
 
               {/* Order Notes */}
-              <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10">
-                <h2 className="text-lg font-bold mb-4">Order Notes (Optional)</h2>
+              <div className="robot-card p-5 md:p-6">
+                <h2 className="text-lg font-bold text-white mb-4">Order Notes (Optional)</h2>
                 <textarea
                   value={form.notes}
                   onChange={(e) => setForm(prev => ({ ...prev, notes: e.target.value }))}
                   placeholder="Any special instructions for your order..."
                   rows={3}
-                  className="w-full px-4 py-2.5 border border-neo-black/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-neo-yellow resize-none"
+                  className="robot-input resize-none"
                 />
               </div>
 
@@ -755,7 +755,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full neo-btn justify-center"
+                  className="w-full robot-btn justify-center"
                 >
                   {isSubmitting ? (
                     <>
@@ -775,13 +775,13 @@ export default function CheckoutPage() {
 
           {/* Order Summary Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl p-5 md:p-6 border border-neo-black/10 sticky top-[100px]">
-              <h2 className="text-lg font-bold mb-4">Order Summary</h2>
+            <div className="robot-card p-5 md:p-6 sticky top-[100px]">
+              <h2 className="text-lg font-bold text-white mb-4">Order Summary</h2>
               
               {/* Items */}
               <div className="space-y-3 mb-4 max-h-[250px] overflow-y-auto">
                 {printItems.map((item) => (
-                  <div key={item.id} className="flex gap-3 p-2 bg-neo-light-gray rounded-lg">
+                  <div key={item.id} className="flex gap-3 p-2 bg-white/5 rounded-lg">
                     <div 
                       className="w-12 h-12 rounded flex items-center justify-center flex-shrink-0"
                       style={{ backgroundColor: item.colorHex + '30' }}
@@ -789,36 +789,36 @@ export default function CheckoutPage() {
                       <Box size={20} style={{ color: item.colorHex }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{item.fileName}</p>
-                      <p className="text-xs text-neo-black/50">
+                      <p className="text-sm font-medium text-white truncate">{item.fileName}</p>
+                      <p className="text-xs text-white/50">
                         {item.material} • {item.quality} • ×{item.quantity}
                       </p>
                     </div>
-                    <p className="text-sm font-bold whitespace-nowrap">{formatPrice(item.unitPrice * item.quantity)}</p>
+                    <p className="text-sm font-bold text-neo-yellow whitespace-nowrap">{formatPrice(item.unitPrice * item.quantity)}</p>
                   </div>
                 ))}
               </div>
 
               {/* Price Breakdown */}
-              <div className="space-y-2 pt-4 border-t border-neo-black/10">
+              <div className="space-y-2 pt-4 border-t border-white/10">
                 <div className="flex justify-between text-sm">
-                  <span className="text-neo-black/60">Subtotal</span>
-                  <span>{formatPrice(subtotal)}</span>
+                  <span className="text-white/60">Subtotal</span>
+                  <span className="text-white">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-neo-black/60">Shipping</span>
-                  <span className={shipping === 0 ? 'text-green-600 font-medium' : ''}>
+                  <span className="text-white/60">Shipping</span>
+                  <span className={shipping === 0 ? 'text-green-400 font-medium' : 'text-white'}>
                     {shipping === 0 ? 'FREE' : formatPrice(shipping)}
                   </span>
                 </div>
                 {shipping > 0 && subtotal < 500 && (
-                  <p className="text-xs text-neo-black/50 bg-neo-light-gray p-2 rounded">
+                  <p className="text-xs text-white/50 bg-white/5 p-2 rounded">
                     Add {formatPrice(500 - subtotal)} more for free shipping
                   </p>
                 )}
-                <div className="flex justify-between text-lg font-bold pt-2 border-t border-neo-black/10">
-                  <span>Total</span>
-                  <span>{formatPrice(total)}</span>
+                <div className="flex justify-between text-lg font-bold pt-2 border-t border-white/10">
+                  <span className="text-white">Total</span>
+                  <span className="text-neo-yellow">{formatPrice(total)}</span>
                 </div>
               </div>
 
@@ -827,7 +827,7 @@ export default function CheckoutPage() {
                 type="submit"
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="hidden lg:flex w-full neo-btn justify-center mt-6"
+                className="hidden lg:flex w-full robot-btn justify-center mt-6"
               >
                 {isSubmitting ? (
                   <>
@@ -843,20 +843,20 @@ export default function CheckoutPage() {
               </button>
 
               {/* Payment Notice */}
-              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-xs text-green-700 flex items-start gap-2">
+              <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                <p className="text-xs text-green-400 flex items-start gap-2">
                   <CheckCircle size={14} className="flex-shrink-0 mt-0.5" />
                   <span>Pay on delivery available. You&apos;ll receive order confirmation via email.</span>
                 </p>
               </div>
 
               {/* Trust Badges */}
-              <div className="mt-4 pt-4 border-t border-neo-black/10 grid grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 text-xs text-neo-black/50">
+              <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-2 gap-3">
+                <div className="flex items-center gap-2 text-xs text-white/50">
                   <Shield size={14} />
                   <span>Secure checkout</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-neo-black/50">
+                <div className="flex items-center gap-2 text-xs text-white/50">
                   <Truck size={14} />
                   <span>48hr dispatch</span>
                 </div>

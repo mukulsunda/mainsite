@@ -194,11 +194,11 @@ export default function PricingCalculator({
   };
 
   return (
-    <div className="bg-white border border-neo-black/10 rounded-xl overflow-hidden">
+    <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
       {/* Header */}
-      <div className="px-4 py-3 bg-neo-black">
-        <h3 className="font-bold text-white flex items-center gap-2">
-          <Zap size={18} className="text-neo-yellow" />
+      <div className="px-4 py-3 bg-neo-yellow">
+        <h3 className="font-bold text-neo-black flex items-center gap-2">
+          <Zap size={18} className="text-neo-black" />
           Instant Quote
         </h3>
       </div>
@@ -208,43 +208,43 @@ export default function PricingCalculator({
         {/* Cost Items */}
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-neo-black/60">Material ({config.material})</span>
-            <span className="font-mono text-neo-black">{formatPrice(pricing.materialCost)}</span>
+            <span className="text-white/60">Material ({config.material})</span>
+            <span className="font-mono text-white">{formatPrice(pricing.materialCost)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-neo-black/60">Print labor</span>
-            <span className="font-mono text-neo-black">{formatPrice(pricing.laborCost)}</span>
+            <span className="text-white/60">Print labor</span>
+            <span className="font-mono text-white">{formatPrice(pricing.laborCost)}</span>
           </div>
           {pricing.setupFee > 0 && (
             <div className="flex justify-between">
-              <span className="text-neo-black/60">Setup fee</span>
-              <span className="font-mono text-neo-black">{formatPrice(pricing.setupFee)}</span>
+              <span className="text-white/60">Setup fee</span>
+              <span className="font-mono text-white">{formatPrice(pricing.setupFee)}</span>
             </div>
           )}
         </div>
 
         {/* Divider */}
-        <div className="border-t border-dashed border-neo-black/10 pt-3">
+        <div className="border-t border-dashed border-white/10 pt-3">
           <div className="flex justify-between text-sm">
-            <span className="text-neo-black/60">Unit price</span>
-            <span className="font-bold text-neo-black">{formatPrice(pricing.unitPrice)}</span>
+            <span className="text-white/60">Unit price</span>
+            <span className="font-bold text-white">{formatPrice(pricing.unitPrice)}</span>
           </div>
           {config.quantity > 1 && (
             <div className="flex justify-between text-sm mt-1">
-              <span className="text-neo-black/60">× {config.quantity} units</span>
-              <span className="text-neo-black/40">{formatPrice(pricing.unitPrice * config.quantity)}</span>
+              <span className="text-white/60">× {config.quantity} units</span>
+              <span className="text-white/40">{formatPrice(pricing.unitPrice * config.quantity)}</span>
             </div>
           )}
         </div>
 
         {/* Total */}
-        <div className="bg-neo-light-gray rounded-lg p-3">
+        <div className="bg-white/5 rounded-lg p-3">
           <div className="flex justify-between items-center">
-            <span className="font-bold text-neo-black">Total</span>
-            <span className="text-2xl font-black text-neo-black">{formatPrice(pricing.totalPrice)}</span>
+            <span className="font-bold text-white">Total</span>
+            <span className="text-2xl font-black text-neo-yellow">{formatPrice(pricing.totalPrice)}</span>
           </div>
           {pricing.totalPrice === MIN_ORDER_VALUE && (
-            <p className="text-xs text-neo-black/40 mt-1">
+            <p className="text-xs text-white/40 mt-1">
               Minimum order value applied
             </p>
           )}
@@ -252,18 +252,18 @@ export default function PricingCalculator({
 
         {/* Estimates */}
         <div className="grid grid-cols-2 gap-2">
-          <div className="flex items-center gap-2 p-2 bg-neo-light-gray rounded-lg">
-            <Package size={16} className="text-neo-black/40" />
+          <div className="flex items-center gap-2 p-2 bg-white/5 rounded-lg">
+            <Package size={16} className="text-white/40" />
             <div>
-              <p className="text-xs text-neo-black/40">Weight</p>
-              <p className="text-sm font-bold text-neo-black">{pricing.estimatedWeight.toFixed(1)}g</p>
+              <p className="text-xs text-white/40">Weight</p>
+              <p className="text-sm font-bold text-white">{pricing.estimatedWeight.toFixed(1)}g</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 p-2 bg-neo-light-gray rounded-lg">
-            <Clock size={16} className="text-neo-black/40" />
+          <div className="flex items-center gap-2 p-2 bg-white/5 rounded-lg">
+            <Clock size={16} className="text-white/40" />
             <div>
-              <p className="text-xs text-neo-black/40">Print time</p>
-              <p className="text-sm font-bold text-neo-black">{pricing.estimatedTime}</p>
+              <p className="text-xs text-white/40">Print time</p>
+              <p className="text-sm font-bold text-white">{pricing.estimatedTime}</p>
             </div>
           </div>
         </div>
@@ -271,9 +271,9 @@ export default function PricingCalculator({
         {/* Dimension Check Warning */}
         {modelFile?.dimensions && (
           (modelFile.dimensions.x > 256 || modelFile.dimensions.y > 256 || modelFile.dimensions.z > 256) && (
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm">
-              <p className="font-semibold text-amber-800">⚠️ Model exceeds build plate</p>
-              <p className="text-amber-600 text-xs mt-1">
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-sm">
+              <p className="font-semibold text-amber-400">⚠️ Model exceeds build plate</p>
+              <p className="text-amber-400/70 text-xs mt-1">
                 Max size: 256×256×256mm. Consider scaling down or contact us for large prints.
               </p>
             </div>
@@ -289,8 +289,8 @@ export default function PricingCalculator({
             className={`
               w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all
               ${isModelLoaded && !isProcessing
-                ? 'bg-neo-black text-white hover:bg-neo-black/90 hover:scale-[1.02]' 
-                : 'bg-neo-black/10 text-neo-black/40 cursor-not-allowed'
+                ? 'bg-neo-yellow text-neo-black hover:bg-neo-yellow/90 hover:scale-[1.02]' 
+                : 'bg-white/10 text-white/40 cursor-not-allowed'
               }
             `}
           >
@@ -306,7 +306,7 @@ export default function PricingCalculator({
           {existingInCart ? (
             <Link
               href="/cart"
-              className="w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border-2 border-green-500 text-green-600 bg-green-50 hover:bg-green-100"
+              className="w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border-2 border-green-500 text-green-400 bg-green-500/10 hover:bg-green-500/20"
             >
               <CheckCircle size={18} />
               Already in Cart - View Cart
@@ -318,8 +318,8 @@ export default function PricingCalculator({
               className={`
                 w-full py-3 px-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all border-2
                 ${isModelLoaded && !isProcessing
-                  ? 'border-neo-black text-neo-black hover:bg-neo-yellow hover:border-neo-yellow' 
-                  : 'border-neo-black/10 text-neo-black/40 cursor-not-allowed'
+                  ? 'border-white text-white hover:bg-neo-yellow hover:border-neo-yellow hover:text-neo-black' 
+                  : 'border-white/10 text-white/40 cursor-not-allowed'
                 }
               `}
             >
@@ -332,9 +332,9 @@ export default function PricingCalculator({
         {/* Cart Message */}
         {cartMessage && (
           <div className={`p-3 rounded-lg text-sm flex items-center gap-2 ${
-            cartMessage.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' :
-            cartMessage.type === 'warning' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
-            'bg-red-50 text-red-700 border border-red-200'
+            cartMessage.type === 'success' ? 'bg-green-500/10 text-green-400 border border-green-500/30' :
+            cartMessage.type === 'warning' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' :
+            'bg-red-500/10 text-red-400 border border-red-500/30'
           }`}>
             {cartMessage.type === 'success' ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
             {cartMessage.text}
@@ -342,7 +342,7 @@ export default function PricingCalculator({
         )}
 
         {/* Trust Badges */}
-        <div className="flex items-center justify-center gap-4 pt-2 text-xs text-neo-black/40">
+        <div className="flex items-center justify-center gap-4 pt-2 text-xs text-white/40">
           <span>✓ Quality Guaranteed</span>
           <span>✓ Fast Shipping</span>
         </div>

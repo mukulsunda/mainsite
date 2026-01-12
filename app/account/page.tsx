@@ -307,15 +307,15 @@ export default function AccountPage() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      confirmed: 'bg-blue-100 text-blue-800',
-      processing: 'bg-purple-100 text-purple-800',
-      printing: 'bg-indigo-100 text-indigo-800',
-      shipped: 'bg-cyan-100 text-cyan-800',
-      delivered: 'bg-green-100 text-green-800',
-      cancelled: 'bg-red-100 text-red-800',
+      pending: 'bg-yellow-500/20 text-yellow-400',
+      confirmed: 'bg-blue-500/20 text-blue-400',
+      processing: 'bg-purple-500/20 text-purple-400',
+      printing: 'bg-indigo-500/20 text-indigo-400',
+      shipped: 'bg-cyan-500/20 text-cyan-400',
+      delivered: 'bg-green-500/20 text-green-400',
+      cancelled: 'bg-red-500/20 text-red-400',
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-white/10 text-white/60';
   };
 
   const menuItems = [
@@ -329,8 +329,8 @@ export default function AccountPage() {
 
   if (!mounted || loading) {
     return (
-      <main className="min-h-screen bg-neo-light-gray pt-24 pb-12 px-4 flex items-center justify-center">
-        <Loader2 size={32} className="animate-spin text-neo-black" />
+      <main className="min-h-screen bg-neo-black pt-24 pb-12 px-4 flex items-center justify-center">
+        <Loader2 size={32} className="animate-spin text-neo-yellow" />
       </main>
     );
   }
@@ -344,40 +344,40 @@ export default function AccountPage() {
     : user.email;
 
   return (
-    <main className="min-h-screen bg-neo-light-gray pt-20 md:pt-24 pb-8 md:pb-12 px-3 md:px-4">
+    <main className="min-h-screen bg-neo-black pt-20 md:pt-24 pb-8 md:pb-12 px-3 md:px-4">
       <div className="container max-w-6xl mx-auto">
         {/* Page Header */}
         <div className="mb-4 md:mb-8">
-          <h1 className="text-2xl md:text-4xl font-black text-neo-black mb-1 md:mb-2">My Account</h1>
-          <p className="text-sm md:text-base text-neo-black/60">Manage your profile, orders, and preferences</p>
+          <h1 className="text-2xl md:text-4xl font-black text-white mb-1 md:mb-2">My Account</h1>
+          <p className="text-sm md:text-base text-white/60">Manage your profile, orders, and preferences</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-8">
           {/* Left Sidebar */}
           <div className="lg:col-span-1 space-y-4 md:space-y-6">
             {/* Profile Card */}
-            <div className="bg-white border-2 border-neo-black rounded-xl p-4 md:p-6 shadow-neo">
+            <div className="robot-card p-4 md:p-6">
               <div className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-neo-yellow rounded-full flex items-center justify-center border-2 border-neo-black flex-shrink-0">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-neo-yellow rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-xl md:text-2xl font-black text-neo-black">
                     {profileForm.first_name ? profileForm.first_name[0] : user.email?.[0].toUpperCase()}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-base md:text-lg font-bold text-neo-black truncate">{displayName}</h2>
-                  <p className="text-xs md:text-sm text-neo-black/60 truncate">{user.email}</p>
+                  <h2 className="text-base md:text-lg font-bold text-white truncate">{displayName}</h2>
+                  <p className="text-xs md:text-sm text-white/60 truncate">{user.email}</p>
                 </div>
               </div>
 
               {/* Quick Stats */}
               <div className="grid grid-cols-2 gap-2 md:gap-3 mb-4 md:mb-6">
-                <div className="bg-neo-light-gray rounded-lg p-2 md:p-3 text-center">
-                  <p className="text-xl md:text-2xl font-black text-neo-black">{ordersCount}</p>
-                  <p className="text-[10px] md:text-xs text-neo-black/60">Orders</p>
+                <div className="bg-white/5 rounded-lg p-2 md:p-3 text-center">
+                  <p className="text-xl md:text-2xl font-black text-neo-yellow">{ordersCount}</p>
+                  <p className="text-[10px] md:text-xs text-white/60">Orders</p>
                 </div>
-                <div className="bg-neo-light-gray rounded-lg p-2 md:p-3 text-center">
-                  <p className="text-xl md:text-2xl font-black text-neo-black">{wishlistCount}</p>
-                  <p className="text-[10px] md:text-xs text-neo-black/60">Wishlist</p>
+                <div className="bg-white/5 rounded-lg p-2 md:p-3 text-center">
+                  <p className="text-xl md:text-2xl font-black text-neo-yellow">{wishlistCount}</p>
+                  <p className="text-[10px] md:text-xs text-white/60">Wishlist</p>
                 </div>
               </div>
 
@@ -390,42 +390,42 @@ export default function AccountPage() {
                     className={`flex-shrink-0 lg:flex-shrink flex items-center gap-2 lg:gap-3 p-2 lg:p-3 rounded-lg transition-colors group text-left whitespace-nowrap ${
                       activeTab === item.tab 
                         ? 'bg-neo-yellow' 
-                        : 'hover:bg-neo-light-gray bg-neo-light-gray lg:bg-transparent'
+                        : 'hover:bg-white/10 bg-white/5 lg:bg-transparent'
                     }`}
                   >
                     <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center transition-colors ${
                       activeTab === item.tab 
                         ? 'bg-neo-black' 
-                        : 'bg-white lg:bg-neo-light-gray group-hover:bg-neo-yellow'
+                        : 'bg-white/10 group-hover:bg-neo-yellow'
                     }`}>
-                      <item.icon size={16} className={`lg:w-5 lg:h-5 ${activeTab === item.tab ? 'text-white' : 'text-neo-black'}`} />
+                      <item.icon size={16} className={`lg:w-5 lg:h-5 ${activeTab === item.tab ? 'text-white' : 'text-white/70'}`} />
                     </div>
                     <div className="flex-1 min-w-0 hidden lg:block">
                       <div className="flex items-center gap-2">
-                        <p className="font-bold text-neo-black text-sm">{item.label}</p>
+                        <p className={`font-bold text-sm ${activeTab === item.tab ? 'text-neo-black' : 'text-white'}`}>{item.label}</p>
                         {item.badge !== undefined && item.badge > 0 && (
-                          <span className="px-2 py-0.5 bg-neo-black text-white text-xs rounded-full">{item.badge}</span>
+                          <span className="px-2 py-0.5 bg-neo-yellow text-neo-black text-xs rounded-full">{item.badge}</span>
                         )}
                       </div>
                     </div>
-                    <ChevronRight size={18} className="text-neo-black/30 hidden lg:block" />
+                    <ChevronRight size={18} className="text-white/30 hidden lg:block" />
                   </button>
                 ))}
               </nav>
 
               {/* Sign Out */}
-              <div className="mt-3 lg:mt-4 pt-3 lg:pt-4 border-t border-neo-black/10">
+              <div className="mt-3 lg:mt-4 pt-3 lg:pt-4 border-t border-white/10">
                 <button 
                   onClick={handleSignOut}
-                  className="w-full flex items-center gap-2 lg:gap-3 p-2 lg:p-3 rounded-lg hover:bg-red-50 transition-colors group text-left"
+                  className="w-full flex items-center gap-2 lg:gap-3 p-2 lg:p-3 rounded-lg hover:bg-red-500/10 transition-colors group text-left"
                 >
-                  <div className="w-8 h-8 lg:w-10 lg:h-10 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-red-100 transition-colors">
-                    <LogOut size={16} className="lg:w-5 lg:h-5 text-red-500" />
+                  <div className="w-8 h-8 lg:w-10 lg:h-10 bg-red-500/10 rounded-lg flex items-center justify-center group-hover:bg-red-500/20 transition-colors">
+                    <LogOut size={16} className="lg:w-5 lg:h-5 text-red-400" />
                   </div>
                   <div className="flex-1 hidden lg:block">
-                    <p className="font-bold text-red-500 text-sm">Sign Out</p>
+                    <p className="font-bold text-red-400 text-sm">Sign Out</p>
                   </div>
-                  <span className="lg:hidden text-xs font-bold text-red-500">Sign Out</span>
+                  <span className="lg:hidden text-xs font-bold text-red-400">Sign Out</span>
                 </button>
               </div>
             </div>
@@ -435,14 +435,14 @@ export default function AccountPage() {
           <div className="lg:col-span-3">
             {/* Profile Tab */}
             {activeTab === 'profile' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-4 md:p-6 shadow-neo">
-                <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6">Profile Information</h3>
+              <div className="robot-card p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-bold text-white mb-4 md:mb-6">Profile Information</h3>
                 
                 {saveMessage && (
                   <div className={`mb-4 md:mb-6 p-3 md:p-4 rounded-lg flex items-start gap-2 md:gap-3 text-sm ${
                     saveMessage.type === 'success' 
-                      ? 'bg-green-50 text-green-700 border border-green-200' 
-                      : 'bg-red-50 text-red-700 border border-red-200'
+                      ? 'bg-green-500/10 text-green-400 border border-green-500/30' 
+                      : 'bg-red-500/10 text-red-400 border border-red-500/30'
                   }`}>
                     {saveMessage.type === 'success' ? <CheckCircle size={18} className="flex-shrink-0 mt-0.5" /> : <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />}
                     {saveMessage.text}
@@ -451,42 +451,42 @@ export default function AccountPage() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   <div>
-                    <label className="block text-sm font-bold mb-1.5 md:mb-2">First Name</label>
+                    <label className="form-label">First Name</label>
                     <input
                       type="text"
                       value={profileForm.first_name}
                       onChange={(e) => setProfileForm({ ...profileForm, first_name: e.target.value })}
-                      className="w-full px-3 md:px-4 py-2.5 md:py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none text-sm md:text-base"
+                      className="robot-input"
                       placeholder="Enter first name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-1.5 md:mb-2">Last Name</label>
+                    <label className="form-label">Last Name</label>
                     <input
                       type="text"
                       value={profileForm.last_name}
                       onChange={(e) => setProfileForm({ ...profileForm, last_name: e.target.value })}
-                      className="w-full px-3 md:px-4 py-2.5 md:py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none text-sm md:text-base"
+                      className="robot-input"
                       placeholder="Enter last name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-1.5 md:mb-2">Email</label>
+                    <label className="form-label">Email</label>
                     <input
                       type="email"
                       value={user.email || ''}
                       disabled
-                      className="w-full px-3 md:px-4 py-2.5 md:py-3 border-2 border-neo-black/10 rounded-xl bg-neo-light-gray text-neo-black/60 text-sm md:text-base"
+                      className="robot-input opacity-50 cursor-not-allowed"
                     />
-                    <p className="text-[10px] md:text-xs text-neo-black/50 mt-1">Email cannot be changed</p>
+                    <p className="text-[10px] md:text-xs text-white/50 mt-1">Email cannot be changed</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold mb-1.5 md:mb-2">Phone Number</label>
+                    <label className="form-label">Phone Number</label>
                     <input
                       type="tel"
                       value={profileForm.phone}
                       onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                      className="w-full px-3 md:px-4 py-2.5 md:py-3 border-2 border-neo-black/10 rounded-xl focus:border-neo-yellow focus:outline-none text-sm md:text-base"
+                      className="robot-input"
                       placeholder="Enter phone number"
                     />
                   </div>
@@ -495,7 +495,7 @@ export default function AccountPage() {
                 <button
                   onClick={handleSaveProfile}
                   disabled={isSaving}
-                  className="mt-4 md:mt-6 neo-btn text-sm md:text-base py-2.5 md:py-3"
+                  className="mt-4 md:mt-6 robot-btn text-sm md:text-base py-2.5 md:py-3"
                 >
                   {isSaving ? (
                     <>
@@ -511,18 +511,18 @@ export default function AccountPage() {
 
             {/* Orders Tab */}
             {activeTab === 'orders' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-4 md:p-6 shadow-neo">
+              <div className="robot-card p-4 md:p-6">
                 <div className="flex items-center justify-between mb-4 md:mb-6">
-                  <h3 className="text-lg md:text-xl font-bold">My Orders</h3>
-                  <span className="text-xs md:text-sm text-neo-black/60">{ordersCount} total</span>
+                  <h3 className="text-lg md:text-xl font-bold text-white">My Orders</h3>
+                  <span className="text-xs md:text-sm text-white/60">{ordersCount} total</span>
                 </div>
                 
                 {orders.length === 0 ? (
                   <div className="text-center py-8 md:py-12">
-                    <Package size={40} className="mx-auto text-neo-black/20 mb-3 md:mb-4" />
-                    <h4 className="font-bold text-base md:text-lg mb-2">No orders yet</h4>
-                    <p className="text-sm text-neo-black/60 mb-4 md:mb-6">Start exploring and place your first order!</p>
-                    <Link href="/boxprint" className="neo-btn inline-flex text-sm">
+                    <Package size={40} className="mx-auto text-white/20 mb-3 md:mb-4" />
+                    <h4 className="font-bold text-base md:text-lg text-white mb-2">No orders yet</h4>
+                    <p className="text-sm text-white/60 mb-4 md:mb-6">Start exploring and place your first order!</p>
+                    <Link href="/boxprint" className="robot-btn inline-flex text-sm">
                       Get a Quote
                     </Link>
                   </div>
@@ -531,26 +531,26 @@ export default function AccountPage() {
                     {orders.map((order) => (
                       <div 
                         key={order.id}
-                        className="border border-neo-black/10 rounded-xl p-3 md:p-4 hover:border-neo-black/30 transition-colors"
+                        className="border border-white/10 bg-white/5 rounded-xl p-3 md:p-4 hover:border-white/30 transition-colors"
                       >
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2 flex-wrap">
-                              <span className="font-mono text-xs md:text-sm font-bold">{order.order_number}</span>
+                              <span className="font-mono text-xs md:text-sm font-bold text-white">{order.order_number}</span>
                               <span className={`px-2 py-0.5 rounded-full text-[10px] md:text-xs font-medium ${getStatusColor(order.status)}`}>
                                 {order.status}
                               </span>
                             </div>
-                            <p className="text-xs md:text-sm text-neo-black/70 truncate">{order.file_name}</p>
-                            <p className="text-[10px] md:text-xs text-neo-black/50 mt-1">
+                            <p className="text-xs md:text-sm text-white/70 truncate">{order.file_name}</p>
+                            <p className="text-[10px] md:text-xs text-white/50 mt-1">
                               {order.material} • Qty: {order.quantity} • {formatDate(order.created_at)}
                             </p>
                           </div>
                           <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 sm:text-right">
-                            <p className="font-bold text-sm md:text-base">{formatPrice(order.total_price)}</p>
+                            <p className="font-bold text-sm md:text-base text-neo-yellow">{formatPrice(order.total_price)}</p>
                             <Link 
                               href={`/order-tracking/${order.order_number}`}
-                              className="text-[10px] md:text-xs text-neo-black hover:text-neo-yellow font-medium inline-flex items-center gap-1"
+                              className="text-[10px] md:text-xs text-white hover:text-neo-yellow font-medium inline-flex items-center gap-1"
                             >
                               Track <ChevronRight size={12} />
                             </Link>
@@ -565,12 +565,12 @@ export default function AccountPage() {
 
             {/* Addresses Tab */}
             {activeTab === 'addresses' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-4 md:p-6 shadow-neo">
+              <div className="robot-card p-4 md:p-6">
                 <div className="flex items-center justify-between mb-4 md:mb-6">
-                  <h3 className="text-lg md:text-xl font-bold">Saved Addresses</h3>
+                  <h3 className="text-lg md:text-xl font-bold text-white">Saved Addresses</h3>
                   <button 
                     onClick={() => setShowAddressModal(true)}
-                    className="neo-btn-secondary text-xs md:text-sm py-2 px-3"
+                    className="robot-btn-outline text-xs md:text-sm py-2 px-3"
                   >
                     <Plus size={14} />
                     Add New
@@ -579,9 +579,9 @@ export default function AccountPage() {
                 
                 {addresses.length === 0 ? (
                   <div className="text-center py-12">
-                    <MapPin size={48} className="mx-auto text-neo-black/20 mb-4" />
-                    <h4 className="font-bold text-lg mb-2">No saved addresses</h4>
-                    <p className="text-neo-black/60 mb-6">Add an address during checkout to save it here</p>
+                    <MapPin size={48} className="mx-auto text-white/20 mb-4" />
+                    <h4 className="font-bold text-lg text-white mb-2">No saved addresses</h4>
+                    <p className="text-white/60 mb-6">Add an address during checkout to save it here</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -589,41 +589,41 @@ export default function AccountPage() {
                       <div 
                         key={address.id}
                         className={`border-2 rounded-xl p-4 relative ${
-                          address.is_default ? 'border-neo-yellow bg-neo-yellow/5' : 'border-neo-black/10'
+                          address.is_default ? 'border-neo-yellow bg-neo-yellow/5' : 'border-white/10 bg-white/5'
                         }`}
                       >
                         {address.is_default && (
-                          <span className="absolute top-2 right-2 px-2 py-0.5 bg-neo-yellow text-xs font-bold rounded-full">
+                          <span className="absolute top-2 right-2 px-2 py-0.5 bg-neo-yellow text-neo-black text-xs font-bold rounded-full">
                             Default
                           </span>
                         )}
                         <div className="flex items-center gap-2 mb-2">
                           {address.label.toLowerCase().includes('home') ? (
-                            <Home size={16} className="text-neo-black/50" />
+                            <Home size={16} className="text-white/50" />
                           ) : (
-                            <Building size={16} className="text-neo-black/50" />
+                            <Building size={16} className="text-white/50" />
                           )}
-                          <span className="font-bold text-sm">{address.label}</span>
+                          <span className="font-bold text-sm text-white">{address.label}</span>
                         </div>
-                        <p className="text-sm text-neo-black/80">{address.name}</p>
-                        <p className="text-xs text-neo-black/60 mt-1">{address.address_line}</p>
-                        <p className="text-xs text-neo-black/60">
+                        <p className="text-sm text-white/80">{address.name}</p>
+                        <p className="text-xs text-white/60 mt-1">{address.address_line}</p>
+                        <p className="text-xs text-white/60">
                           {address.city}, {address.state} - {address.pincode}
                         </p>
-                        <p className="text-xs text-neo-black/60 mt-1">📞 {address.phone}</p>
+                        <p className="text-xs text-white/60 mt-1">📞 {address.phone}</p>
                         
-                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-neo-black/10">
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/10">
                           {!address.is_default && (
                             <button 
                               onClick={() => handleSetDefaultAddress(address.id)}
-                              className="text-xs font-medium text-neo-black hover:text-neo-yellow"
+                              className="text-xs font-medium text-white hover:text-neo-yellow"
                             >
                               Set as default
                             </button>
                           )}
                           <button 
                             onClick={() => handleDeleteAddress(address.id)}
-                            className="text-xs font-medium text-red-500 hover:text-red-700 ml-auto"
+                            className="text-xs font-medium text-red-400 hover:text-red-300 ml-auto"
                           >
                             Delete
                           </button>
@@ -637,16 +637,16 @@ export default function AccountPage() {
 
             {/* Payment Methods Tab */}
             {activeTab === 'payments' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-                <h3 className="text-xl font-bold mb-6">Payment Methods</h3>
+              <div className="robot-card p-6">
+                <h3 className="text-xl font-bold text-white mb-6">Payment Methods</h3>
                 
                 <div className="text-center py-12">
-                  <CreditCard size={48} className="mx-auto text-neo-black/20 mb-4" />
-                  <h4 className="font-bold text-lg mb-2">No saved payment methods</h4>
-                  <p className="text-neo-black/60 mb-4">
+                  <CreditCard size={48} className="mx-auto text-white/20 mb-4" />
+                  <h4 className="font-bold text-lg text-white mb-2">No saved payment methods</h4>
+                  <p className="text-white/60 mb-4">
                     We currently support Cash on Delivery and UPI payments.
                   </p>
-                  <p className="text-sm text-neo-black/50">
+                  <p className="text-sm text-white/50">
                     Card saving feature coming soon!
                   </p>
                 </div>
@@ -655,25 +655,25 @@ export default function AccountPage() {
 
             {/* Notifications Tab */}
             {activeTab === 'notifications' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-                <h3 className="text-xl font-bold mb-6">Notification Preferences</h3>
+              <div className="robot-card p-6">
+                <h3 className="text-xl font-bold text-white mb-6">Notification Preferences</h3>
                 
                 <div className="space-y-6">
                   <div>
-                    <h4 className="font-bold text-sm text-neo-black/60 uppercase tracking-wider mb-4">Email Notifications</h4>
+                    <h4 className="font-bold text-sm text-white/60 uppercase tracking-wider mb-4">Email Notifications</h4>
                     <div className="space-y-4">
                       {[
                         { key: 'email_orders', label: 'Order Updates', desc: 'Get notified about order status changes' },
                         { key: 'email_promotions', label: 'Promotions', desc: 'Receive special offers and discounts' },
                         { key: 'email_newsletter', label: 'Newsletter', desc: 'Weekly updates and new features' },
                       ].map((item) => (
-                        <label key={item.key} className="flex items-center justify-between p-4 bg-neo-light-gray rounded-xl cursor-pointer">
+                        <label key={item.key} className="flex items-center justify-between p-4 bg-white/5 rounded-xl cursor-pointer">
                           <div>
-                            <p className="font-bold text-sm">{item.label}</p>
-                            <p className="text-xs text-neo-black/60">{item.desc}</p>
+                            <p className="font-bold text-sm text-white">{item.label}</p>
+                            <p className="text-xs text-white/60">{item.desc}</p>
                           </div>
                           <div className={`w-12 h-7 rounded-full p-1 transition-colors ${
-                            notifications[item.key as keyof typeof notifications] ? 'bg-neo-yellow' : 'bg-neo-black/20'
+                            notifications[item.key as keyof typeof notifications] ? 'bg-neo-yellow' : 'bg-white/20'
                           }`}>
                             <div className={`w-5 h-5 rounded-full bg-white shadow transition-transform ${
                               notifications[item.key as keyof typeof notifications] ? 'translate-x-5' : 'translate-x-0'
@@ -691,19 +691,19 @@ export default function AccountPage() {
                   </div>
                   
                   <div>
-                    <h4 className="font-bold text-sm text-neo-black/60 uppercase tracking-wider mb-4">Push Notifications</h4>
+                    <h4 className="font-bold text-sm text-white/60 uppercase tracking-wider mb-4">Push Notifications</h4>
                     <div className="space-y-4">
                       {[
                         { key: 'push_orders', label: 'Order Updates', desc: 'Real-time order tracking' },
                         { key: 'push_promotions', label: 'Flash Sales', desc: 'Be first to know about deals' },
                       ].map((item) => (
-                        <label key={item.key} className="flex items-center justify-between p-4 bg-neo-light-gray rounded-xl cursor-pointer">
+                        <label key={item.key} className="flex items-center justify-between p-4 bg-white/5 rounded-xl cursor-pointer">
                           <div>
-                            <p className="font-bold text-sm">{item.label}</p>
-                            <p className="text-xs text-neo-black/60">{item.desc}</p>
+                            <p className="font-bold text-sm text-white">{item.label}</p>
+                            <p className="text-xs text-white/60">{item.desc}</p>
                           </div>
                           <div className={`w-12 h-7 rounded-full p-1 transition-colors ${
-                            notifications[item.key as keyof typeof notifications] ? 'bg-neo-yellow' : 'bg-neo-black/20'
+                            notifications[item.key as keyof typeof notifications] ? 'bg-neo-yellow' : 'bg-white/20'
                           }`}>
                             <div className={`w-5 h-5 rounded-full bg-white shadow transition-transform ${
                               notifications[item.key as keyof typeof notifications] ? 'translate-x-5' : 'translate-x-0'
@@ -725,25 +725,25 @@ export default function AccountPage() {
 
             {/* Security Tab */}
             {activeTab === 'security' && (
-              <div className="bg-white border-2 border-neo-black rounded-xl p-6 shadow-neo">
-                <h3 className="text-xl font-bold mb-6">Privacy & Security</h3>
+              <div className="robot-card p-6">
+                <h3 className="text-xl font-bold text-white mb-6">Privacy & Security</h3>
                 
                 <div className="space-y-6">
                   {/* Password Section */}
-                  <div className="p-4 bg-neo-light-gray rounded-xl">
+                  <div className="p-4 bg-white/5 rounded-xl">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                          <Lock size={20} className="text-neo-black" />
+                        <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                          <Lock size={20} className="text-white" />
                         </div>
                         <div>
-                          <p className="font-bold text-sm">Password</p>
-                          <p className="text-xs text-neo-black/60">Last changed: Never</p>
+                          <p className="font-bold text-sm text-white">Password</p>
+                          <p className="text-xs text-white/60">Last changed: Never</p>
                         </div>
                       </div>
                       <Link 
                         href="/auth/reset-password"
-                        className="text-sm font-bold text-neo-black hover:text-neo-yellow transition-colors"
+                        className="text-sm font-bold text-white hover:text-neo-yellow transition-colors"
                       >
                         Change
                       </Link>
@@ -751,37 +751,37 @@ export default function AccountPage() {
                   </div>
                   
                   {/* Email Verification */}
-                  <div className="p-4 bg-neo-light-gray rounded-xl">
+                  <div className="p-4 bg-white/5 rounded-xl">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                          <Mail size={20} className="text-neo-black" />
+                        <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                          <Mail size={20} className="text-white" />
                         </div>
                         <div>
-                          <p className="font-bold text-sm">Email Verification</p>
-                          <p className="text-xs text-neo-black/60">{user.email}</p>
+                          <p className="font-bold text-sm text-white">Email Verification</p>
+                          <p className="text-xs text-white/60">{user.email}</p>
                         </div>
                       </div>
-                      <span className="text-xs font-bold text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                      <span className="text-xs font-bold text-green-400 bg-green-500/10 px-3 py-1 rounded-full">
                         ✓ Verified
                       </span>
                     </div>
                   </div>
                   
                   {/* Login Activity */}
-                  <div className="p-4 bg-neo-light-gray rounded-xl">
+                  <div className="p-4 bg-white/5 rounded-xl">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                        <Clock size={20} className="text-neo-black" />
+                      <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
+                        <Clock size={20} className="text-white" />
                       </div>
                       <div>
-                        <p className="font-bold text-sm">Login Activity</p>
-                        <p className="text-xs text-neo-black/60">Recent sign-in sessions</p>
+                        <p className="font-bold text-sm text-white">Login Activity</p>
+                        <p className="text-xs text-white/60">Recent sign-in sessions</p>
                       </div>
                     </div>
-                    <div className="ml-13 pl-4 border-l-2 border-neo-black/10">
-                      <p className="text-sm font-medium">Current Session</p>
-                      <p className="text-xs text-neo-black/60">
+                    <div className="ml-13 pl-4 border-l-2 border-white/10">
+                      <p className="text-sm font-medium text-white">Current Session</p>
+                      <p className="text-xs text-white/60">
                         {new Date().toLocaleDateString('en-IN', { 
                           weekday: 'short', 
                           day: 'numeric', 
@@ -794,15 +794,15 @@ export default function AccountPage() {
                   </div>
                   
                   {/* Delete Account */}
-                  <div className="p-4 bg-red-50 rounded-xl border border-red-200">
+                  <div className="p-4 bg-red-500/10 rounded-xl border border-red-500/30">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-bold text-sm text-red-700">Delete Account</p>
-                        <p className="text-xs text-red-600">Permanently delete your account and all data</p>
+                        <p className="font-bold text-sm text-red-400">Delete Account</p>
+                        <p className="text-xs text-red-400/70">Permanently delete your account and all data</p>
                       </div>
                       <button 
                         onClick={handleDeleteAccount}
-                        className="text-sm font-bold text-red-600 hover:text-red-800 transition-colors px-4 py-2 border border-red-300 rounded-lg hover:bg-red-100"
+                        className="text-sm font-bold text-red-400 hover:text-red-300 transition-colors px-4 py-2 border border-red-500/30 rounded-lg hover:bg-red-500/10"
                       >
                         Delete
                       </button>
@@ -817,18 +817,18 @@ export default function AccountPage() {
       
       {/* Add Address Modal */}
       {showAddressModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <div className="p-4 md:p-6 border-b border-neo-black/10">
-              <h3 className="text-lg font-bold">Add New Address</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
+          <div className="bg-neo-gray border border-white/10 rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="p-4 md:p-6 border-b border-white/10">
+              <h3 className="text-lg font-bold text-white">Add New Address</h3>
             </div>
             <div className="p-4 md:p-6 space-y-4">
               <div>
-                <label className="block text-sm font-bold mb-1.5">Label</label>
+                <label className="form-label">Label</label>
                 <select
                   value={newAddress.label}
                   onChange={(e) => setNewAddress({ ...newAddress, label: e.target.value })}
-                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                  className="robot-input"
                 >
                   <option value="Home">Home</option>
                   <option value="Work">Work</option>
@@ -836,79 +836,79 @@ export default function AccountPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-bold mb-1.5">Full Name</label>
+                <label className="form-label">Full Name</label>
                 <input
                   type="text"
                   value={newAddress.name}
                   onChange={(e) => setNewAddress({ ...newAddress, name: e.target.value })}
-                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                  className="robot-input"
                   placeholder="Enter full name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold mb-1.5">Phone Number</label>
+                <label className="form-label">Phone Number</label>
                 <input
                   type="tel"
                   value={newAddress.phone}
                   onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
-                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                  className="robot-input"
                   placeholder="Enter phone number"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold mb-1.5">Address</label>
+                <label className="form-label">Address</label>
                 <textarea
                   value={newAddress.address_line}
                   onChange={(e) => setNewAddress({ ...newAddress, address_line: e.target.value })}
                   rows={2}
-                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm resize-none"
+                  className="robot-input resize-none"
                   placeholder="House/flat no, building, street"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-bold mb-1.5">City</label>
+                  <label className="form-label">City</label>
                   <input
                     type="text"
                     value={newAddress.city}
                     onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                    className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                    className="robot-input"
                     placeholder="City"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold mb-1.5">State</label>
+                  <label className="form-label">State</label>
                   <input
                     type="text"
                     value={newAddress.state}
                     onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                    className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                    className="robot-input"
                     placeholder="State"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-bold mb-1.5">PIN Code</label>
+                <label className="form-label">PIN Code</label>
                 <input
                   type="text"
                   value={newAddress.pincode}
                   onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
-                  className="w-full px-3 py-2.5 border-2 border-neo-black/10 rounded-lg focus:border-neo-yellow focus:outline-none text-sm"
+                  className="robot-input"
                   placeholder="PIN code"
                   maxLength={6}
                 />
               </div>
             </div>
-            <div className="p-4 md:p-6 border-t border-neo-black/10 flex gap-3">
+            <div className="p-4 md:p-6 border-t border-white/10 flex gap-3">
               <button
                 onClick={() => setShowAddressModal(false)}
-                className="flex-1 py-2.5 border-2 border-neo-black/20 rounded-lg font-bold text-sm hover:bg-neo-light-gray transition-colors"
+                className="flex-1 py-2.5 border border-white/20 rounded-full font-bold text-sm text-white hover:bg-white/5 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveNewAddress}
-                className="flex-1 py-2.5 bg-neo-black text-white rounded-lg font-bold text-sm hover:bg-neo-black/90 transition-colors"
+                className="flex-1 py-2.5 bg-neo-yellow text-neo-black rounded-full font-bold text-sm hover:bg-neo-yellow/90 transition-colors"
               >
                 Save Address
               </button>

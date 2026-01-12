@@ -110,25 +110,25 @@ export default function FileUploader({ onFileSelect, currentFile }: FileUploader
             transition-all duration-300 group
             ${isDragging 
               ? 'border-neo-yellow bg-neo-yellow/10' 
-              : 'border-neo-black/20 hover:border-neo-yellow hover:bg-neo-yellow/5'
+              : 'border-white/20 hover:border-neo-yellow hover:bg-neo-yellow/5'
             }
-            ${error ? 'border-red-400 bg-red-50' : ''}
+            ${error ? 'border-red-500 bg-red-500/10' : ''}
           `}
         >
           {/* Icon */}
           <div className={`
             w-16 h-16 mx-auto mb-4 rounded-xl flex items-center justify-center
             transition-all duration-300
-            ${isDragging ? 'bg-neo-yellow scale-110' : 'bg-neo-light-gray group-hover:bg-neo-yellow group-hover:scale-105'}
+            ${isDragging ? 'bg-neo-yellow scale-110' : 'bg-white/5 group-hover:bg-neo-yellow group-hover:scale-105'}
           `}>
-            <Upload size={28} className={isDragging ? 'text-neo-black' : 'text-neo-black/60 group-hover:text-neo-black'} />
+            <Upload size={28} className={isDragging ? 'text-neo-black' : 'text-white/60 group-hover:text-neo-black'} />
           </div>
           
           {/* Text */}
-          <h3 className="text-lg font-bold text-neo-black mb-2">
+          <h3 className="text-lg font-bold text-white mb-2">
             {isDragging ? 'Drop your file here' : 'Upload your 3D model'}
           </h3>
-          <p className="text-sm text-neo-black/60 mb-4">
+          <p className="text-sm text-white/60 mb-4">
             Drag and drop or <span className="text-neo-yellow font-semibold">browse</span> to choose a file
           </p>
           
@@ -137,14 +137,14 @@ export default function FileUploader({ onFileSelect, currentFile }: FileUploader
             {SUPPORTED_FORMATS.map((format) => (
               <span 
                 key={format}
-                className="px-2 py-1 bg-neo-black/5 rounded text-xs font-mono text-neo-black/60 uppercase"
+                className="px-2 py-1 bg-white/5 rounded text-xs font-mono text-white/60 uppercase"
               >
                 {format}
               </span>
             ))}
           </div>
           
-          <p className="text-xs text-neo-black/40 mt-3">
+          <p className="text-xs text-white/40 mt-3">
             Maximum file size: {MAX_FILE_SIZE / (1024 * 1024)}MB
           </p>
 
@@ -158,7 +158,7 @@ export default function FileUploader({ onFileSelect, currentFile }: FileUploader
         </div>
       ) : (
         /* File Selected State */
-        <div className="border border-neo-black/10 rounded-xl p-4 bg-white">
+        <div className="border border-white/10 rounded-xl p-4 bg-white/5">
           <div className="flex items-start gap-4">
             {/* File Icon */}
             <div className="w-12 h-12 bg-neo-yellow rounded-lg flex items-center justify-center flex-shrink-0">
@@ -168,11 +168,11 @@ export default function FileUploader({ onFileSelect, currentFile }: FileUploader
             {/* File Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <CheckCircle size={16} className="text-green-500 flex-shrink-0" />
-                <h4 className="font-bold text-neo-black truncate">{currentFile.name}</h4>
+                <CheckCircle size={16} className="text-green-400 flex-shrink-0" />
+                <h4 className="font-bold text-white truncate">{currentFile.name}</h4>
               </div>
               
-              <div className="flex flex-wrap gap-3 text-xs text-neo-black/60">
+              <div className="flex flex-wrap gap-3 text-xs text-white/60">
                 <span className="flex items-center gap-1">
                   <File size={12} />
                   {currentFile.format}
@@ -192,9 +192,9 @@ export default function FileUploader({ onFileSelect, currentFile }: FileUploader
             {/* Remove Button */}
             <button
               onClick={handleRemoveFile}
-              className="p-2 hover:bg-red-50 rounded-lg transition-colors group"
+              className="p-2 hover:bg-red-500/10 rounded-lg transition-colors group"
             >
-              <X size={18} className="text-neo-black/40 group-hover:text-red-500" />
+              <X size={18} className="text-white/40 group-hover:text-red-400" />
             </button>
           </div>
         </div>
@@ -202,7 +202,7 @@ export default function FileUploader({ onFileSelect, currentFile }: FileUploader
 
       {/* Error Message */}
       {error && (
-        <div className="mt-3 flex items-center gap-2 text-red-600 text-sm">
+        <div className="mt-3 flex items-center gap-2 text-red-400 text-sm">
           <AlertCircle size={16} />
           <span>{error}</span>
         </div>

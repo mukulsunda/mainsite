@@ -1,281 +1,246 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Box, Cpu, Zap, ArrowUpRight, Printer, Upload, Clock, Sparkles, Star, Shield, Truck, CheckCircle } from 'lucide-react';
-import ServicesSection from '@/components/ServicesSection';
+import { ArrowRight, ArrowUpRight, Printer, Upload, Clock, Sparkles, CheckCircle, Cpu, Box, Zap } from 'lucide-react';
 import FAQ from '@/components/FAQ';
 import Newsletter from '@/components/Newsletter';
 
 export default function Home() {
+  const stats = [
+    { number: '10K+', label: 'Happy Customers' },
+    { number: '50+', label: 'Countries Served' },
+    { number: '99%', label: 'Satisfaction Rate' },
+    { number: '48hr', label: 'Avg. Turnaround' },
+  ];
+
+  const trustedBy = ['TechCorp', 'InnovateLab', 'DesignStudio', 'BuildCo', 'PrintPro'];
+
+  const services = [
+    {
+      icon: <Cpu size={28} />,
+      title: "Precision Engineering",
+      desc: "Micron-level accuracy on every print. Industrial-grade quality delivered to your doorstep.",
+      number: "01"
+    },
+    {
+      icon: <Box size={28} />,
+      title: "Multi-Material Support",
+      desc: "From PLA to carbon fiber composites. Choose the perfect material for your project.",
+      number: "02"
+    },
+    {
+      icon: <Zap size={28} />,
+      title: "Rapid Prototyping",
+      desc: "From concept to physical model in hours, not weeks. Accelerate your development cycle.",
+      number: "03"
+    }
+  ];
+
   return (
-    <main className="pt-[72px] md:pt-[80px]">
-      {/* Hero Section - Enhanced with gradient and animated elements */}
-      <section className="min-h-[70vh] md:min-h-[calc(100vh-80px)] flex flex-col justify-center relative overflow-hidden bg-gradient-to-br from-white via-neo-light-gray/30 to-white px-4 md:px-8">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-neo-yellow/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-neo-yellow/10 rounded-full blur-3xl animate-pulse delay-1000" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-neo-yellow/5 to-transparent rounded-full" />
-        </div>
-        <div className="absolute inset-0 dot-pattern-light opacity-30" />
+    <main className="bg-neo-black">
+      {/* Hero Section */}
+      <section className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-20">
+        {/* Background Elements */}
+        <div className="absolute inset-0 dot-pattern-animated opacity-20" />
+        <div className="absolute top-1/4 -left-40 w-96 h-96 bg-neo-yellow/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-40 w-96 h-96 bg-neo-yellow/5 rounded-full blur-[120px]" />
         
-        <div className="container relative z-10 py-8 md:py-0">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Text Content */}
-            <div className="max-w-xl">
-              {/* Status Badge */}
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-neo-black text-white rounded-full text-xs font-semibold shadow-lg">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                NOW SHIPPING WORLDWIDE
-              </div>
-
-              {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6 tracking-tight">
-                <span className="text-neo-black block">Unlock</span>
-                <span className="text-neo-yellow relative inline-block">
-                  Possibility
-                  <svg className="absolute -bottom-2 left-0 w-full h-3 text-neo-yellow/30" viewBox="0 0 200 12" preserveAspectRatio="none">
-                    <path d="M0,6 Q50,0 100,6 T200,6" fill="none" stroke="currentColor" strokeWidth="4"/>
-                  </svg>
-                </span>
-              </h1>
-
-              {/* Subheadline */}
-              <p className="text-base sm:text-lg md:text-xl text-neo-black/70 mb-8 leading-relaxed">
-                Consumer-focused innovation. Hardware and software products engineered for the <span className="font-semibold text-neo-black">humans of tomorrow</span>.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 mb-10">
-                <Link href="/products" className="group neo-btn justify-center sm:justify-start text-base py-3.5 px-6 shadow-xl hover:shadow-2xl transition-all">
-                  Explore Products
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link href="/about" className="neo-btn-outline justify-center sm:justify-start text-base py-3.5 px-6 hover:bg-neo-black hover:text-white transition-all">
-                  Our Story
-                </Link>
-              </div>
-
-              {/* Trust Badges */}
-              <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-neo-black/10">
-                <div className="flex items-center gap-2 text-sm text-neo-black/60">
-                  <Shield size={16} className="text-green-600" />
-                  <span>Secure Payments</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-neo-black/60">
-                  <Truck size={16} className="text-neo-yellow" />
-                  <span>Free Shipping 500+</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-neo-black/60">
-                  <Star size={16} className="text-yellow-500 fill-yellow-500" />
-                  <span>4.9/5 Rating</span>
-                </div>
-              </div>
+        <div className="container relative z-10 py-20">
+          {/* Status Badge */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+              </span>
+              <span className="text-white/70 text-sm font-medium">Now Shipping Pan-India</span>
             </div>
+          </div>
 
-            {/* Stats Cards - Right Side */}
-            <div className="hidden lg:grid grid-cols-2 gap-4">
-              {[
-                { value: '24+', label: 'Products', desc: 'Across categories' },
-                { value: '10K+', label: 'Happy Users', desc: 'Worldwide' },
-                { value: '99%', label: 'Satisfaction', desc: 'Customer rating' },
-                { value: '48hr', label: 'Dispatch', desc: 'Fast shipping' },
-              ].map((stat, i) => (
-                <div key={i} className="p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-neo-black/5 shadow-lg hover:shadow-xl transition-shadow">
-                  <span className="block text-3xl font-black text-neo-black font-mono mb-1">{stat.value}</span>
-                  <span className="block text-sm font-bold text-neo-black mb-0.5">{stat.label}</span>
-                  <span className="text-xs text-neo-black/50">{stat.desc}</span>
-                </div>
-              ))}
-            </div>
+          {/* Main Headline */}
+          <div className="text-center max-w-5xl mx-auto mb-12">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[120px] font-black leading-[0.9] tracking-tight mb-8">
+              <span className="text-white block">Ideas into</span>
+              <span className="text-neo-yellow block">Reality.</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-white/60 max-w-2xl mx-auto leading-relaxed">
+              Professional 3D printing services that transform your designs into precision-crafted physical products.
+            </p>
+          </div>
 
-            {/* Mobile Stats */}
-            <div className="lg:hidden flex flex-wrap gap-6 pt-4">
-              {[
-                { value: '24+', label: 'Products' },
-                { value: '10K+', label: 'Happy Users' },
-                { value: '99%', label: 'Satisfaction' },
-              ].map((stat, i) => (
-                <div key={i}>
-                  <span className="block text-2xl font-black text-neo-black font-mono">{stat.value}</span>
-                  <span className="text-xs text-neo-black/60 font-medium uppercase tracking-wider">{stat.label}</span>
-                </div>
-              ))}
-            </div>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+            <Link href="/boxprint" className="robot-btn text-lg px-10 py-5">
+              Get Instant Quote
+              <ArrowRight size={20} />
+            </Link>
+            <Link href="/products" className="robot-btn-outline text-lg px-10 py-5">
+              Browse Products
+            </Link>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto">
+            {stats.map((stat, i) => (
+              <div key={i} className="text-center">
+                <span className="stat-number block">{stat.number}</span>
+                <span className="stat-label block">{stat.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2">
-          <span className="text-xs font-medium text-neo-black/40 uppercase tracking-widest">Discover</span>
-          <div className="w-6 h-10 rounded-full border-2 border-neo-black/20 flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-neo-black/40 rounded-full animate-bounce" />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+          <span className="text-xs text-white/40 uppercase tracking-widest">Scroll</span>
+          <div className="scroll-indicator">
+            <div className="scroll-dot" />
           </div>
         </div>
       </section>
 
-      {/* BoxPrint CTA Section - Premium Design */}
-      <section className="py-12 md:py-20 bg-neo-black relative overflow-hidden">
-        {/* Enhanced Background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-neo-yellow/10 via-transparent to-transparent" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-neo-yellow/5 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-0 w-64 h-64 bg-neo-accent/5 rounded-full blur-3xl" />
+      {/* Trusted By Section */}
+      <section className="py-16 border-y border-white/10">
+        <div className="container">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+            <span className="text-white/40 text-sm uppercase tracking-wider">Trusted by</span>
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+              {trustedBy.map((company, i) => (
+                <span key={i} className="text-white/30 font-semibold text-lg hover:text-white/50 transition-colors">
+                  {company}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
+      </section>
+
+      {/* BoxPrint CTA Section */}
+      <section className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 grid-pattern" />
         
-        <div className="container relative z-10 px-5">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-              {/* Left - Content */}
-              <div className="text-center md:text-left">
-                {/* Badge */}
-                <div className="inline-flex items-center gap-2 mb-5 px-4 py-2 bg-gradient-to-r from-neo-yellow/20 to-neo-yellow/10 border border-neo-yellow/30 text-neo-yellow rounded-full font-bold text-sm">
-                  <Sparkles size={16} />
-                  3D PRINTING SERVICE
-                </div>
-                
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 tracking-tight leading-tight">
-                  Bring Your <span className="text-neo-yellow">Ideas</span> to Life
-                </h2>
-                
-                <p className="text-white/60 text-base md:text-lg mb-8 leading-relaxed">
-                  Professional-grade 3D printing at your fingertips. Upload, customize, and receive precision prints at your doorstep.
-                </p>
+        <div className="container relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left - Content */}
+            <div>
+              <span className="section-label">
+                <Sparkles size={14} />
+                3D PRINTING SERVICE
+              </span>
+              
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-[0.95]">
+                Bring your<br />
+                <span className="text-neo-yellow">ideas</span> to life
+              </h2>
+              
+              <p className="text-white/60 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
+                Upload your 3D model, choose your material, and we&apos;ll deliver precision-crafted prints right to your doorstep.
+              </p>
 
-                {/* CTA Button */}
-                <Link 
-                  href="/boxprint" 
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-neo-yellow text-neo-black font-bold text-base md:text-lg rounded-xl hover:bg-yellow-400 transition-all hover:scale-105 shadow-lg shadow-neo-yellow/20"
-                >
-                  <Printer size={22} />
-                  Get Instant Quote
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-                
-                {/* Price hint */}
-                <p className="mt-4 text-sm text-white/40 flex items-center justify-center md:justify-start gap-2">
-                  <CheckCircle size={14} className="text-green-400" />
-                  Starting from ₹199 • Quality Guaranteed
-                </p>
-              </div>
-
-              {/* Right - Features */}
-              <div className="space-y-4">
+              {/* Features List */}
+              <div className="space-y-4 mb-10">
                 {[
-                  { icon: Upload, label: 'Upload Your Model', desc: 'STL, OBJ, GLTF supported' },
-                  { icon: Sparkles, label: 'Instant Pricing', desc: 'Transparent quote in seconds' },
-                  { icon: Clock, label: 'Fast Turnaround', desc: '48-hour dispatch guarantee' },
-                  { icon: Truck, label: 'Pan-India Delivery', desc: 'Free shipping over ₹500' },
+                  { icon: Upload, text: 'Upload STL, OBJ, or GLTF files' },
+                  { icon: Sparkles, text: 'Get instant pricing in seconds' },
+                  { icon: Clock, text: '48-hour dispatch guarantee' },
+                  { icon: CheckCircle, text: 'Quality guaranteed or money back' },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-4 p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
-                    <div className="w-12 h-12 bg-neo-yellow/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <item.icon size={22} className="text-neo-yellow" />
+                  <div key={i} className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-neo-yellow/10 flex items-center justify-center">
+                      <item.icon size={18} className="text-neo-yellow" />
                     </div>
-                    <div>
-                      <span className="block text-white font-semibold text-sm md:text-base">{item.label}</span>
-                      <span className="text-white/50 text-xs md:text-sm">{item.desc}</span>
-                    </div>
+                    <span className="text-white/70">{item.text}</span>
                   </div>
                 ))}
               </div>
+
+              <Link href="/boxprint" className="robot-btn">
+                <Printer size={20} />
+                Start Your Project
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+
+            {/* Right - Visual */}
+            <div className="relative">
+              <div className="aspect-square rounded-3xl bg-gradient-to-br from-neo-gray to-neo-black border border-white/10 flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 dot-pattern-animated opacity-20" />
+                <div className="relative z-10 text-center p-8">
+                  <div className="w-32 h-32 mx-auto mb-8 rounded-full bg-neo-yellow flex items-center justify-center animate-float">
+                    <Printer size={56} className="text-neo-black" />
+                  </div>
+                  <p className="text-white font-bold text-2xl mb-2">Starting from</p>
+                  <p className="text-neo-yellow font-black text-5xl mb-2">₹199</p>
+                  <p className="text-white/50">Quality Guaranteed</p>
+                </div>
+              </div>
+              
+              {/* Floating Badge */}
+              <div className="absolute -bottom-6 -right-6 px-6 py-4 bg-neo-yellow rounded-2xl shadow-lg glow-yellow">
+                <p className="text-neo-black font-bold text-lg">Free Shipping</p>
+                <p className="text-neo-black/70 text-sm">On orders ₹500+</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Feature Ticker - Enhanced */}
-      <div className="bg-neo-yellow py-4 overflow-hidden">
-        <div className="animate-marquee flex gap-12">
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex gap-12 items-center whitespace-nowrap">
-              {['INNOVATIVE DESIGN', 'PRECISION ENGINEERING', 'SUSTAINABLE MATERIALS', 'FUTURE-READY', 'HUMAN-CENTERED', 'MODULAR SYSTEMS'].map((text, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <span className="text-sm md:text-base font-bold text-neo-black uppercase tracking-wide">
-                    {text}
-                  </span>
-                  <div className="w-2 h-2 bg-neo-black rounded-full" />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Services Section */}
-      <ServicesSection />
-
-      {/* Featured Product Section - Enhanced */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-white to-neo-light-gray/50">
+      <section className="section-padding bg-neo-gray/50">
         <div className="container">
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="section-label">
+              <Cpu size={14} />
+              HOW WE BUILD
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
+              Engineered for<br />
+              <span className="text-neo-yellow">excellence</span>
+            </h2>
+            <p className="text-white/60 text-lg">
+              Every print is crafted with precision, passion, and the latest technology.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {services.map((service, i) => (
+              <div key={i} className="feature-card">
+                <div className="absolute top-6 right-6 text-5xl font-black text-white/5">
+                  {service.number}
+                </div>
+                <div className="w-14 h-14 rounded-2xl bg-neo-yellow flex items-center justify-center text-neo-black mb-6">
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
+                <p className="text-white/60 leading-relaxed">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Product Section */}
+      <section className="section-padding">
+        <div className="container">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
             <div>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-neo-yellow text-neo-black text-xs font-bold uppercase tracking-wider rounded-full mb-4 border-2 border-neo-black shadow-md">
-                <Star size={12} className="fill-neo-black" />
-                Featured
+              <span className="section-label">
+                <Sparkles size={14} />
+                FEATURED
               </span>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight">
+              <h2 className="text-4xl md:text-5xl font-black">
                 Latest <span className="text-neo-yellow">Drop</span>
               </h2>
             </div>
-            <Link href="/products" className="group inline-flex items-center gap-2 text-neo-black font-semibold hover:text-neo-yellow transition-colors text-sm bg-neo-light-gray px-4 py-2 rounded-full">
+            <Link href="/products" className="robot-btn-outline py-3 px-6">
               View All Products
-              <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUpRight size={18} />
             </Link>
           </div>
 
-          {/* Featured Product Card - Enhanced */}
-          <div className="border-2 border-neo-black rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 shadow-2xl">
-            {/* Product Info */}
-            <div className="p-8 md:p-12 flex flex-col justify-center order-2 lg:order-1 bg-white">
-              <div className="flex flex-wrap items-center gap-2 mb-6">
-                <span className="px-3 py-1.5 bg-neo-yellow text-neo-black text-xs font-bold uppercase rounded-full border border-neo-black">New</span>
-                <span className="px-3 py-1.5 bg-neo-black text-white text-xs font-bold uppercase rounded-full">Limited Edition</span>
-              </div>
-              
-              <h3 className="text-3xl md:text-4xl font-black mb-5 tracking-tight leading-tight">
-                The Infinite<br />
-                <span className="text-neo-yellow">Organizer</span>
-              </h3>
-              
-              <p className="text-neo-black/70 mb-8 leading-relaxed text-base md:text-lg">
-                A modular storage system that adapts to your life. Expand, contract, reconfigure. 
-                Built with precision-engineered components for infinite possibilities.
-              </p>
-
-              {/* Product Specs - Enhanced */}
-              <div className="grid grid-cols-3 gap-4 mb-8 p-5 bg-gradient-to-r from-neo-light-gray to-white rounded-xl border border-neo-black/5">
-                <div className="text-center">
-                  <span className="block text-2xl md:text-3xl font-mono font-black text-neo-black">12</span>
-                  <span className="text-xs text-neo-black/60 uppercase tracking-wider font-medium">Modules</span>
-                </div>
-                <div className="text-center border-x border-neo-black/10">
-                  <span className="block text-2xl md:text-3xl font-mono font-black text-neo-yellow">∞</span>
-                  <span className="text-xs text-neo-black/60 uppercase tracking-wider font-medium">Configs</span>
-                </div>
-                <div className="text-center">
-                  <span className="block text-2xl md:text-3xl font-mono font-black text-green-600">100%</span>
-                  <span className="text-xs text-neo-black/60 uppercase tracking-wider font-medium">Recycled</span>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                <Link href="/products" className="group neo-btn shadow-lg hover:shadow-xl">
-                  Shop Now
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <div>
-                  <span className="block text-3xl font-black text-neo-black">$149</span>
-                  <span className="text-sm text-neo-black/50 line-through">$199</span>
-                  <span className="ml-2 text-xs text-green-600 font-bold">25% OFF</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Product Image */}
-            <div className="relative min-h-[320px] md:min-h-[450px] bg-gradient-to-br from-neo-yellow via-yellow-300 to-neo-yellow order-1 lg:order-2 lg:border-l-2 border-b-2 lg:border-b-0 border-neo-black">
+          {/* Product Card */}
+          <div className="grid lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden bg-neo-gray border border-white/10">
+            {/* Image */}
+            <div className="relative aspect-[4/3] lg:aspect-auto bg-gradient-to-br from-neo-yellow via-yellow-400 to-neo-yellow">
               <Image 
                 src="https://images.unsplash.com/photo-1580910051074-3eb6948d3ea4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                 alt="The Infinite Organizer" 
@@ -283,92 +248,116 @@ export default function Home() {
                 className="object-cover mix-blend-multiply"
                 priority
               />
-              
-              {/* Floating Labels - Enhanced */}
-              <div className="absolute top-4 left-4 px-4 py-2 bg-white/95 backdrop-blur-sm border border-neo-black rounded-xl font-mono text-xs shadow-lg">
-                SKU: INF-ORG-001
-              </div>
-              
-              <div className="absolute bottom-4 right-4 px-4 py-2 bg-neo-black text-white rounded-xl font-mono text-sm flex items-center gap-2 shadow-lg">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
+              <div className="absolute top-6 left-6 robot-badge">New</div>
+              <div className="absolute bottom-6 right-6 px-4 py-2 bg-neo-black/90 backdrop-blur-sm rounded-full text-white text-sm font-medium flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 In Stock
               </div>
+            </div>
+            
+            {/* Content */}
+            <div className="p-8 md:p-12 flex flex-col justify-center">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="robot-badge">New</span>
+                <span className="robot-badge-outline">Limited Edition</span>
+              </div>
+              
+              <h3 className="text-3xl md:text-4xl font-black mb-4">
+                The Infinite<br />
+                <span className="text-neo-yellow">Organizer</span>
+              </h3>
+              
+              <p className="text-white/60 mb-8 leading-relaxed text-lg">
+                A modular storage system that adapts to your life. Expand, contract, reconfigure. Built with precision-engineered components.
+              </p>
 
-              {/* Decorative badge */}
-              <div className="absolute top-4 right-4 w-16 h-16 bg-neo-black text-white rounded-full flex flex-col items-center justify-center shadow-lg">
-                <span className="text-lg font-black">25%</span>
-                <span className="text-[8px] uppercase tracking-wider">OFF</span>
+              {/* Specs */}
+              <div className="grid grid-cols-3 gap-4 mb-8 p-6 bg-white/5 rounded-2xl">
+                <div className="text-center">
+                  <span className="block text-3xl font-black text-white">12</span>
+                  <span className="text-xs text-white/50 uppercase">Modules</span>
+                </div>
+                <div className="text-center border-x border-white/10">
+                  <span className="block text-3xl font-black text-neo-yellow">∞</span>
+                  <span className="text-xs text-white/50 uppercase">Configs</span>
+                </div>
+                <div className="text-center">
+                  <span className="block text-3xl font-black text-green-400">100%</span>
+                  <span className="text-xs text-white/50 uppercase">Recycled</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                <Link href="/products" className="robot-btn">
+                  Shop Now
+                  <ArrowRight size={18} />
+                </Link>
+                <div>
+                  <span className="text-3xl font-black text-white">$149</span>
+                  <span className="text-lg text-white/40 line-through ml-2">$199</span>
+                  <span className="text-green-400 text-sm font-bold ml-2">25% OFF</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why BoxPox Section - Enhanced */}
-      <section className="py-16 md:py-24 bg-neo-black text-white relative overflow-hidden">
-        {/* Background decorations */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-neo-yellow/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-neo-accent/5 rounded-full blur-3xl" />
-        </div>
-
+      {/* Why BoxPox Section */}
+      <section className="section-padding bg-neo-gray/30 relative overflow-hidden">
+        <div className="absolute inset-0 dot-pattern-animated opacity-10" />
+        
         <div className="container relative z-10">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-neo-yellow text-neo-black text-xs font-bold uppercase tracking-wider rounded-full mb-6 shadow-lg">
+          <div className="text-center max-w-4xl mx-auto">
+            <span className="section-label">
               <Sparkles size={14} />
-              Why Us
+              WHY BOXPOX
             </span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight">
-              Built Different.<br />
-              <span className="text-neo-yellow">By Design.</span>
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-[0.95]">
+              Built different.<br />
+              <span className="text-neo-yellow">By design.</span>
             </h2>
-            <p className="text-white/60 text-base md:text-lg max-w-xl mx-auto">
+            <p className="text-white/60 text-xl mb-16 max-w-2xl mx-auto">
               Every product we create solves a real problem with thoughtful engineering and timeless design.
             </p>
           </div>
 
-          {/* Features Grid - Enhanced */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Features */}
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 icon: <Cpu size={32} />,
                 title: "Precision Engineered",
-                desc: "Every component is designed to micron-level accuracy for perfect fit and function.",
-                highlight: false
+                desc: "Micron-level accuracy for perfect fit and function every time."
               },
               {
                 icon: <Box size={32} />,
                 title: "Modular by Nature",
-                desc: "Systems that grow with you. Upgrade, expand, and customize without waste.",
-                highlight: true
+                desc: "Systems that grow with you. Upgrade and customize without waste."
               },
               {
                 icon: <Zap size={32} />,
                 title: "Future-Ready",
-                desc: "Built with tomorrow in mind. Firmware updates and new modules keep you ahead.",
-                highlight: false
+                desc: "Built with tomorrow in mind. Updates keep you ahead of the curve."
               }
-            ].map((feature, index) => (
+            ].map((feature, i) => (
               <div 
-                key={index} 
-                className={`p-8 rounded-2xl border transition-all hover:scale-105 ${
-                  feature.highlight 
-                    ? 'bg-neo-yellow text-neo-black border-neo-yellow shadow-xl shadow-neo-yellow/20' 
-                    : 'bg-white/5 border-white/10 hover:bg-white/10'
+                key={i} 
+                className={`p-8 rounded-3xl transition-all ${
+                  i === 1 
+                    ? 'bg-neo-yellow text-neo-black' 
+                    : 'bg-white/5 border border-white/10 hover:bg-white/10'
                 }`}
               >
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${
-                  feature.highlight ? 'bg-neo-black text-neo-yellow' : 'bg-neo-yellow text-neo-black'
+                  i === 1 ? 'bg-neo-black text-neo-yellow' : 'bg-neo-yellow text-neo-black'
                 }`}>
                   {feature.icon}
                 </div>
-                <h3 className={`text-xl font-bold mb-3 ${feature.highlight ? 'text-neo-black' : 'text-white'}`}>
+                <h3 className={`text-xl font-bold mb-3 ${i === 1 ? 'text-neo-black' : 'text-white'}`}>
                   {feature.title}
                 </h3>
-                <p className={`leading-relaxed ${feature.highlight ? 'text-neo-black/70' : 'text-white/60'}`}>
+                <p className={i === 1 ? 'text-neo-black/70' : 'text-white/60'}>
                   {feature.desc}
                 </p>
               </div>

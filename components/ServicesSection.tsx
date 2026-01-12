@@ -27,18 +27,18 @@ export default function ServicesSection() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-16 md:py-24 bg-neo-gray">
       <div className="container">
         {/* Section Header */}
         <div className="max-w-2xl mb-12">
-          <span className="inline-block px-3 py-1 bg-neo-black text-white text-xs font-bold uppercase tracking-wider rounded mb-4">
+          <span className="section-label">
             How We Build
           </span>
-          <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tight text-white">
             Engineered for<br />
             <span className="text-neo-yellow">Tomorrow</span>
           </h2>
-          <p className="text-neo-black/60 text-sm md:text-base leading-relaxed">
+          <p className="text-white/60 text-sm md:text-base leading-relaxed">
             Every BoxPox product follows the same philosophy: build it right, build it to last, build it to evolve.
           </p>
         </div>
@@ -48,10 +48,10 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <div 
               key={index}
-              className="relative p-6 bg-neo-light-gray border border-neo-black/10 rounded-xl hover:border-neo-black/30 transition-colors"
+              className="relative p-6 bg-white/5 border border-white/10 rounded-xl hover:border-white/30 transition-colors"
             >
               {/* Number Badge */}
-              <div className="absolute top-4 right-4 font-mono text-3xl font-bold text-neo-black/10">
+              <div className="absolute top-4 right-4 font-mono text-3xl font-bold text-white/10">
                 {service.number}
               </div>
 
@@ -61,11 +61,11 @@ export default function ServicesSection() {
               </div>
               
               {/* Content */}
-              <h3 className="text-lg md:text-xl font-bold mb-2 text-neo-black">
+              <h3 className="text-lg md:text-xl font-bold mb-2 text-white">
                 {service.title}
               </h3>
               
-              <p className="text-neo-black/60 text-sm leading-relaxed mb-4">
+              <p className="text-white/60 text-sm leading-relaxed mb-4">
                 {service.desc}
               </p>
 
@@ -74,7 +74,7 @@ export default function ServicesSection() {
                 {service.features.map((feature, fIndex) => (
                   <li 
                     key={fIndex} 
-                    className="flex items-center gap-2 text-xs text-neo-black/70"
+                    className="flex items-center gap-2 text-xs text-white/70"
                   >
                     <span className="w-1 h-1 bg-neo-yellow rounded-full" />
                     {feature}
